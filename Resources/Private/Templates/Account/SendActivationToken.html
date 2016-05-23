@@ -1,0 +1,22 @@
+<f:layout name="Default"/>
+
+<f:section name="Title">Account aktivieren</f:section>
+
+<f:section name="Content">
+
+	<f:render partial="PageHeader" arguments="{header:'Account aktivieren'}"/>
+
+	<div class="row">
+		<div class="column medium-6">
+			<div class="callout success">
+				<p class="lead">
+					Eine Email wurde an <strong>{user.account.accountIdentifier}</strong> versendet. Klicken Sie auf den enthaltenen Link, um
+					Ihren Account zu aktivieren.
+				</p>
+			</div>
+			<p>
+				<f:link.action controller="Login" action="login" class="button large primary expanded">Zurück zum Login</f:link.action>
+			</p>
+		</div>
+	</div>
+</f:section>

@@ -1,0 +1,23 @@
+Sandstorm:
+  UserManagement:
+    activationTokenTimeout: '2 days'
+    resetPasswordTokenTimeout: '4 hours'
+    senderEmailAddress: 'test@example.com'
+    applicationName: 'Sandstorm Usermanagement Package'
+
+TYPO3:
+  Flow:
+    security:
+      authentication:
+        providers:
+          'ApplicationAuthenticationProvider':
+            provider: 'PersistedUsernamePasswordProvider'
+            entryPoint: 'WebRedirect'
+            entryPointOptions:
+              routeValues:
+                '@package': 'Sandstorm.UserManagement'
+                '@controller': 'Login'
+                '@action': 'login'
+    mvc:
+      routes:
+        'Sandstorm.UserManagement': TRUE

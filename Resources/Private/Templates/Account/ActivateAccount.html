@@ -1,0 +1,31 @@
+<f:layout name="Default"/>
+
+<f:section name="Title">Account-Aktivierung</f:section>
+
+<f:section name="Content">
+
+	<h2>Account-Aktivierung</h2>
+
+	<div class="row">
+		<div class="column medium-6 small-12">
+			<f:if condition="{tokenValid}">
+				<f:then>
+					<p class="lead">Bitte vergeben Sie ein Passwort für Ihren Account.</p>
+					<f:form action="create" data="{'password': 'password'}">
+						<f:form.hidden name="token" value="{token}"/>
+						<f:render partial="Forms/PasswordWithConfirmation"/>
+					</f:form>
+
+				</f:then>
+				<f:else>
+
+					<div class="callout alert">
+						<h3>Ungültiger Aktivierungslink</h3>
+						<p>Entschuldigung, dieser Link zur Account-Aktivierung ist ungültig oder abgelaufen.</p>
+					</div>
+
+				</f:else>
+			</f:if>
+		</div>
+	</div>
+</f:section>

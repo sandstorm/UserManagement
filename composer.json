@@ -1,0 +1,15 @@
+{
+    "description": "Flow Package for user management, login/logout, passwort reset and user activation",
+    "type": "typo3-flow-package",
+    "require": {
+        "typo3/flow": "^3.2",
+        "typo3/swiftmailer": "^5.4",
+        "lcobucci/jwt": "^3.1"
+    },
+    "name": "sandstorm/usermanagement",
+    "autoload": {
+        "psr-0": {
+            "Sandstorm\\UserManagement": "Classes/"
+        }
+    }
+}

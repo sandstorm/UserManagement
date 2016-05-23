@@ -1,0 +1,1 @@
+Hallo, ihr Aktivierungslink ist {activationLink}

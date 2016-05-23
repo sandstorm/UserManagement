@@ -1,0 +1,29 @@
+privilegeTargets:
+
+  'TYPO3\Flow\Security\Authorization\Privilege\Method\MethodPrivilege':
+
+
+# This package defines three privileged areas:
+# Administration is for admins who can in turn create users and do other admin stuff.
+# UserArea is the backend for regular logged-in users.
+# This is an example and should be adapted to your own app's needs.
+
+
+    'Sandstorm.UserManagement:Administration':
+      matcher: 'method(Sandstorm\UserManagement\Controller\Administration\.*Controller->(?!initialize).*Action())'
+
+    'Sandstorm.UserManagement:UserArea':
+      matcher: 'method(Sandstorm\UserManagement\Controller\UserArea\.*Controller->(?!initialize).*Action())'
+
+roles:
+  'Sandstorm.UserManagement:Administrator':
+    privileges:
+      -
+        privilegeTarget: 'Sandstorm.UserManagement:Administration'
+        permission: GRANT
+
+  'Sandstorm.UserManagement:User':
+    privileges:
+      -
+        privilegeTarget: 'Sandstorm.UserManagement:UserArea'
+        permission: GRANT
