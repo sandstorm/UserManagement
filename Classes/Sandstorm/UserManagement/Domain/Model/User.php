@@ -132,7 +132,7 @@ class User
      */
     public function getFullName()
     {
-        return $this->firstName.' '.$this->lastName.($this->companyName ? ', '.$this->companyName : '');
+        return $this->firstName . ' ' . $this->lastName . ($this->companyName ? ', ' . $this->companyName : '');
     }
 
     /**
@@ -216,7 +216,8 @@ class User
      * @param $password
      * @throws \TYPO3\Flow\Persistence\Exception\IllegalObjectTypeException
      */
-    public function updatePassword($password){
+    public function updatePassword($password)
+    {
         $hashedPassword = $this->hashService->hashPassword($password, 'default');
         $this->setResetPasswordToken(NULL);
         $this->setResetPasswordTokenValidUntil(NULL);
@@ -231,154 +232,176 @@ class User
     /**
      * @return string
      */
-    public function getFirstName() {
+    public function getFirstName()
+    {
         return $this->firstName;
     }
 
     /**
      * @param string $firstName
      */
-    public function setFirstName($firstName) {
+    public function setFirstName($firstName)
+    {
         $this->firstName = $firstName;
     }
 
     /**
      * @return string
      */
-    public function getLastName() {
+    public function getLastName()
+    {
         return $this->lastName;
     }
 
     /**
      * @param string $lastName
      */
-    public function setLastName($lastName) {
+    public function setLastName($lastName)
+    {
         $this->lastName = $lastName;
     }
 
     /**
      * @return string
      */
-    public function getCompanyName() {
+    public function getCompanyName()
+    {
         return $this->companyName;
     }
 
     /**
      * @param string $companyName
      */
-    public function setCompanyName($companyName) {
+    public function setCompanyName($companyName)
+    {
         $this->companyName = $companyName;
     }
 
     /**
      * @return string
      */
-    public function getGender() {
+    public function getGender()
+    {
         return $this->gender;
     }
 
     /**
      * @param string $gender
      */
-    public function setGender($gender) {
+    public function setGender($gender)
+    {
         $this->gender = $gender;
     }
 
     /**
      * @return string
      */
-    public function getEmail() {
+    public function getEmail()
+    {
         return $this->email;
     }
 
     /**
      * @param string $email
      */
-    public function setEmail($email) {
+    public function setEmail($email)
+    {
         $this->email = $email;
     }
 
     /**
      * @return \TYPO3\Flow\Security\Account
      */
-    public function getAccount() {
+    public function getAccount()
+    {
         return $this->account;
     }
 
     /**
      * @param \TYPO3\Flow\Security\Account $account
      */
-    public function setAccount($account) {
+    public function setAccount($account)
+    {
         $this->account = $account;
     }
 
     /**
      * @return string
      */
-    public function getResetPasswordToken() {
+    public function getResetPasswordToken()
+    {
         return $this->resetPasswordToken;
     }
 
     /**
      * @param string $resetPasswordToken
      */
-    public function setResetPasswordToken($resetPasswordToken) {
+    public function setResetPasswordToken($resetPasswordToken)
+    {
         $this->resetPasswordToken = $resetPasswordToken;
     }
 
     /**
      * @return string
      */
-    public function getActivationToken() {
+    public function getActivationToken()
+    {
         return $this->activationToken;
     }
 
     /**
      * @param string $activationToken
      */
-    public function setActivationToken($activationToken) {
+    public function setActivationToken($activationToken)
+    {
         $this->activationToken = $activationToken;
     }
 
     /**
      * @return \DateTime
      */
-    public function getActivationTokenValidUntil() {
+    public function getActivationTokenValidUntil()
+    {
         return $this->activationTokenValidUntil;
     }
 
     /**
      * @param \DateTime $activationTokenValidUntil
      */
-    public function setActivationTokenValidUntil($activationTokenValidUntil) {
+    public function setActivationTokenValidUntil($activationTokenValidUntil)
+    {
         $this->activationTokenValidUntil = $activationTokenValidUntil;
     }
 
     /**
      * @return boolean
      */
-    public function isNewActivationTokenRequested() {
+    public function isNewActivationTokenRequested()
+    {
         return $this->newActivationTokenRequested;
     }
 
     /**
      * @param boolean $newActivationTokenRequested
      */
-    public function setNewActivationTokenRequested($newActivationTokenRequested) {
+    public function setNewActivationTokenRequested($newActivationTokenRequested)
+    {
         $this->newActivationTokenRequested = $newActivationTokenRequested;
     }
 
     /**
      * @return \DateTime
      */
-    public function getResetPasswordTokenValidUntil() {
+    public function getResetPasswordTokenValidUntil()
+    {
         return $this->resetPasswordTokenValidUntil;
     }
 
     /**
      * @param \DateTime $resetPasswordTokenValidUntil
      */
-    public function setResetPasswordTokenValidUntil($resetPasswordTokenValidUntil) {
+    public function setResetPasswordTokenValidUntil($resetPasswordTokenValidUntil)
+    {
         $this->resetPasswordTokenValidUntil = $resetPasswordTokenValidUntil;
     }
 }

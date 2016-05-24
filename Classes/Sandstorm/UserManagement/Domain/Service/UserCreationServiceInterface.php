@@ -1,5 +1,6 @@
 <?php
 namespace Sandstorm\UserManagement\Domain\Service;
+
 use Sandstorm\UserManagement\Domain\Model\RegistrationFlow;
 use TYPO3\Flow\Annotations as Flow;
 

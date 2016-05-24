@@ -82,7 +82,8 @@ class ResetPasswordFlow
      * @param $password
      * @throws \TYPO3\Flow\Persistence\Exception\IllegalObjectTypeException
      */
-    public function updatePassword($password){
+    public function updatePassword($password)
+    {
         $hashedPassword = $this->hashService->hashPassword($password, 'default');
         $this->setResetPasswordToken(NULL);
         $this->setResetPasswordTokenValidUntil(NULL);

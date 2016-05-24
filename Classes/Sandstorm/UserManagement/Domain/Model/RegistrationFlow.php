@@ -136,7 +136,6 @@ class RegistrationFlow
     }
 
 
-
     /**
      * @param array $attributes
      */

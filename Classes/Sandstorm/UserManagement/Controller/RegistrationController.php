@@ -38,7 +38,6 @@ class RegistrationController extends ActionController
     protected $applicationName;
 
 
-
     public function indexAction()
     {
     }

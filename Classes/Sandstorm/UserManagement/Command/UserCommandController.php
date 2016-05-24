@@ -72,7 +72,7 @@ class UserCommandController extends \TYPO3\Flow\Cli\CommandController
     {
         /* @var $registrationFlow \Sandstorm\UserManagement\Domain\Model\RegistrationFlow */
         $registrationFlow = $this->registrationFlowRepository->findOneByEmail($email);
-        
+
         $this->userCreationService->createUserAndAccount($registrationFlow);
         $this->registrationFlowRepository->remove($registrationFlow);
     }

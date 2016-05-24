@@ -3,17 +3,14 @@
 <f:section name="Title">Login</f:section>
 
 <f:section name="Content">
-	<f:form action="authenticate" method="post">
-		<fieldset>
-			<legend>Login</legend>
-			<input placeholder="Email address" name="__authentication[TYPO3][Flow][Security][Authentication][Token][UsernamePassword][username]"
-				   type="email"
-				   autofocus>
-			<input placeholder="Password" name="__authentication[TYPO3][Flow][Security][Authentication][Token][UsernamePassword][password]"
-				   type="password" value="">
-			<input type="submit" value="Login" />
-		</fieldset>
-	</f:form>
-	<f:link.action action="requestPasswordToken" controller="Account">Forgot password?</f:link.action>
+  <f:form action="authenticate" method="post">
+    <fieldset>
+      <legend>Login</legend>
+      <input placeholder="Email address" name="__authentication[TYPO3][Flow][Security][Authentication][Token][UsernamePassword][username]" type="email" autofocus>
+      <input placeholder="Password" name="__authentication[TYPO3][Flow][Security][Authentication][Token][UsernamePassword][password]" type="password" value="">
+      <input type="submit" value="Login"/>
+    </fieldset>
+  </f:form>
+  <f:link.action action="requestPasswordToken" controller="Account">Forgot password?</f:link.action>
 
 </f:section>

@@ -2,10 +2,8 @@
 namespace Sandstorm\UserManagement\Domain\Validator;
 
 use Sandstorm\UserManagement\Domain\Model\PasswordDto;
-use Sandstorm\UserManagement\Domain\Model\User;
 use Sandstorm\UserManagement\Domain\Repository\UserRepository;
 use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Validation\Error;
 
 /**
  * Validator for users
