@@ -32,12 +32,6 @@ class AccountController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 
 	/**
 	 * @Flow\Inject
-	 * @var UserManagementService
-	 */
-	protected $userManagementService;
-
-	/**
-	 * @Flow\Inject
 	 * @var AccountRepository
 	 */
 	protected $accountRepository;
@@ -279,7 +273,7 @@ class AccountController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 			$this->redirect('activate', null, null, ['token' => $token]);
 		}
 
-		$this->userManagementService->createUserAccount($user, $password);
+//		$this->userManagementService->createUserAccount($user, $password);
 		$this->userRepository->update($user);
 
 		$this->addFlashMessage('Ihr Account ist jetzt aktiv. Sie können sich mit ihrem gewählten Passwort einloggen.', 'Account aktiviert', Message::SEVERITY_OK);

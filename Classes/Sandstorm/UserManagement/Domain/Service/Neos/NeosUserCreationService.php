@@ -4,6 +4,7 @@ namespace Sandstorm\UserManagement\Domain\Service\Neos;
 use Sandstorm\UserManagement\Domain\Model\RegistrationFlow;
 use Sandstorm\UserManagement\Domain\Service\UserCreationServiceInterface;
 use TYPO3\Flow\Annotations as Flow;
+use TYPO3\Flow\Object\ObjectManagerInterface;
 use TYPO3\Flow\Security\AccountFactory;
 use TYPO3\Flow\Security\AccountRepository;
 use TYPO3\Neos\Domain\Model\User;
@@ -35,19 +36,11 @@ class NeosUserCreationService implements UserCreationServiceInterface
      */
     protected $securityContext;
 
-
     /**
      * @Flow\Inject
-     * @var PartyRepository
+     * @var ObjectManagerInterface
      */
-    protected $partyRepository;
-
-
-    /**
-     * @Flow\Inject
-     * @var PartyService
-     */
-    protected $partyService;
+    protected $objectManager;
 
     /**
      * In this method, actually create the user / account.
@@ -68,9 +61,19 @@ class NeosUserCreationService implements UserCreationServiceInterface
         $account->setAccountIdentifier($registrationFlow->getEmail());
         $account->setCredentialsSource($registrationFlow->getEncryptedPassword());
         $account->setAuthenticationProviderName('Sandstorm.UserManagement:Login');
-        $this->partyService->assignAccountToParty($account, $user);
+        $this->getPartyService()->assignAccountToParty($account, $user);
 
-        $this->partyRepository->add($user);
+        $this->getPartyRepository()->add($user);
         $this->accountRepository->add($account);
+    }
+
+    protected function getPartyService()
+    {
+        return $this->objectManager->get(PartyService::class);
+    }
+
+    protected function getPartyRepository()
+    {
+        return $this->objectManager->get(PartyRepository::class);
     }
 }

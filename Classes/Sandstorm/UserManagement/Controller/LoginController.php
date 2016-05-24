@@ -9,12 +9,6 @@ use TYPO3\Flow\Security\Authentication\Controller\AbstractAuthenticationControll
 class LoginController extends AbstractAuthenticationController {
 
 	/**
-	 * @var UserManagementService
-	 * @Flow\Inject
-	 */
-	protected $userManagementService;
-
-	/**
 	 * Is called after a request has been authenticated.
 	 *
 	 * @param \TYPO3\Flow\Mvc\ActionRequest $originalRequest The request that was intercepted by the security framework, NULL if there was none
@@ -26,12 +20,6 @@ class LoginController extends AbstractAuthenticationController {
 		if ($originalRequest !== NULL) {
 			$this->redirectToRequest($originalRequest);
 		}
-
-		//Determine if the logged-in user is a regular user or an admin, and redirect to the correct area
-		if ($this->userManagementService->isAdministrator($this->securityContext->getAccount())) {
-			$this->redirect('index', 'Administration\Administration');
-		}
-		$this->redirect('index', 'UserArea\UserArea');
 	}
 
 	/**

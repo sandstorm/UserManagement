@@ -18,7 +18,24 @@ to create a test user.
 
 # How to use (NEOS)
 
+Settings.yaml of your package:
 
+```
+
+TYPO3:
+  Flow:
+    security:
+      authentication:
+        providers:
+          'Typo3BackendProvider':
+            requestPatterns:
+              'Flowpack\Neos\FrontendLogin\Security\NeosRequestPattern': 'backend'
+          'Sandstorm.UserManagement:Login':
+            provider: 'PersistedUsernamePasswordProvider'
+            requestPatterns:
+              'Flowpack\Neos\FrontendLogin\Security\NeosRequestPattern': 'frontend'
+
+```
 
 # Extending the package
 
@@ -33,4 +50,4 @@ Still, changing templates is easily possible:
 * Re-Implement Forgot Password
 * Duplicate User ID validator
 * check that it works outside Neos
-*
+* Move Flowpack\Neos\FrontendLogin\Security\NeosRequestPattern to this package
