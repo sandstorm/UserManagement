@@ -9,21 +9,17 @@ privilegeTargets:
 # This is an example and should be adapted to your own app's needs.
 
 
-    'Sandstorm.UserManagement:Administration':
-      matcher: 'method(Sandstorm\UserManagement\Controller\Administration\.*Controller->(?!initialize).*Action())'
-
-    'Sandstorm.UserManagement:UserArea':
-      matcher: 'method(Sandstorm\UserManagement\Controller\UserArea\.*Controller->(?!initialize).*Action())'
+    'Sandstorm.UserManagement:Login':
+      matcher: 'method(Sandstorm\UserManagement\Controller\(Login|Account)Controller->(?!initialize).*Action())'
+    'Sandstorm.UserManagement:Registration':
+          matcher: 'method(Sandstorm\UserManagement\Controller\RegistrationController->(?!initialize).*Action())'
 
 roles:
-  'Sandstorm.UserManagement:Administrator':
+  'TYPO3.Flow:Everybody':
     privileges:
       -
-        privilegeTarget: 'Sandstorm.UserManagement:Administration'
+        privilegeTarget: 'Sandstorm.UserManagement:Login'
         permission: GRANT
-
-  'Sandstorm.UserManagement:User':
-    privileges:
       -
-        privilegeTarget: 'Sandstorm.UserManagement:UserArea'
+        privilegeTarget: 'Sandstorm.UserManagement:Registration'
         permission: GRANT

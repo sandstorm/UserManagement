@@ -2,7 +2,8 @@
 
 This package provides models for users and basic mechanisms for Login/Logout, User activation and password reset.
 
-# How to use
+# How to use (STANDALONE)
+
 
 ## Setup
 The package automatically exposes its routes via auto-inclusion in the package settings.
@@ -15,6 +16,10 @@ The package exposes a command to create users with arbitrary roles. You can run
 `./flow user:create test@sandstorm.de cccccccc Bastian Heist Sandstorm.UserManagement:User` 
 to create a test user.
 
+# How to use (NEOS)
+
+
+
 # Extending the package
 
 ## Changing templates
@@ -22,4 +27,10 @@ The default templates are written with Foundation for Sites 6 in mind and will l
 Still, changing templates is easily possible:
 ...Views.yaml
 
-## 
+
+# TODO List
+
+* Re-Implement Forgot Password
+* Duplicate User ID validator
+* check that it works outside Neos
+*

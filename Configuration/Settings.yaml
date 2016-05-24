@@ -7,17 +7,39 @@ Sandstorm:
 
 TYPO3:
   Flow:
-    security:
-      authentication:
-        providers:
-          'ApplicationAuthenticationProvider':
-            provider: 'PersistedUsernamePasswordProvider'
-            entryPoint: 'WebRedirect'
-            entryPointOptions:
-              routeValues:
-                '@package': 'Sandstorm.UserManagement'
-                '@controller': 'Login'
-                '@action': 'login'
+#    security:
+#      authentication:
+#        providers:
+#          'ApplicationAuthenticationProvider':
+#            provider: 'PersistedUsernamePasswordProvider'
+#            entryPoint: 'WebRedirect'
+#            entryPointOptions:
+#              routeValues:
+#                '@package': 'Sandstorm.UserManagement'
+#                '@controller': 'Login'
+#                '@action': 'login'
     mvc:
       routes:
         'Sandstorm.UserManagement': TRUE
+
+
+    security:
+      authentication:
+        providers:
+          'Typo3BackendProvider':
+            requestPatterns:
+              'Flowpack\Neos\FrontendLogin\Security\NeosRequestPattern': 'backend'
+          'Sandstorm.UserManagement:Login':
+            provider: 'PersistedUsernamePasswordProvider'
+            requestPatterns:
+              'Flowpack\Neos\FrontendLogin\Security\NeosRequestPattern': 'frontend'
+
+  Neos:
+    typoScript:
+      autoInclude:
+        'Sandstorm.UserManagement': TRUE
+
+    userInterface:
+      translation:
+        autoInclude:
+          'Sandstorm.UserManagement': ['NodeTypes/*']

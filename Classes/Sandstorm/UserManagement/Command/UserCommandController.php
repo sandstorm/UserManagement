@@ -1,8 +1,9 @@
 <?php
 namespace Sandstorm\UserManagement\Command;
 
+use Sandstorm\UserManagement\Domain\Repository\RegistrationFlowRepository;
 use Sandstorm\UserManagement\Domain\Repository\UserRepository;
-use Sandstorm\UserManagement\Domain\Service\UserManagementService;
+use Sandstorm\UserManagement\Domain\Service\UserCreationServiceInterface;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Security\AccountFactory;
 use TYPO3\Flow\Security\AccountRepository;
@@ -28,15 +29,21 @@ class UserCommandController extends \TYPO3\Flow\Cli\CommandController
 
     /**
      * @Flow\Inject
-     * @var UserManagementService
-     */
-    protected $userManagementService;
-
-    /**
-     * @Flow\Inject
      * @var UserRepository
      */
     protected $userRepository;
+
+    /**
+     * @Flow\Inject
+     * @var RegistrationFlowRepository
+     */
+    protected $registrationFlowRepository;
+
+    /**
+     * @Flow\Inject
+     * @var UserCreationServiceInterface
+     */
+    protected $userCreationService;
 
     /**
      * Create User on the Command Line
@@ -56,5 +63,17 @@ class UserCommandController extends \TYPO3\Flow\Cli\CommandController
         $this->userManagementService->createAccount($user, $password, explode(',', $roles));
         $this->userRepository->add($user);
         $this->outputLine('Added the User <b>"%s"</b> with password <b>"%s"</b>.', array($user->getAccountName(), $password));
+    }
+
+    /**
+     * @param string $email
+     */
+    public function activateRegistrationCommand($email)
+    {
+        /* @var $registrationFlow \Sandstorm\UserManagement\Domain\Model\RegistrationFlow */
+        $registrationFlow = $this->registrationFlowRepository->findOneByEmail($email);
+        
+        $this->userCreationService->createUserAndAccount($registrationFlow);
+        $this->registrationFlowRepository->remove($registrationFlow);
     }
 }

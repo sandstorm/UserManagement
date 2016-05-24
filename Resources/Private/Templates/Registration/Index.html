@@ -1,0 +1,29 @@
+<f:layout name="Default"/>
+
+<f:section name="Title">Registration</f:section>
+
+<f:section name="Content">
+  <f:form action="register" method="post" objectName="registrationFlow">
+    <fieldset>
+      <legend>Registration</legend>
+
+      <label>
+        E-Mail
+        <f:form.textfield property="email" placeholder="" name="__authentication[TYPO3][Flow][Security][Authentication][Token][UsernamePassword][username]" type="email" />
+      </label>
+
+      <label>
+        Passwort
+        <f:form.password property="passwordDto.password" />
+      </label>
+
+      <label>
+        Passwortbestätigung
+        <f:form.password property="passwordDto.passwordConfirmation" />
+      </label>
+
+      <input type="submit" value="Registrieren"/>
+    </fieldset>
+
+  </f:form>
+</f:section>
