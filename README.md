@@ -29,11 +29,11 @@ TYPO3:
         providers:
           'Typo3BackendProvider':
             requestPatterns:
-              'Flowpack\Neos\FrontendLogin\Security\NeosRequestPattern': 'backend'
+              'Sandstorm\UserManagement\Security\NeosRequestPattern': 'backend'
           'Sandstorm.UserManagement:Login':
             provider: 'PersistedUsernamePasswordProvider'
             requestPatterns:
-              'Flowpack\Neos\FrontendLogin\Security\NeosRequestPattern': 'frontend'
+              'Sandstorm\UserManagement\Security\NeosRequestPattern': 'frontend'
 
 ```
 
@@ -48,9 +48,6 @@ Still, changing templates is easily possible:
 # TODO List
 
 * Re-Implement Forgot Password
-* Duplicate User ID validator
-* check that it works outside Neos
-* Move Flowpack\Neos\FrontendLogin\Security\NeosRequestPattern to this package
 
 
 # FAQ
