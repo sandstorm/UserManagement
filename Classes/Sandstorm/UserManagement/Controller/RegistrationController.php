@@ -4,12 +4,13 @@ namespace Sandstorm\UserManagement\Controller;
 use Sandstorm\UserManagement\Domain\Model\RegistrationFlow;
 use Sandstorm\UserManagement\Domain\Repository\RegistrationFlowRepository;
 use Sandstorm\UserManagement\Domain\Service\EmailService;
-use Sandstorm\UserManagement\Domain\Service\UserManagementService;
+use Sandstorm\UserManagement\Domain\Service\UserCreationServiceInterface;
 use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Error\Message;
 use TYPO3\Flow\Mvc\Controller\ActionController;
-use TYPO3\Flow\Security\Authentication\Controller\AbstractAuthenticationController;
 
+/**
+ * Do the actual registration of new users
+ */
 class RegistrationController extends ActionController
 {
 
@@ -18,6 +19,12 @@ class RegistrationController extends ActionController
      * @var RegistrationFlowRepository
      */
     protected $registrationFlowRepository;
+
+    /**
+     * @Flow\Inject
+     * @var UserCreationServiceInterface
+     */
+    protected $userCreationService;
 
     /**
      * @Flow\Inject
@@ -38,6 +45,9 @@ class RegistrationController extends ActionController
     protected $applicationName;
 
 
+    /**
+     * @Flow\SkipCsrfProtection
+     */
     public function indexAction()
     {
     }
@@ -47,13 +57,20 @@ class RegistrationController extends ActionController
      */
     public function registerAction(RegistrationFlow $registrationFlow)
     {
+        // We remove
+        $alreadyExistingFlows = $this->registrationFlowRepository->findByEmail($registrationFlow->getEmail());
+        if (count($alreadyExistingFlows) > 0) {
+            foreach ($alreadyExistingFlows as $alreadyExistingFlow) {
+                $this->registrationFlowRepository->remove($alreadyExistingFlow);
+            }
+        }
         $registrationFlow->storeEncryptedPassword();
 
         // Send out a confirmation mail
         $activationLink = $this->uriBuilder->reset()->setCreateAbsoluteUri(TRUE)->uriFor(
-            'createAccount',
+            'activateAccount',
             ['token' => $registrationFlow->getActivationToken()],
-            'Account');
+            'Registration');
 
         $this->emailService->sendTemplateBasedEmail(
             'ActivationToken',
@@ -69,5 +86,29 @@ class RegistrationController extends ActionController
 
 
         $this->registrationFlowRepository->add($registrationFlow);
+    }
+
+    /**
+     * @param string $token
+     */
+    public function activateAccountAction($token)
+    {
+        /* @var $registrationFlow \Sandstorm\UserManagement\Domain\Model\RegistrationFlow */
+        $registrationFlow = $this->registrationFlowRepository->findOneByActivationToken($token);
+        if (!$registrationFlow) {
+            $this->view->assign('tokenNotFound', true);
+            return;
+        }
+
+        if (!$registrationFlow->hasValidActivationToken()) {
+            $this->view->assign('tokenTimeout', true);
+            return;
+        }
+
+        $this->userCreationService->createUserAndAccount($registrationFlow);
+        $this->registrationFlowRepository->remove($registrationFlow);
+        $this->persistenceManager->whitelistObject($registrationFlow);
+
+        $this->view->assign('success', true);
     }
 }

@@ -1,0 +1,25 @@
+<f:layout name="Default"/>
+
+<f:section name="Title">Activate Account</f:section>
+
+<f:comment>
+  VARIABLES:
+
+  - tokenNotFound: if set, the auth token was not found.
+  - tokenTimeout: if set, the token had a timeout.
+  - success: all worked.
+</f:comment>
+<f:section name="Content">
+  <f:if condition="{tokenNotFound}">
+    Der Aktivierungslink war nicht gültig. <f:link.action action="index">Bitte registrieren Sie sich erneut.</f:link.action>
+  </f:if>
+
+  <f:if condition="{tokenTimeout}">
+    Der Aktivierungslink ist nicht mehr gültig. <f:link.action action="index">Bitte registrieren Sie sich erneut.</f:link.action>
+  </f:if>
+
+  <f:if condition="{success}">
+    Sie sind nun aktiviert und können sich anmelden.
+  </f:if>
+
+</f:section>

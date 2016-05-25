@@ -5,6 +5,7 @@ use Sandstorm\UserManagement\Domain\Model\RegistrationFlow;
 use Sandstorm\UserManagement\Domain\Service\UserCreationServiceInterface;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Object\ObjectManagerInterface;
+use TYPO3\Flow\Persistence\PersistenceManagerInterface;
 use TYPO3\Flow\Security\AccountFactory;
 use TYPO3\Flow\Security\AccountRepository;
 use TYPO3\Neos\Domain\Model\User;
@@ -17,6 +18,12 @@ use TYPO3\Party\Domain\Service\PartyService;
  */
 class NeosUserCreationService implements UserCreationServiceInterface
 {
+
+    /**
+     * @Flow\Inject
+     * @var PersistenceManagerInterface
+     */
+    protected $persistenceManager;
 
     /**
      * @Flow\Inject
@@ -65,13 +72,27 @@ class NeosUserCreationService implements UserCreationServiceInterface
 
         $this->getPartyRepository()->add($user);
         $this->accountRepository->add($account);
+        $this->persistenceManager->whitelistObject($user);
+        $this->persistenceManager->whitelistObject($user->getPreferences());
+        $this->persistenceManager->whitelistObject($name);
+        $this->persistenceManager->whitelistObject($account);
     }
 
+    /**
+     * This method exists to ensure the code runs outside Neos.
+     *
+     * @return PartyService
+     */
     protected function getPartyService()
     {
         return $this->objectManager->get(PartyService::class);
     }
 
+    /**
+     * This method exists to ensure the code runs outside Neos.
+     *
+     * @return PartyRepository
+     */
     protected function getPartyRepository()
     {
         return $this->objectManager->get(PartyRepository::class);
