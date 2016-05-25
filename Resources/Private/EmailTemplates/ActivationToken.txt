@@ -1,1 +1,5 @@
-Hallo, ihr Aktivierungslink ist {activationLink}
+Hallo,
+
+bitte klicken Sie folgenden Link an, um den Login zu aktivieren:
+
+{activationLink}
