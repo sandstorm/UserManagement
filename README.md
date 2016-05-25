@@ -13,7 +13,7 @@ If you can't remove them, just include the subroutes for this package manually b
 
 ## Creating users via the CLI
 The package exposes a command to create users with arbitrary roles. You can run
-`./flow user:create test@sandstorm.de cccccccc Bastian Heist Sandstorm.UserManagement:User` 
+`./flow user:create test@sandstorm.de cccccccc Bastian Heist Sandstorm.UserManagement:User`
 to create a test user.
 
 # How to use (NEOS)
@@ -51,3 +51,10 @@ Still, changing templates is easily possible:
 * Duplicate User ID validator
 * check that it works outside Neos
 * Move Flowpack\Neos\FrontendLogin\Security\NeosRequestPattern to this package
+
+
+# FAQ
+
+* *What happens if the user did not receive the registration email?*
+
+  Just tell the user to register again. In this case, previous unfinished registrations are discarded.
