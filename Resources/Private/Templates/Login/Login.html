@@ -1,16 +1,27 @@
+{namespace usermanagement=Sandstorm\UserManagement\ViewHelpers}
 <f:layout name="Default"/>
 
 <f:section name="Title">Login</f:section>
 
 <f:section name="Content">
-  <f:form action="authenticate" method="post">
-    <fieldset>
-      <legend>Login</legend>
-      <input placeholder="Email address" name="__authentication[TYPO3][Flow][Security][Authentication][Token][UsernamePassword][username]" type="email" autofocus>
-      <input placeholder="Password" name="__authentication[TYPO3][Flow][Security][Authentication][Token][UsernamePassword][password]" type="password" value="">
-      <input type="submit" value="Login"/>
-    </fieldset>
-  </f:form>
-  <f:link.action action="requestPasswordToken" controller="Account">Forgot password?</f:link.action>
 
+  <usermanagement:ifAuthenticated authenticationProviderName="Sandstorm.UserManagement:Login">
+    <f:then>
+      <p>You're logged in as <strong>"{account.accountIdentifier}"</strong></p>
+      <f:form action="logout" method="post" class="form-horizontal clearfix" additionalAttributes="{role:'form'}">
+        <f:form.submit value="Logout" class="btn btn-primary" />
+      </f:form>
+    </f:then>
+    <f:else>
+      <f:form action="authenticate" method="post">
+        <fieldset>
+          <legend>Login</legend>
+          <input placeholder="Email address" name="__authentication[TYPO3][Flow][Security][Authentication][Token][UsernamePassword][username]" type="email" autofocus>
+          <input placeholder="Password" name="__authentication[TYPO3][Flow][Security][Authentication][Token][UsernamePassword][password]" type="password" value="">
+          <input type="submit" value="Login"/>
+        </fieldset>
+      </f:form>
+      <f:link.action action="requestPasswordToken" controller="Account">Forgot password?</f:link.action>
+    </f:else>
+  </usermanagement:ifAuthenticated>
 </f:section>

@@ -1,13 +1,29 @@
 <?php
 namespace Sandstorm\UserManagement\Controller;
 
-use Sandstorm\UserManagement\Domain\Service\UserManagementService;
+use Sandstorm\UserManagement\Domain\Service\LoginRedirectTargetServiceInterface;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Error\Message;
+use TYPO3\Flow\Exception;
+use TYPO3\Flow\Mvc\ActionRequest;
 use TYPO3\Flow\Security\Authentication\Controller\AbstractAuthenticationController;
 
 class LoginController extends AbstractAuthenticationController
 {
+
+    /**
+     * @Flow\Inject
+     * @var LoginRedirectTargetServiceInterface
+     */
+    protected $loginRedirectTargetService;
+
+    /**
+     * @return void
+     */
+    public function loginAction()
+    {
+        $this->view->assign('account', $this->securityContext->getAccount());
+    }
 
     /**
      * Is called after a request has been authenticated.
@@ -17,10 +33,18 @@ class LoginController extends AbstractAuthenticationController
      */
     protected function onAuthenticationSuccess(\TYPO3\Flow\Mvc\ActionRequest $originalRequest = NULL)
     {
+        $result = $this->loginRedirectTargetService->onAuthenticationSuccess($this->controllerContext, $originalRequest);
 
-        // TODO Make this configurable
-        if ($originalRequest !== NULL) {
-            $this->redirectToRequest($originalRequest);
+        if (is_string($result)) {
+            $this->redirectToUri($result);
+        } elseif ($result instanceof ActionRequest) {
+            $this->redirectToRequest($result);
+        }
+
+        if ($result === null) {
+            // do nothing, render the "success" page.
+        } else {
+            throw new Exception('LoginRedirectTargetServiceInterface::onAuthenticationSuccess must return either null, an URL string or an ActionRequest object, but was: ' . gettype($result) . ' - ' . get_class($result), 1464164500);
         }
     }
 
