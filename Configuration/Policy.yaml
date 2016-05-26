@@ -10,7 +10,7 @@ privilegeTargets:
 
 
     'Sandstorm.UserManagement:Login':
-      matcher: 'method(Sandstorm\UserManagement\Controller\(Login|Account)Controller->(?!initialize).*Action())'
+      matcher: 'method(Sandstorm\UserManagement\Controller\(Login|ResetPassword)Controller->(?!initialize).*Action())'
     'Sandstorm.UserManagement:Registration':
           matcher: 'method(Sandstorm\UserManagement\Controller\RegistrationController->(?!initialize).*Action())'
 

@@ -14,14 +14,17 @@ class ResetPasswordFlow
 {
     /**
      * @var string
+     * @Flow\Validate(type="NotEmpty")
+     * @Flow\Validate(type="EmailAddress")
      */
-    protected $accountIdentifier;
+    protected $email;
 
     /**
-     * @var \TYPO3\Flow\Security\Account
-     * @ORM\OneToOne(cascade={"persist", "remove"})
+     * @Flow\Transient
+     * @var PasswordDto
+     * @Flow\Validate(type="Sandstorm\UserManagement\Domain\Validator\CustomPasswordDtoValidator", validationGroups={"Controller"})
      */
-    protected $account;
+    protected $passwordDto;
 
     /**
      * @var string
@@ -50,18 +53,25 @@ class ResetPasswordFlow
     protected $hashService;
 
     /**
+     * @param $cause int The cause of the object initilization.
+     * @see http://flowframework.readthedocs.org/en/stable/TheDefinitiveGuide/PartIII/ObjectManagement.html#lifecycle-methods
+     * @throws Exception
+     */
+    public function initializeObject($cause)
+    {
+        if ($cause === \TYPO3\Flow\Object\ObjectManagerInterface::INITIALIZATIONCAUSE_CREATED) {
+            $this->generateResetPasswordToken();
+        }
+    }
+
+    /**
      * Generate a new password reset token
      * @throws Exception If the user doesn't have an account yet
      */
-    public function generateResetPasswordToken()
+    protected function generateResetPasswordToken()
     {
-        if ($this->account != NULL) {
-            $this->getAccount()->setExpirationDate(new \DateTime());
-            $this->resetPasswordToken = Algorithms::generateRandomString(30);
-            $this->resetPasswordTokenValidUntil = (new \DateTime())->add(\DateInterval::createFromDateString($this->resetPasswordTokenTimeout));
-        } else {
-            throw new Exception('Cannot generate reset password token if user is not activated yet.', 1447669137);
-        }
+        $this->resetPasswordToken = Algorithms::generateRandomString(30);
+        $this->resetPasswordTokenValidUntil = (new \DateTime())->add(\DateInterval::createFromDateString($this->resetPasswordTokenTimeout));
     }
 
     /**
@@ -77,17 +87,39 @@ class ResetPasswordFlow
     }
 
     /**
-     * Updates the password for a user and makes thr account accessible again.
-     *
-     * @param $password
-     * @throws \TYPO3\Flow\Persistence\Exception\IllegalObjectTypeException
+     * @return string
      */
-    public function updatePassword($password)
+    public function getEmail()
     {
-        $hashedPassword = $this->hashService->hashPassword($password, 'default');
-        $this->setResetPasswordToken(NULL);
-        $this->setResetPasswordTokenValidUntil(NULL);
-        $this->getAccount()->setCredentialsSource($hashedPassword);
-        $this->getAccount()->setExpirationDate(NULL);
+        return $this->email;
+    }
+
+    /**
+     * @param string $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * @return string
+     */
+    public function getResetPasswordToken()
+    {
+        return $this->resetPasswordToken;
+    }
+
+    /**
+     * @param PasswordDto $passwordDto
+     */
+    public function setPasswordDto(PasswordDto $passwordDto)
+    {
+        $this->passwordDto = $passwordDto;
+    }
+
+    public function getEncryptedPassword()
+    {
+        return $this->passwordDto->getEncryptedPasswordAndRemoveNonencryptedVersion();
     }
 }

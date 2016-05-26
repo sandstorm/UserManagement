@@ -18,10 +18,10 @@
           <legend>Login</legend>
           <input placeholder="Email address" name="__authentication[TYPO3][Flow][Security][Authentication][Token][UsernamePassword][username]" type="email" autofocus>
           <input placeholder="Password" name="__authentication[TYPO3][Flow][Security][Authentication][Token][UsernamePassword][password]" type="password" value="">
-          <input type="submit" value="Login"/>
+          <input type="submit" value="Login" class="button large primary" />
         </fieldset>
       </f:form>
-      <f:link.action action="requestPasswordToken" controller="Account">Forgot password?</f:link.action>
+      <f:link.action action="index" controller="ResetPassword">Forgot password?</f:link.action>
     </f:else>
   </usermanagement:ifAuthenticated>
 </f:section>
