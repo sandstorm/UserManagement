@@ -57,12 +57,6 @@ class RegistrationFlow
     protected $activationTokenTimeout;
 
     /**
-     * @var boolean
-     * @ORM\Column(nullable=TRUE)
-     */
-    protected $newActivationTokenRequested;
-
-    /**
      * @Flow\Inject
      * @Flow\Transient
      * @var HashService
