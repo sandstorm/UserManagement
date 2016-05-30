@@ -2,7 +2,10 @@
   <f:if condition="{validationResults.flattenedErrors}">
     <dl class="errors">
       <f:for each="{validationResults.flattenedErrors}" key="propertyName" as="errors">
-        <f:for each="{errors}" as="error">{error}</f:for>
+        <f:for each="{errors}" as="error">
+          <dt>{error}</dt>
+        </f:for>
       </f:for>
+    </dl>
   </f:if>
 </f:form.validationResults>
