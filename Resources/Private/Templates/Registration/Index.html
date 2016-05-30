@@ -25,13 +25,13 @@
       <label>
         Vorname
         <f:form.textfield placeholder="Manfred" property="firstName"/>
-        <f:render partial="FormErrors" arguments="{for: 'firstName'}"/>
+        <f:render partial="FormErrors" arguments="{for: 'registrationFlow.firstName'}"/>
       </label>
 
       <label>
         Nachname
         <f:form.textfield  placeholder="Mustermann" property="lastName"/>
-        <f:render partial="FormErrors" arguments="{for: 'lastName'}"/>
+        <f:render partial="FormErrors" arguments="{for: 'registrationFlow.lastName'}"/>
       </label>
 
       <input type="submit" value="Registrieren" class="button large primary" />
