@@ -26,6 +26,23 @@ The package exposes a command to create users. You can run
 to create a test user. This will create a Neos user if you're using the package in Neos. You can assign
 roles to the new user in the Neos backend afterwards. It doesn't work yet for standalone usage in Flow (see TODOS).
 
+## Checking for a logged-in user in your templates
+There is a ViewHelper available that allows you to check if somebody is logged into the frontend. Here's an example:
+
+```
+{namespace usermanagement=Sandstorm\UserManagement\ViewHelpers}
+
+<usermanagement:ifAuthenticated authenticationProviderName="Sandstorm.UserManagement:Login">
+  <f:then>
+    You are currently logged in.
+  </f:then>
+  <f:else>
+    You are not logged in!
+  </f:else>
+</usermanagement:ifAuthenticated>
+
+```
+
 # Additional Settings for usage in Neos
 
 Add the following to your package's (or the global) `Settings.yaml`. This creates a separate authentication provider so Neos can
