@@ -21,7 +21,7 @@ The following configuration options exist:
 ## Creating users via the CLI
 The package exposes a command to create users. You can run
 
-`./flow sandstormuser:create test@example.com password`
+`./flow sandstormuser:create test@example.com password firstName lastName`
 
 to create a test user. This will create a Neos user if you're using the package in Neos. You can assign
 roles to the new user in the Neos backend afterwards. It doesn't work yet for standalone usage in Flow (see TODOS).
