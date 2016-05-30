@@ -61,7 +61,7 @@ class NeosUserCreationService implements UserCreationServiceInterface
     public function createUserAndAccount(RegistrationFlow $registrationFlow)
     {
         $user = new User();
-        $name = new PersonName('', 'First', 'Last', '', '', $registrationFlow->getEmail());
+        $name = new PersonName('', $registrationFlow->getFirstName(), $registrationFlow->getLastName(), '', '', $registrationFlow->getEmail());
         $user->setName($name);
 
         $account = new \TYPO3\Flow\Security\Account();
@@ -80,6 +80,7 @@ class NeosUserCreationService implements UserCreationServiceInterface
 
     /**
      * This method exists to ensure the code runs outside Neos.
+     * We do not fetch this via injection so it works also in Flow when the class is not present
      *
      * @return PartyService
      */
@@ -90,6 +91,7 @@ class NeosUserCreationService implements UserCreationServiceInterface
 
     /**
      * This method exists to ensure the code runs outside Neos.
+     * We do not fetch this via injection so it works also in Flow when the class is not present
      *
      * @return PartyRepository
      */

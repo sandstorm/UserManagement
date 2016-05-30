@@ -59,8 +59,10 @@ class SandstormUserCommandController extends \TYPO3\Flow\Cli\CommandController
      *
      * @param string $email The email address, which also serves as the username.
      * @param string $password This user's password.
+     * @param string $firstName First name of the user.
+     * @param string $lastName Last name of the user.
      */
-    public function createCommand($email, $password)
+    public function createCommand($email, $password, $firstName, $lastName)
     {
         $passwordDto = new PasswordDto();
         $passwordDto->setPassword($password);
@@ -68,6 +70,8 @@ class SandstormUserCommandController extends \TYPO3\Flow\Cli\CommandController
         $registrationFlow = new RegistrationFlow();
         $registrationFlow->setPasswordDto($passwordDto);
         $registrationFlow->setEmail($email);
+        $registrationFlow->setFirstName($firstName);
+        $registrationFlow->setLastName($lastName);
 
         // Remove existing registration flows
         $alreadyExistingFlows = $this->registrationFlowRepository->findByEmail($registrationFlow->getEmail());
@@ -85,7 +89,7 @@ class SandstormUserCommandController extends \TYPO3\Flow\Cli\CommandController
         // Directly activate the account
         $this->activateRegistrationCommand($email);
 
-        // TODO Set the user's Name and roles
+        // TODO Set the user's roles
         //        // Persist again so we can find the user  via repo
         //        $this->persistenceManager->persistAll();
 

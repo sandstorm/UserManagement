@@ -5,23 +5,31 @@
 <f:section name="Content">
   <f:form action="register" method="post" objectName="registrationFlow">
     <fieldset>
-      <legend>Registration</legend>
-
       <label>
-        E-Mail
-        <f:form.textfield property="email" placeholder="" name="__authentication[TYPO3][Flow][Security][Authentication][Token][UsernamePassword][username]" type="email"/>
+        E-Mail-Adresse
+        <f:form.textfield property="email" placeholder="test@example.com" name="__authentication[TYPO3][Flow][Security][Authentication][Token][UsernamePassword][username]" type="email"/>
         <f:render partial="FormErrors" arguments="{for: 'registrationFlow.email'}"/>
       </label>
 
       <label>
         Passwort
-        <f:form.password property="passwordDto.password"/>
+        <f:form.password placeholder="Ihr Passwort" property="passwordDto.password"/>
         <f:render partial="FormErrors" arguments="{for: 'registrationFlow.passwordDto.password'}"/>
       </label>
 
       <label>
         Passwortbestätigung
-        <f:form.password property="passwordDto.passwordConfirmation"/>
+        <f:form.password placeholder="Passwort wiederholen" property="passwordDto.passwordConfirmation"/>
+      </label>
+
+      <label>
+        Vorname
+        <f:form.password placeholder="Manfred" property="firstName"/>
+      </label>
+
+      <label>
+        Nachname
+        <f:form.password  placeholder="Mustermann" property="lastName"/>
       </label>
 
       <input type="submit" value="Registrieren" class="button large primary" />

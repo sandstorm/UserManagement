@@ -20,7 +20,9 @@ The following configuration options exist:
 
 ## Creating users via the CLI
 The package exposes a command to create users. You can run
+
 `./flow sandstormuser:create test@example.com password`
+
 to create a test user. This will create a Neos user if you're using the package in Neos. You can assign
 roles to the new user in the Neos backend afterwards. It doesn't work yet for standalone usage in Flow (see TODOS).
 
@@ -48,19 +50,26 @@ TYPO3:
 
 # Extending the package
 
-## Changing templates
-The default templates are written with Foundation for Sites 6 in mind and will look OK if you are using that.
-Still, changing templates is easily possible:
-...Views.yaml
+## Changing / overriding templates
+TODO: Document this
 
 ## Overriding e-mail templates
+TODO: Document this (together with config optns)
 
+## Changing properties in the registration flow
+TODO: document this (will work via RegistrationFlow.attributes and custom implementation of UserCreationServiceInterface).
 
 # Known issues / TODOS
 
+Feel free to submit issues/PRs :)
+
 * The configuration options aren't documented yet.
-* The standalone version does not provide a mechanism to create users via the CLI yet. It's also not possible to configure which roles newly registered users get yet.
+* The standalone version does not provide a mechanism to create users via the CLI yet.
+  It's also not possible to configure which roles newly registered users get yet.
+  Furthermore, a Forwarding Service for the standalone case is missing.
 * We haven't described all features in detail yet.
+* The extension options are not documented yet.
+* I18N.
 
 # FAQ
 

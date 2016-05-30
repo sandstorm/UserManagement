@@ -111,4 +111,13 @@ class RegistrationController extends ActionController
 
         $this->view->assign('success', true);
     }
+
+    /**
+     * Disable the technical error flash message
+     *
+     * @return boolean
+     */
+    protected function getErrorFlashMessage() {
+        return FALSE;
+    }
 }
