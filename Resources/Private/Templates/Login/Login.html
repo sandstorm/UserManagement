@@ -15,13 +15,12 @@
     <f:else>
       <f:form action="authenticate" method="post">
         <fieldset>
-          <legend>Login</legend>
-          <input placeholder="Email address" name="__authentication[TYPO3][Flow][Security][Authentication][Token][UsernamePassword][username]" type="email" autofocus>
-          <input placeholder="Password" name="__authentication[TYPO3][Flow][Security][Authentication][Token][UsernamePassword][password]" type="password" value="">
+          <input placeholder="test@example.com" name="__authentication[TYPO3][Flow][Security][Authentication][Token][UsernamePassword][username]" type="email" autofocus>
+          <input placeholder="Passwort" name="__authentication[TYPO3][Flow][Security][Authentication][Token][UsernamePassword][password]" type="password" value="">
           <input type="submit" value="Login" class="button large primary" />
         </fieldset>
       </f:form>
-      <f:link.action action="index" controller="ResetPassword">Forgot password?</f:link.action>
+      <f:link.action action="index" controller="ResetPassword">Passwort vergessen?</f:link.action>
     </f:else>
   </usermanagement:ifAuthenticated>
 </f:section>

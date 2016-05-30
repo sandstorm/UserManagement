@@ -24,12 +24,14 @@
 
       <label>
         Vorname
-        <f:form.password placeholder="Manfred" property="firstName"/>
+        <f:form.textfield placeholder="Manfred" property="firstName"/>
+        <f:render partial="FormErrors" arguments="{for: 'firstName'}"/>
       </label>
 
       <label>
         Nachname
-        <f:form.password  placeholder="Mustermann" property="lastName"/>
+        <f:form.textfield  placeholder="Mustermann" property="lastName"/>
+        <f:render partial="FormErrors" arguments="{for: 'lastName'}"/>
       </label>
 
       <input type="submit" value="Registrieren" class="button large primary" />
