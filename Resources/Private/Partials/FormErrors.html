@@ -3,7 +3,7 @@
     <dl class="errors">
       <f:for each="{validationResults.flattenedErrors}" key="propertyName" as="errors">
         <f:for each="{errors}" as="error">
-          <dt>{error}</dt>
+          <dt>{propertyName}: {error}</dt>
         </f:for>
       </f:for>
     </dl>
