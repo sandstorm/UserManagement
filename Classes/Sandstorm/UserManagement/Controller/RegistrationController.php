@@ -34,15 +34,21 @@ class RegistrationController extends ActionController
 
     /**
      * @var string
-     * @Flow\InjectConfiguration(path="senderEmailAddress")
+     * @Flow\InjectConfiguration(path="email.senderAddress")
      */
-    protected $senderEmailAddress;
+    protected $emailSenderAddress;
 
     /**
      * @var string
-     * @Flow\InjectConfiguration(path="applicationName")
+     * @Flow\InjectConfiguration(path="email.senderName")
      */
-    protected $applicationName;
+    protected $emailSenderName;
+
+    /**
+     * @var string
+     * @Flow\InjectConfiguration(path="email.subjectActivation")
+     */
+    protected $subjectActivation;
 
 
     /**
@@ -74,12 +80,12 @@ class RegistrationController extends ActionController
 
         $this->emailService->sendTemplateBasedEmail(
             'ActivationToken',
-            'Account-Aktivierung für ' . $this->applicationName,
-            [$this->senderEmailAddress => $this->applicationName],
+            $this->subjectActivation,
+            [$this->emailSenderAddress => $this->emailSenderName],
             [$registrationFlow->getEmail()],
             [
                 'activationLink' => $activationLink,
-                'applicationName' => $this->applicationName,
+                'applicationName' => $this->emailSenderName,
                 'registrationFlow' => $registrationFlow
             ]
         );

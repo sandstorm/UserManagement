@@ -13,10 +13,35 @@ This is especially true for the default Flow subroutes, so make sure you have re
 If you can't remove them, just include the subroutes for this package manually before the Flow subroutes.
 
 ## Configuring the package
-The following configuration options exist:
-- swiftmailer
-- overriding templates
-- ... TODO
+### Base configuration options
+These are the basic configuration options for e-mails, timeouts etc. You will usually want to adapt these to your application.
+```
+Sandstorm:
+  UserManagement:
+    # Validity timespan for the activation token for newly registered users.
+    activationTokenTimeout: '2 days'
+    # Validity timespan for the token used to reset passwords.
+    resetPasswordTokenTimeout: '4 hours'
+    # Email settings
+    email:
+      # Sender Address
+      senderAddress: 'test@example.com'
+      # Sender name - will be merged with senderAddress to something
+      # like "Sandstorm Usermanagement Package <test@example.com>"
+      senderName: 'Sandstorm Usermanagement Package'
+      # Subject line for the account confirmation email
+      subjectActivation: 'Please confirm your account'
+      # Subject line for the password reset email
+      subjectResetPassword: 'Password reset'
+      # Template package to read the email templates from - this can be used to override
+      # e-mail templates. They are expected in the package given here, in the folder
+      # <Package>/Resources/Private/EmailTemplates.
+      templatePackage: 'Sandstorm.UserManagement'
+```
+
+### Configuring SwiftMailer
+The UserManagement package requires SwiftMailer to send out e-mails. Please check the swiftmailer package's
+configuration options (https://github.com/neos/swiftmailer) in order to configure SMTP credentials.
 
 ## Creating users via the CLI
 The package exposes a command to create users. You can run
@@ -71,16 +96,18 @@ TYPO3:
 TODO: Document this
 
 ## Overriding e-mail templates
-TODO: Document this (together with config optns)
+As documented in the configuration options above, overriding e-mail templates is easy:
+* Copy the `EmailTemplates` folder from the UserManagement's `Resources/Private` folder into your
+  own package and modify the templates to your heart's desire.
+* Then, set the `email.templatePackage` configuration option to that package's name. Done!
 
-## Changing properties in the registration flow
+## Changing or adding properties to the registration flow
 TODO: document this (will work via RegistrationFlow.attributes and custom implementation of UserCreationServiceInterface).
 
 # Known issues / TODOS
 
 Feel free to submit issues/PRs :)
 
-* The configuration options aren't documented yet.
 * The standalone version does not provide a mechanism to create users via the CLI yet.
   It's also not possible to configure which roles newly registered users get yet.
   Furthermore, a Forwarding Service for the standalone case is missing.
@@ -91,5 +118,4 @@ Feel free to submit issues/PRs :)
 # FAQ
 
 * *What happens if the user did not receive the registration email?*
-
   Just tell the user to register again. In this case, previous unfinished registrations are discarded.

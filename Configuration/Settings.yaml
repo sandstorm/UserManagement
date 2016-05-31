@@ -1,23 +1,27 @@
 Sandstorm:
   UserManagement:
+    # Validity timespan for the activation token for newly registered users.
     activationTokenTimeout: '2 days'
+    # Validity timespan for the token used to reset passwords.
     resetPasswordTokenTimeout: '4 hours'
-    senderEmailAddress: 'test@example.com'
-    applicationName: 'Sandstorm Usermanagement Package'
+    # Email settings
+    email:
+      # Sender Address
+      senderAddress: 'test@example.com'
+      # Sender name - will be merged with senderAddress to something
+      # like "Sandstorm Usermanagement Package <test@example.com>"
+      senderName: 'Sandstorm Usermanagement Package'
+      # Subject line for the account confirmation email
+      subjectActivation: 'Please confirm your account'
+      # Subject line for the password reset email
+      subjectResetPassword: 'Password reset'
+      # Template package to read the email templates from - this can be used to override
+      # e-mail templates. They are expected in the package given here, in the folder
+      # <Package>/Resources/Private/EmailTemplates.
+      templatePackage: 'Sandstorm.UserManagement'
 
 TYPO3:
   Flow:
-#    security:
-#      authentication:
-#        providers:
-#          'ApplicationAuthenticationProvider':
-#            provider: 'PersistedUsernamePasswordProvider'
-#            entryPoint: 'WebRedirect'
-#            entryPointOptions:
-#              routeValues:
-#                '@package': 'Sandstorm.UserManagement'
-#                '@controller': 'Login'
-#                '@action': 'login'
     mvc:
       routes:
         'Sandstorm.UserManagement': TRUE

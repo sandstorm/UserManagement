@@ -22,7 +22,7 @@ class EmailService
 
     /**
      * @var string
-     * @Flow\InjectConfiguration(path="emailService.templatePackage")
+     * @Flow\InjectConfiguration(path="email.templatePackage")
      */
     protected $templatePackage;
 

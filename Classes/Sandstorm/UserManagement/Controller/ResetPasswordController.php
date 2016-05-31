@@ -41,15 +41,21 @@ class ResetPasswordController extends ActionController
 
     /**
      * @var string
-     * @Flow\InjectConfiguration(path="senderEmailAddress")
+     * @Flow\InjectConfiguration(path="email.senderAddress")
      */
-    protected $senderEmailAddress;
+    protected $emailSenderAddress;
 
     /**
      * @var string
-     * @Flow\InjectConfiguration(path="applicationName")
+     * @Flow\InjectConfiguration(path="email.senderName")
      */
-    protected $applicationName;
+    protected $emailSenderName;
+
+    /**
+     * @var string
+     * @Flow\InjectConfiguration(path="email.subjectResetPassword")
+     */
+    protected $subjectResetPassword;
 
 
     /**
@@ -83,12 +89,12 @@ class ResetPasswordController extends ActionController
 
             $this->emailService->sendTemplateBasedEmail(
                 'ResetPasswordToken',
-                'Passwort zurücksetzen für ' . $this->applicationName,
-                [$this->senderEmailAddress => $this->applicationName],
+                $this->subjectResetPassword,
+                [$this->emailSenderAddress => $this->emailSenderName],
                 [$resetPasswordFlow->getEmail()],
                 [
                     'resetPasswordLink' => $resetPasswordLink,
-                    'applicationName' => $this->applicationName,
+                    'applicationName' => $this->emailSenderName,
                     'resetPasswordFlow' => $resetPasswordFlow
                 ]
             );
