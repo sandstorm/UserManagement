@@ -1,8 +1,12 @@
 # Sandstorm.UserManagement Neos / Flow Package
 
 ## Features
-This package provides models for users and basic mechanisms for Login/Logout, User activation and password reset.
-(TODO: Write some more on features)
+This package works in Neos CMS and Flow and provides the following functionalities:
+
+* Registration of (frontend) users via a registration form
+* Sending out an e-mail for account confirmation
+* Login of registered (frontend) users via a login form
+* "Forgotten password" with password reset e-mail
 
 # How to use
 
@@ -43,6 +47,27 @@ Sandstorm:
 The UserManagement package requires SwiftMailer to send out e-mails. Please check the swiftmailer package's
 configuration options (https://github.com/neos/swiftmailer) in order to configure SMTP credentials.
 
+### Additional Settings for usage in Neos
+Add the following to your package's (or the global) `Settings.yaml`. This creates a separate authentication provider so Neos can
+distinguish between frontend and backend logins.
+
+```
+
+TYPO3:
+  Flow:
+    security:
+      authentication:
+        providers:
+          'Typo3BackendProvider':
+            requestPatterns:
+              'Sandstorm\UserManagement\Security\NeosRequestPattern': 'backend'
+          'Sandstorm.UserManagement:Login':
+            provider: 'PersistedUsernamePasswordProvider'
+            requestPatterns:
+              'Sandstorm\UserManagement\Security\NeosRequestPattern': 'frontend'
+
+```
+
 ## Creating users via the CLI
 The package exposes a command to create users. You can run
 
@@ -65,28 +90,6 @@ There is a ViewHelper available that allows you to check if somebody is logged i
     You are not logged in!
   </f:else>
 </usermanagement:ifAuthenticated>
-
-```
-
-# Additional Settings for usage in Neos
-
-Add the following to your package's (or the global) `Settings.yaml`. This creates a separate authentication provider so Neos can
-distinguish between frontend and backend logins.
-
-```
-
-TYPO3:
-  Flow:
-    security:
-      authentication:
-        providers:
-          'Typo3BackendProvider':
-            requestPatterns:
-              'Sandstorm\UserManagement\Security\NeosRequestPattern': 'backend'
-          'Sandstorm.UserManagement:Login':
-            provider: 'PersistedUsernamePasswordProvider'
-            requestPatterns:
-              'Sandstorm\UserManagement\Security\NeosRequestPattern': 'frontend'
 
 ```
 
