@@ -95,7 +95,9 @@ class ResetPasswordController extends ActionController
                 [
                     'resetPasswordLink' => $resetPasswordLink,
                     'applicationName' => $this->emailSenderName,
-                    'resetPasswordFlow' => $resetPasswordFlow
+                    'resetPasswordFlow' => $resetPasswordFlow,
+                    // BaseUri can be used to embed resources (images) into the email
+                    'baseUri' => htmlspecialchars($this->controllerContext->getRequest()->getHttpRequest()->getBaseUri())
                 ]
             );
 

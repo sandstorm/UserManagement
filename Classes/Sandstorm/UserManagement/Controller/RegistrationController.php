@@ -86,7 +86,9 @@ class RegistrationController extends ActionController
             [
                 'activationLink' => $activationLink,
                 'applicationName' => $this->emailSenderName,
-                'registrationFlow' => $registrationFlow
+                'registrationFlow' => $registrationFlow,
+                // BaseUri can be used to embed resources (images) into the email
+                'baseUri' => htmlspecialchars($this->controllerContext->getRequest()->getHttpRequest()->getBaseUri())
             ]
         );
 
