@@ -4,26 +4,9 @@
 
 <f:section name="Content">
 
-  <div class="container">
-    <div class="row">
-      <div class="page-header">
-        <h1>Passwort vergessen</h1>
-      </div>
-    </div>
-    <div class="row">
-      <f:flashMessages class="flashmessages"/>
-    </div>
-    <div class="row">
-      <div class="col-xs-6 col-xs-offset-3">
-        <p class="lead">Geben Sie ihre Email-Adresse ein. Wir schicken Ihnen dann einen Link, mit dem Sie ihr Passwort
-          zurücksetzen können.</p>
-        <f:form action="requestToken" method="POST" objectName="resetPasswordFlow">
-          <div class="form-group">
-            <f:form.textfield property="email" type="text" class="form-control" placeholder="Email-Adresse oder Benutzername"/>
-          </div>
-          <f:form.submit class="button large primary" value="Abschicken"/>
-        </f:form>
-      </div>
-    </div>
-  </div>
+  <p>Bitte geben Sie ihre Email-Adresse ein. Wir schicken Ihnen dann einen Link, mit dem Sie ihr Passwort zurücksetzen können.</p>
+  <f:form action="requestToken" method="POST" objectName="resetPasswordFlow">
+    <f:form.textfield property="email" type="text" placeholder="Email-Adresse oder Benutzername"/>
+    <f:form.submit class="button large primary" value="Abschicken"/>
+  </f:form>
 </f:section>
