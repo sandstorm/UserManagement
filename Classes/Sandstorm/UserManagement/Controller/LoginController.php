@@ -46,7 +46,7 @@ class LoginController extends AbstractAuthenticationController
         }
 
         if ($result === null) {
-            // do nothing, render the "success" page.
+            $this->view->assign('account', $this->securityContext->getAccount());
         } else {
             throw new Exception('LoginRedirectTargetServiceInterface::onAuthenticationSuccess must return either null, an URL string or an ActionRequest object, but was: ' . gettype($result) . ' - ' . get_class($result), 1464164500);
         }
