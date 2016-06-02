@@ -18,7 +18,11 @@ class LoginController extends AbstractAuthenticationController
     protected $loginRedirectTargetService;
 
     /**
+     * SkipCsrfProtection is needed here because we will have errors otherwise if we render multiple
+     * plugins on the same page
+     *
      * @return void
+     * @Flow\SkipCsrfProtection
      */
     public function loginAction()
     {
