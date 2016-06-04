@@ -2,7 +2,7 @@
     "name": "sandstorm/usermanagement",
     "description": "Neos and Flow package for user management, login/logout, password reset and user activation",
     "type": "typo3-flow-package",
-    "keywords": ["user", "login", "logout", "registration", "frontend login", "forgot password", "account"],
+    "keywords": ["user", "login", "logout", "registration", "frontend login", "forgot password", "account", "Neos", "Flow"],
     "homepage": "https://www.sandstorm.de",
     "license": "MIT",
     "require": {
