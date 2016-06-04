@@ -1,12 +1,14 @@
 {
-    "description": "Flow Package for user management, login/logout, passwort reset and user activation",
+    "name": "sandstorm/usermanagement",
+    "description": "Neos and Flow package for user management, login/logout, password reset and user activation",
     "type": "typo3-flow-package",
+    "keywords": ["user", "login", "logout", "registration", "frontend login", "forgot password", "account"],
+    "homepage": "https://www.sandstorm.de",
+    "license": "MIT",
     "require": {
         "typo3/flow": "^3.2",
-        "typo3/swiftmailer": "^5.4",
-        "lcobucci/jwt": "^3.1"
+        "typo3/swiftmailer": "^5.4"
     },
-    "name": "sandstorm/usermanagement",
     "autoload": {
         "psr-0": {
             "Sandstorm\\UserManagement": "Classes/"

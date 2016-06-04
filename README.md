@@ -107,18 +107,28 @@ As documented in the configuration options above, overriding e-mail templates is
 ## Changing or adding properties to the registration flow
 TODO: document this (will work via RegistrationFlow.attributes and custom implementation of UserCreationServiceInterface).
 
-# Known issues / TODOS
+# Known issues
 
 Feel free to submit issues/PRs :)
+
+* When you logout while on a restricted page in Neos, you will not be redirected to
+  another page, but will be shown a "page not found" error after logout.
+
+# TODOs
 
 * The standalone version does not provide a mechanism to create users via the CLI yet.
   It's also not possible to configure which roles newly registered users get yet.
   Furthermore, a Forwarding Service for the standalone case is missing.
 * We haven't described all features in detail yet.
-* The extension options are not documented yet.
+* The extension options are not fully documented yet.
 * I18N.
+* Tests.
 
 # FAQ
 
 * *What happens if the user did not receive the registration email?*
   Just tell the user to register again. In this case, previous unfinished registrations are discarded.
+
+# License
+MIT.
+https://opensource.org/licenses/MIT
