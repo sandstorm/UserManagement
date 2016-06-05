@@ -6,8 +6,10 @@ use Sandstorm\UserManagement\Domain\Service\UserCreationServiceInterface;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Object\ObjectManagerInterface;
 use TYPO3\Flow\Persistence\PersistenceManagerInterface;
+use TYPO3\Flow\Security\Account;
 use TYPO3\Flow\Security\AccountFactory;
 use TYPO3\Flow\Security\AccountRepository;
+use TYPO3\Flow\Security\Policy\Role;
 use TYPO3\Neos\Domain\Model\User;
 use TYPO3\Party\Domain\Model\PersonName;
 use TYPO3\Party\Domain\Repository\PartyRepository;
@@ -50,6 +52,11 @@ class NeosUserCreationService implements UserCreationServiceInterface
     protected $objectManager;
 
     /**
+     * @Flow\InjectConfiguration(path="rolesForNewUsers")
+     */
+    protected $rolesForNewUsers;
+
+    /**
      * In this method, actually create the user / account.
      *
      * NOTE: After this method is called, the $registrationFlow is DESTROYED, so you need to store all attributes
@@ -68,14 +75,25 @@ class NeosUserCreationService implements UserCreationServiceInterface
         $account->setAccountIdentifier($registrationFlow->getEmail());
         $account->setCredentialsSource($registrationFlow->getEncryptedPassword());
         $account->setAuthenticationProviderName('Sandstorm.UserManagement:Login');
+        $this->assignConfiguredRoles($account);
         $this->getPartyService()->assignAccountToParty($account, $user);
-
         $this->getPartyRepository()->add($user);
         $this->accountRepository->add($account);
         $this->persistenceManager->whitelistObject($user);
         $this->persistenceManager->whitelistObject($user->getPreferences());
         $this->persistenceManager->whitelistObject($name);
         $this->persistenceManager->whitelistObject($account);
+    }
+
+    /**
+     * Assigns all configured roles to a newly created account.
+     *
+     * @param Account $account
+     */
+    protected function assignConfiguredRoles(Account $account){
+        foreach ($this->rolesForNewUsers as $roleString){
+            $account->addRole(new Role($roleString));
+        }
     }
 
     /**

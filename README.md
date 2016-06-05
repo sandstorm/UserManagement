@@ -41,6 +41,8 @@ Sandstorm:
       # e-mail templates. They are expected in the package given here, in the folder
       # <Package>/Resources/Private/EmailTemplates.
       templatePackage: 'Sandstorm.UserManagement'
+    # An array of roles which are assigned to users after they activate their account.
+    rolesForNewUsers: []
 ```
 
 ### Configuring SwiftMailer
@@ -117,10 +119,8 @@ Feel free to submit issues/PRs :)
 # TODOs
 
 * The standalone version does not provide a mechanism to create users via the CLI yet.
-  It's also not possible to configure which roles newly registered users get yet.
   Furthermore, a Forwarding Service for the standalone case is missing.
 * We haven't described all features in detail yet.
-* The extension options are not fully documented yet.
 * I18N.
 * Tests.
 

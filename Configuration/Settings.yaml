@@ -19,6 +19,8 @@ Sandstorm:
       # e-mail templates. They are expected in the package given here, in the folder
       # <Package>/Resources/Private/EmailTemplates.
       templatePackage: 'Sandstorm.UserManagement'
+    # An array of roles which are assigned to users after they activate their account.
+    rolesForNewUsers: []
 
 TYPO3:
   Flow:

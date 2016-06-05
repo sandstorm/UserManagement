@@ -89,10 +89,6 @@ class SandstormUserCommandController extends \TYPO3\Flow\Cli\CommandController
         // Directly activate the account
         $this->activateRegistrationCommand($email);
 
-        // TODO Set the user's roles
-        //        // Persist again so we can find the user  via repo
-        //        $this->persistenceManager->persistAll();
-
         $this->outputLine('Added the User <b>"%s"</b> with password <b>"%s"</b>.', array($email, $password));
     }
 
