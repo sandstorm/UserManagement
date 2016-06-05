@@ -1,14 +1,14 @@
 <?php
 namespace Sandstorm\UserManagement\Domain\Service\Neos;
 
-use Sandstorm\UserManagement\Domain\Service\LoginRedirectTargetServiceInterface;
+use Sandstorm\UserManagement\Domain\Service\RedirectTargetServiceInterface;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Mvc\ActionRequest;
 use TYPO3\Flow\Mvc\Controller\ControllerContext;
 use TYPO3\Flow\Object\ObjectManagerInterface;
 use TYPO3\Neos\Service\LinkingService;
 
-class NeosLoginRedirectTargetService implements LoginRedirectTargetServiceInterface
+class NeosRedirectTargetService implements RedirectTargetServiceInterface
 {
 
     /**
@@ -23,6 +23,14 @@ class NeosLoginRedirectTargetService implements LoginRedirectTargetServiceInterf
         $actionRequest = $controllerContext->getRequest();
         if ($actionRequest->getInternalArgument('__redirectAfterLogin')) {
             return $this->getNodeLinkingService()->createNodeUri($controllerContext, $actionRequest->getInternalArgument('__redirectAfterLogin'));
+        }
+    }
+    
+    public function onLogout(ControllerContext $controllerContext){
+        /** @var ActionRequest $actionRequest */
+        $actionRequest = $controllerContext->getRequest();
+        if ($actionRequest->getInternalArgument('__redirectAfterLogout')) {
+            return $this->getNodeLinkingService()->createNodeUri($controllerContext, $actionRequest->getInternalArgument('__redirectAfterLogout'));
         }
     }
 

@@ -1,7 +1,7 @@
 <?php
 namespace Sandstorm\UserManagement\Controller;
 
-use Sandstorm\UserManagement\Domain\Service\LoginRedirectTargetServiceInterface;
+use Sandstorm\UserManagement\Domain\Service\RedirectTargetServiceInterface;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Error\Message;
 use TYPO3\Flow\Exception;
@@ -13,9 +13,9 @@ class LoginController extends AbstractAuthenticationController
 
     /**
      * @Flow\Inject
-     * @var LoginRedirectTargetServiceInterface
+     * @var RedirectTargetServiceInterface
      */
-    protected $loginRedirectTargetService;
+    protected $redirectTargetService;
 
     /**
      * SkipCsrfProtection is needed here because we will have errors otherwise if we render multiple
@@ -33,11 +33,12 @@ class LoginController extends AbstractAuthenticationController
      * Is called after a request has been authenticated.
      *
      * @param \TYPO3\Flow\Mvc\ActionRequest $originalRequest The request that was intercepted by the security framework, NULL if there was none
+     * @throws \TYPO3\Flow\Exception
      * @return string
      */
     protected function onAuthenticationSuccess(\TYPO3\Flow\Mvc\ActionRequest $originalRequest = NULL)
     {
-        $result = $this->loginRedirectTargetService->onAuthenticationSuccess($this->controllerContext, $originalRequest);
+        $result = $this->redirectTargetService->onAuthenticationSuccess($this->controllerContext, $originalRequest);
 
         if (is_string($result)) {
             $this->redirectToUri($result);
@@ -48,7 +49,7 @@ class LoginController extends AbstractAuthenticationController
         if ($result === null) {
             $this->view->assign('account', $this->securityContext->getAccount());
         } else {
-            throw new Exception('LoginRedirectTargetServiceInterface::onAuthenticationSuccess must return either null, an URL string or an ActionRequest object, but was: ' . gettype($result) . ' - ' . get_class($result), 1464164500);
+            throw new Exception('RedirectTargetServiceInterface::onAuthenticationSuccess must return either null, an URL string or an ActionRequest object, but was: ' . gettype($result) . ' - ' . get_class($result), 1464164500);
         }
     }
 
@@ -58,8 +59,20 @@ class LoginController extends AbstractAuthenticationController
     public function logoutAction()
     {
         parent::logoutAction();
-        $this->addFlashMessage('Sie wurden ausgeloggt.', 'Logout', Message::SEVERITY_OK);
-        $this->redirect('login', 'Login');
+        $result = $this->redirectTargetService->onLogout($this->controllerContext);
+
+        if (is_string($result)) {
+            $this->redirectToUri($result);
+        } elseif ($result instanceof ActionRequest) {
+            $this->redirectToRequest($result);
+        }
+
+        if ($result === null) {
+            // Default: redirect to login
+            $this->redirect('login');
+        } else {
+            throw new Exception('RedirectTargetServiceInterface::onLogout must return either null, an URL string or an ActionRequest object, but was: ' . gettype($result) . ' - ' . get_class($result), 1464164500);
+        }
     }
 
     /**

@@ -8,7 +8,7 @@ use TYPO3\Flow\Mvc\Controller\ControllerContext;
 /**
  * @api
  */
-interface LoginRedirectTargetServiceInterface
+interface RedirectTargetServiceInterface
 {
 
     /**
