@@ -3,7 +3,7 @@
     <file original="" product-name="Sandstorm.UserManagement" source-language="en" datatype="plaintext">
         <body>
             <trans-unit id="ui.label" xml:space="preserve">
-                <source>Registration</source>
+                <source>Registration Form</source>
             </trans-unit>
         </body>
     </file>

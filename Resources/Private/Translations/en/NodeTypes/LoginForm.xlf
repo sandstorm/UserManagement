@@ -3,16 +3,16 @@
     <file original="" product-name="Sandstorm.UserManagement" source-language="en" datatype="plaintext">
         <body>
             <trans-unit id="ui.label" xml:space="preserve">
-                <source>Frontend login form</source>
+                <source>Login Form</source>
             </trans-unit>
             <trans-unit id="groups.pluginSettings" xml:space="preserve">
                 <source>Login Settings</source>
             </trans-unit>
             <trans-unit id="properties.redirectAfterLogin" xml:space="preserve">
-                <source>Page after login</source>
+                <source>Redirect after Login</source>
             </trans-unit>
             <trans-unit id="properties.redirectAfterLogout" xml:space="preserve">
-                <source>Page after logout</source>
+                <source>Redirect after Logout</source>
             </trans-unit>
         </body>
     </file>

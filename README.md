@@ -16,7 +16,7 @@ Attention: Any routes defined in the global Routes.yaml are loaded before this p
 This is especially true for the default Flow subroutes, so make sure you have removed those from your global Routes.yaml.
 If you can't remove them, just include the subroutes for this package manually before the Flow subroutes.
 
-## Base configuration options
+## Basic configuration options
 These are the basic configuration options for e-mails, timeouts etc. You will usually want to adapt these to your application.
 ```
 Sandstorm:
@@ -80,7 +80,18 @@ to create a test user. This will create a Neos user if you're using the package 
 roles to the new user in the Neos backend afterwards. It doesn't work yet for standalone usage in Flow (see TODOS).
 
 ## Redirect after login/logout
-TODO: Document this (redirectAfterLogin / redirectAfterLogout property of the loginform node)
+To define where users should be redirected after they log in or out, you can set properties on the LoginForm node type.
+The pages you link here will be shown after users log in or out. Please note that when a login/logout form is displayed
+on a restricted page: in that case you MUST set a redirect target, otherwise you will receive an error message on logout.
+You can, of course, set these properties from TypoScript also if you have a login/logout form directly in you template:
+```
+loginform = Sandstorm.UserManagement:LoginForm {
+  // This should be set, or there will be problems when you have multiple plugins on a page
+  argumentNamespace = 'login'
+  // Redirect to the parent page automatically after logout
+  redirectAfterLogout = ${q(documentNode).parent().get(0)}
+}
+```
 
 ## Checking for a logged-in user in your templates
 There is a ViewHelper available that allows you to check if somebody is logged into the frontend. Here's an example:
@@ -117,15 +128,12 @@ TODO: document this (will work via RegistrationFlow.attributes and custom implem
 
 Feel free to submit issues/PRs :)
 
-* When you logout while on a restricted page in Neos, you will not be redirected to
-  another page, but will be shown a "page not found" error after logout.
-
 # TODOs
 
-* The standalone version does not provide a mechanism to create users via the CLI yet.
-  Furthermore, a Forwarding Service for the standalone case is missing.
+* The Flow version does not provide a mechanism to create users via the CLI yet (a FlowUserCreationService is missing).
+  Furthermore, a Forwarding Service for the Flow version is missing.
 * We haven't described all features in detail yet.
-* I18N.
+* I18N for Templates.
 * Tests.
 
 # FAQ
