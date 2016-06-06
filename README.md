@@ -70,6 +70,15 @@ TYPO3:
 
 ```
 
+Also, you should switch the implementation of the Redirect and User Creation Services. Add this to your `Objects.yaml`:
+```
+# Use the Neos services
+Sandstorm\UserManagement\Domain\Service\RedirectTargetServiceInterface:
+  className: 'Sandstorm\UserManagement\Domain\Service\Neos\NeosRedirectTargetService'
+Sandstorm\UserManagement\Domain\Service\UserCreationServiceInterface:
+  className: 'Sandstorm\UserManagement\Domain\Service\Neos\NeosUserCreationService'
+```
+
 # Usage
 
 ## Creating users via the CLI
@@ -81,6 +90,7 @@ to create a test user. This will create a Neos user if you're using the package 
 roles to the new user in the Neos backend afterwards. It doesn't work yet for standalone usage in Flow (see TODOS).
 
 ## Redirect after login/logout
+### Via configuration
 To define where users should be redirected after they log in or out, you can set some config options:
 ```
 Sandstorm:
@@ -98,6 +108,7 @@ Sandstorm:
 ```
 
 
+### Via Node properties
 When using the package within Neos, you have another possibility: you can set properties on the LoginForm node type.
 The pages you link here will be shown after users log in or out. Please note that when a login/logout form is displayed
 on a restricted page: in that case you MUST set a redirect target, otherwise you will receive an error message on logout.
@@ -110,6 +121,14 @@ loginform = Sandstorm.UserManagement:LoginForm {
   // Redirect to the parent page automatically after logout
   redirectAfterLogout = ${q(documentNode).parent().get(0)}
 }
+```
+
+### Via custom RedirectTargetService
+If redirecting to a specific controller method is still not enough for you, you can simply roll your own implementation of the
+`RedirectTargetServiceInterface`. Just add the implementation within your own package and add the following lines to your `Objects.yaml`:
+```
+Sandstorm\UserManagement\Domain\Service\RedirectTargetServiceInterface:
+  className: 'Your\Package\Domain\Service\YourCustomRedirectTargetService'
 ```
 
 ## Checking for a logged-in user in your templates
@@ -140,8 +159,17 @@ As documented in the configuration options above, overriding e-mail templates is
   own package and modify the templates to your heart's desire.
 * Then, set the `email.templatePackage` configuration option to that package's name. Done!
 
-## Changing or adding properties to the registration flow
-TODO: document this (will work via RegistrationFlow.attributes and custom implementation of UserCreationServiceInterface).
+## Changing or adding properties to the registration flow; changing the User model
+You might want to add additional information to the user model. This can be done by extending
+the User model delivered with this package and adding properties as you like. You will then
+need to switch out the implementation of `UserCreationServiceInterface` to get control over
+the creation process. This can be done via `Objects.yaml`:
+```
+Sandstorm\UserManagement\Domain\Service\UserCreationServiceInterface:
+  className: 'Your\Package\Domain\Service\YourCustomUserCreationService'
+```
+
+TODO: Document registrationFlow.attributes
 
 # Known issues
 
