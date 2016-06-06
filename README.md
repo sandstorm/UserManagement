@@ -8,7 +8,7 @@ This package works in Neos CMS and Flow and provides the following functionaliti
 * Login of registered (frontend) users via a login form
 * "Forgotten password" with password reset e-mail
 
-# How to use
+# Configuration
 
 ## Setup
 The package automatically exposes its routes via auto-inclusion in the package settings.
@@ -16,8 +16,7 @@ Attention: Any routes defined in the global Routes.yaml are loaded before this p
 This is especially true for the default Flow subroutes, so make sure you have removed those from your global Routes.yaml.
 If you can't remove them, just include the subroutes for this package manually before the Flow subroutes.
 
-## Configuring the package
-### Base configuration options
+## Base configuration options
 These are the basic configuration options for e-mails, timeouts etc. You will usually want to adapt these to your application.
 ```
 Sandstorm:
@@ -45,11 +44,11 @@ Sandstorm:
     rolesForNewUsers: []
 ```
 
-### Configuring SwiftMailer
+## Configuring SwiftMailer
 The UserManagement package requires SwiftMailer to send out e-mails. Please check the swiftmailer package's
 configuration options (https://github.com/neos/swiftmailer) in order to configure SMTP credentials.
 
-### Additional Settings for usage in Neos
+## Additional Settings for usage in Neos
 Add the following to your package's (or the global) `Settings.yaml`. This creates a separate authentication provider so Neos can
 distinguish between frontend and backend logins.
 
@@ -70,6 +69,8 @@ TYPO3:
 
 ```
 
+# Usage
+
 ## Creating users via the CLI
 The package exposes a command to create users. You can run
 
@@ -77,6 +78,9 @@ The package exposes a command to create users. You can run
 
 to create a test user. This will create a Neos user if you're using the package in Neos. You can assign
 roles to the new user in the Neos backend afterwards. It doesn't work yet for standalone usage in Flow (see TODOS).
+
+## Redirect after login/logout
+TODO: Document this (redirectAfterLogin / redirectAfterLogout property of the loginform node)
 
 ## Checking for a logged-in user in your templates
 There is a ViewHelper available that allows you to check if somebody is logged into the frontend. Here's an example:

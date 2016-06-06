@@ -60,9 +60,16 @@ class LoginController extends AbstractAuthenticationController
     {
         parent::logoutAction();
         $result = $this->redirectTargetService->onLogout($this->controllerContext);
-
+        
         if (is_string($result)) {
-            $this->redirectToUri($result);
+            // This might be an issue in Neos; when embedding this as a plugin on a login-protected page that is no longer visible after logout.
+            // It seems that $this->redirectToUri() does not work, because the parent response is still rendered (which leads to exceptions).
+            // So we build our own version of redirectToUri() and die() afterwards to prevent the response bubbling.
+            $escapedUri = htmlentities($result, ENT_QUOTES, 'utf-8');
+            header('Location: ' . $escapedUri);
+            header('Status: ' . 303);
+            echo '<html><head><meta http-equiv="refresh" content="' . intval(0) . ';url=' . $escapedUri . '"/></head></html>';
+            die();
         } elseif ($result instanceof ActionRequest) {
             $this->redirectToRequest($result);
         }
