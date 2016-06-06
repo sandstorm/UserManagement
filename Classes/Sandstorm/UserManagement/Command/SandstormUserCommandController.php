@@ -10,7 +10,6 @@ use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Persistence\Doctrine\PersistenceManager;
 use TYPO3\Flow\Security\AccountFactory;
 use TYPO3\Flow\Security\AccountRepository;
-use Sandstorm\UserManagement\Domain\Model\User;
 
 /**
  * @Flow\Scope("singleton")

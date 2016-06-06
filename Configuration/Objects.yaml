@@ -1,0 +1,5 @@
+# Use the Flow services as default and switch to Neos as necessary
+Sandstorm\UserManagement\Domain\Service\RedirectTargetServiceInterface:
+  className: 'Sandstorm\UserManagement\Domain\Service\Flow\FlowRedirectTargetService'
+Sandstorm\UserManagement\Domain\Service\UserCreationServiceInterface:
+  className: 'Sandstorm\UserManagement\Domain\Service\Flow\FlowUserCreationService'

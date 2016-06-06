@@ -22,11 +22,30 @@ Sandstorm:
     # An array of roles which are assigned to users after they activate their account.
     rolesForNewUsers: []
 
+    # Redirect settings after logout/login
+    redirect:
+      afterLogin: []
+      afterLogout: []
+
 TYPO3:
   Flow:
     mvc:
       routes:
         'Sandstorm.UserManagement': TRUE
+
+
+#   The auth provider settings below are needed for the standalone case only.
+    security:
+      authentication:
+        providers:
+          'Sandstorm.UserManagement:Login':
+            provider: 'PersistedUsernamePasswordProvider'
+            entryPoint: 'WebRedirect'
+            entryPointOptions:
+              routeValues:
+                '@package': 'Sandstorm.UserManagement'
+                '@controller': 'Login'
+                '@action': 'login'
 
   Neos:
     typoScript:

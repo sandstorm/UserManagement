@@ -1,7 +1,8 @@
 <?php
-namespace Sandstorm\UserManagement\Domain\Service\Neos;
+namespace Sandstorm\UserManagement\Domain\Service\Flow;
 
 use Sandstorm\UserManagement\Domain\Model\RegistrationFlow;
+use Sandstorm\UserManagement\Domain\Repository\UserRepository;
 use Sandstorm\UserManagement\Domain\Service\UserCreationServiceInterface;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Object\ObjectManagerInterface;
@@ -10,15 +11,12 @@ use TYPO3\Flow\Security\Account;
 use TYPO3\Flow\Security\AccountFactory;
 use TYPO3\Flow\Security\AccountRepository;
 use TYPO3\Flow\Security\Policy\Role;
-use TYPO3\Neos\Domain\Model\User;
-use TYPO3\Party\Domain\Model\PersonName;
-use TYPO3\Party\Domain\Repository\PartyRepository;
-use TYPO3\Party\Domain\Service\PartyService;
+use Sandstorm\UserManagement\Domain\Model\User;
 
 /**
  * @Flow\Scope("singleton")
  */
-class NeosUserCreationService implements UserCreationServiceInterface
+class FlowUserCreationService implements UserCreationServiceInterface
 {
 
     /**
@@ -38,6 +36,12 @@ class NeosUserCreationService implements UserCreationServiceInterface
      * @var AccountRepository
      */
     protected $accountRepository;
+
+    /**
+     * @Flow\Inject
+     * @var UserRepository
+     */
+    protected $userRepository;
 
     /**
      * @var \TYPO3\Flow\Security\Context
@@ -80,38 +84,14 @@ class NeosUserCreationService implements UserCreationServiceInterface
 
         // Create the user
         $user = new User();
-        $name = new PersonName('', $registrationFlow->getFirstName(), $registrationFlow->getLastName(), '', '', $registrationFlow->getEmail());
-        $user->setName($name);
+        $user->setFirstName($registrationFlow->getFirstName());
+        $user->setLastName($registrationFlow->getLastName());
+        $user->setEmail($registrationFlow->getEmail());
+        $user->setAccount($account);
 
-        // Assign them to each other and persist
-        $this->getPartyService()->assignAccountToParty($account, $user);
-        $this->getPartyRepository()->add($user);
-        $this->accountRepository->add($account);
+        // Persist user
+        $this->userRepository->add($user);
         $this->persistenceManager->whitelistObject($user);
-        $this->persistenceManager->whitelistObject($user->getPreferences());
-        $this->persistenceManager->whitelistObject($name);
         $this->persistenceManager->whitelistObject($account);
-    }
-
-    /**
-     * This method exists to ensure the code runs outside Neos.
-     * We do not fetch this via injection so it works also in Flow when the class is not present
-     *
-     * @return PartyService
-     */
-    protected function getPartyService()
-    {
-        return $this->objectManager->get(PartyService::class);
-    }
-
-    /**
-     * This method exists to ensure the code runs outside Neos.
-     * We do not fetch this via injection so it works also in Flow when the class is not present
-     *
-     * @return PartyRepository
-     */
-    protected function getPartyRepository()
-    {
-        return $this->objectManager->get(PartyRepository::class);
     }
 }
