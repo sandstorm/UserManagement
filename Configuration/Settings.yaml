@@ -26,6 +26,15 @@ Sandstorm:
     redirect:
       afterLogin: []
       afterLogout: []
+    # To activate redirection, make these settings:
+#      afterLogin:
+#        action: 'action'
+#        controller: 'Controller'
+#        package: 'Your.Package'
+#      afterLogout:
+#        action: 'action'
+#        controller: 'Controller'
+#        package: 'Your.Package'
 
 TYPO3:
   Flow:

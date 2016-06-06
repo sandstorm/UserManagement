@@ -51,6 +51,7 @@ configuration options (https://github.com/neos/swiftmailer) in order to configur
 ## Additional Settings for usage in Neos
 Add the following to your package's (or the global) `Settings.yaml`. This creates a separate authentication provider so Neos can
 distinguish between frontend and backend logins.
+TODO: Check if the default Flow provider needs to be disabled.
 
 ```
 
@@ -80,9 +81,27 @@ to create a test user. This will create a Neos user if you're using the package 
 roles to the new user in the Neos backend afterwards. It doesn't work yet for standalone usage in Flow (see TODOS).
 
 ## Redirect after login/logout
-To define where users should be redirected after they log in or out, you can set properties on the LoginForm node type.
+To define where users should be redirected after they log in or out, you can set some config options:
+```
+Sandstorm:
+  UserManagement:
+    redirect:
+    # To activate redirection, make these settings:
+      afterLogin:
+        action: 'action'
+        controller: 'Controller'
+        package: 'Your.Package'
+      afterLogout:
+        action: 'action'
+        controller: 'Controller'
+        package: 'Your.Package'
+```
+
+
+When using the package within Neos, you have another possibility: you can set properties on the LoginForm node type.
 The pages you link here will be shown after users log in or out. Please note that when a login/logout form is displayed
 on a restricted page: in that case you MUST set a redirect target, otherwise you will receive an error message on logout.
+If the redirection is configured via Settings.yaml, they will take precedence over the configuration at the node.
 You can, of course, set these properties from TypoScript also if you have a login/logout form directly in you template:
 ```
 loginform = Sandstorm.UserManagement:LoginForm {
@@ -130,8 +149,6 @@ Feel free to submit issues/PRs :)
 
 # TODOs
 
-* The Flow version does not provide a mechanism to create users via the CLI yet (a FlowUserCreationService is missing).
-  Furthermore, a Forwarding Service for the Flow version is missing.
 * We haven't described all features in detail yet.
 * I18N for Templates.
 * Tests.
