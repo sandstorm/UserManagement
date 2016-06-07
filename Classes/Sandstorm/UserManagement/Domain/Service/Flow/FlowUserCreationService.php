@@ -8,8 +8,6 @@ use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Object\ObjectManagerInterface;
 use TYPO3\Flow\Persistence\PersistenceManagerInterface;
 use TYPO3\Flow\Security\Account;
-use TYPO3\Flow\Security\AccountFactory;
-use TYPO3\Flow\Security\AccountRepository;
 use TYPO3\Flow\Security\Policy\Role;
 use Sandstorm\UserManagement\Domain\Model\User;
 
@@ -27,33 +25,9 @@ class FlowUserCreationService implements UserCreationServiceInterface
 
     /**
      * @Flow\Inject
-     * @var AccountFactory
-     */
-    protected $accountFactory;
-
-    /**
-     * @Flow\Inject
-     * @var AccountRepository
-     */
-    protected $accountRepository;
-
-    /**
-     * @Flow\Inject
      * @var UserRepository
      */
     protected $userRepository;
-
-    /**
-     * @var \TYPO3\Flow\Security\Context
-     * @Flow\Inject
-     */
-    protected $securityContext;
-
-    /**
-     * @Flow\Inject
-     * @var ObjectManagerInterface
-     */
-    protected $objectManager;
 
     /**
      * @Flow\InjectConfiguration(path="rolesForNewUsers")
@@ -76,7 +50,7 @@ class FlowUserCreationService implements UserCreationServiceInterface
         $account->setAccountIdentifier($registrationFlow->getEmail());
         $account->setCredentialsSource($registrationFlow->getEncryptedPassword());
         $account->setAuthenticationProviderName('Sandstorm.UserManagement:Login');
-        
+
         // Assign preconfigured roles
         foreach ($this->rolesForNewUsers as $roleString){
             $account->addRole(new Role($roleString));

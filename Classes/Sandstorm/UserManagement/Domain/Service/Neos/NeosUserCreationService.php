@@ -7,7 +7,6 @@ use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Object\ObjectManagerInterface;
 use TYPO3\Flow\Persistence\PersistenceManagerInterface;
 use TYPO3\Flow\Security\Account;
-use TYPO3\Flow\Security\AccountFactory;
 use TYPO3\Flow\Security\AccountRepository;
 use TYPO3\Flow\Security\Policy\Role;
 use TYPO3\Neos\Domain\Model\User;
@@ -29,21 +28,9 @@ class NeosUserCreationService implements UserCreationServiceInterface
 
     /**
      * @Flow\Inject
-     * @var AccountFactory
-     */
-    protected $accountFactory;
-
-    /**
-     * @Flow\Inject
      * @var AccountRepository
      */
     protected $accountRepository;
-
-    /**
-     * @var \TYPO3\Flow\Security\Context
-     * @Flow\Inject
-     */
-    protected $securityContext;
 
     /**
      * @Flow\Inject
@@ -72,7 +59,7 @@ class NeosUserCreationService implements UserCreationServiceInterface
         $account->setAccountIdentifier($registrationFlow->getEmail());
         $account->setCredentialsSource($registrationFlow->getEncryptedPassword());
         $account->setAuthenticationProviderName('Sandstorm.UserManagement:Login');
-        
+
         // Assign preconfigured roles
         foreach ($this->rolesForNewUsers as $roleString){
             $account->addRole(new Role($roleString));
