@@ -10,16 +10,29 @@
   - success: all worked.
 </f:comment>
 <f:section name="Content">
+
   <f:if condition="{tokenNotFound}">
-    Der Aktivierungslink war nicht gültig. <f:link.action action="index">Bitte registrieren Sie sich erneut.</f:link.action>
+    <div class="callout alert">
+      <p>Der Aktivierungslink war nicht gültig.
+        <f:link.action action="index" controller="Registration" package="Sandstorm.UserManagement">Bitte registrieren Sie sich erneut.</f:link.action>
+      </p>
+    </div>
   </f:if>
 
   <f:if condition="{tokenTimeout}">
-    Der Aktivierungslink ist nicht mehr gültig. <f:link.action action="index">Bitte registrieren Sie sich erneut.</f:link.action>
+    <div class="callout alert">
+      <p>Der Aktivierungslink ist nicht mehr gültig.
+        <f:link.action action="index" controller="Registration" package="Sandstorm.UserManagement">Bitte registrieren Sie sich erneut.</f:link.action>
+      </p>
+    </div>
   </f:if>
 
   <f:if condition="{success}">
-    Sie sind nun aktiviert und können sich auf unserer Website anmelden.
+    <div class="callout success">
+      <p>Sie sind nun aktiviert und können sich auf unserer Website anmelden.
+      </p>
+    </div>
+    <f:link.action controller="Login" action="login" package="Sandstorm.UserManagement" class="button large primary">Zum Login</f:link.action>
   </f:if>
 
 </f:section>
