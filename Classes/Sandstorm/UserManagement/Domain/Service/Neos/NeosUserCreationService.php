@@ -6,7 +6,6 @@ use Sandstorm\UserManagement\Domain\Service\UserCreationServiceInterface;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Object\ObjectManagerInterface;
 use TYPO3\Flow\Persistence\PersistenceManagerInterface;
-use TYPO3\Flow\Security\Account;
 use TYPO3\Flow\Security\AccountRepository;
 use TYPO3\Flow\Security\Policy\Role;
 use TYPO3\Neos\Domain\Model\User;
