@@ -107,8 +107,7 @@ Sandstorm:
         package: 'Your.Package'
 ```
 
-
-### Via Node properties
+### Via node properties
 When using the package within Neos, you have another possibility: you can set properties on the LoginForm node type.
 The pages you link here will be shown after users log in or out. Please note that when a login/logout form is displayed
 on a restricted page: in that case you MUST set a redirect target, otherwise you will receive an error message on logout.
@@ -125,7 +124,8 @@ loginform = Sandstorm.UserManagement:LoginForm {
 
 ### Via custom RedirectTargetService
 If redirecting to a specific controller method is still not enough for you, you can simply roll your own implementation of the
-`RedirectTargetServiceInterface`. Just add the implementation within your own package and add the following lines to your `Objects.yaml`:
+`RedirectTargetServiceInterface`. Just add the implementation within your own package and add the following lines to your `Objects.yaml`.
+Mind the package loading order, you package should require sandstorm/usermanagement in its composer.json.
 ```
 Sandstorm\UserManagement\Domain\Service\RedirectTargetServiceInterface:
   className: 'Your\Package\Domain\Service\YourCustomRedirectTargetService'
@@ -151,7 +151,17 @@ There is a ViewHelper available that allows you to check if somebody is logged i
 # Extending the package
 
 ## Changing / overriding templates
-TODO: Document this
+You can change any template via the default method using `Views.yaml`. Please see
+http://flowframework.readthedocs.io/en/stable/TheDefinitiveGuide/PartIII/ModelViewController.html#configuring-views-through-views-yaml.
+Here's an example how to plug your own login template:
+```
+-
+  requestFilter: 'isPackage("Sandstorm.UserManagement") && isController("Login") && isAction("login")'
+  options:
+    templatePathAndFilename: 'resource://Your.Package/Private/Templates/Login/Login.html'
+    partialRootPaths: ['resource://Your.Package/Private/Partials']
+    layoutRootPaths: ['resource://Your.Package/Private/Layouts']
+```
 
 ## Overriding e-mail templates
 As documented in the configuration options above, overriding e-mail templates is easy:
@@ -178,6 +188,7 @@ Feel free to submit issues/PRs :)
 # TODOs
 
 * We haven't described all features in detail yet.
+* An important missing feature: configuring password restrictions (8 chars min, a smiley and a celtic rune, ...)
 * I18N for Templates.
 * Tests.
 

@@ -63,7 +63,7 @@ class RegistrationController extends ActionController
      */
     public function registerAction(RegistrationFlow $registrationFlow)
     {
-        // We remove
+        // We remove already existing flows
         $alreadyExistingFlows = $this->registrationFlowRepository->findByEmail($registrationFlow->getEmail());
         if (count($alreadyExistingFlows) > 0) {
             foreach ($alreadyExistingFlows as $alreadyExistingFlow) {
@@ -92,8 +92,9 @@ class RegistrationController extends ActionController
             ]
         );
 
-
         $this->registrationFlowRepository->add($registrationFlow);
+
+        $this->view->assign('email', $registrationFlow->getEmail());
     }
 
     /**

@@ -31,33 +31,33 @@
     '@action':     'logout'
     '@format':     'html'
 
-## Account activation ------------------------------------------------------
+## Registration & account activation ---------------------------------------
+
+-
+  name: 'Account: Registration: show form'
+  uriPattern: 'account/signup/index'
+  defaults:
+    '@package': 'Sandstorm.UserManagement'
+    '@controller': 'Registration'
+    '@action':     'index'
+    '@format':     'html'
+
+-
+  name: 'Account: submit signup form'
+  uriPattern: 'account/signup/submit'
+  defaults:
+    '@package': 'Sandstorm.UserManagement'
+    '@controller': 'Registration'
+    '@action':     'register'
+    '@format':     'html'
 
 -
   name: 'Account: activate'
   uriPattern: 'account/activate/{token}'
   defaults:
     '@package': 'Sandstorm.UserManagement'
-    '@controller': 'Account'
-    '@action':     'activate'
-    '@format':     'html'
-
--
-  name: 'Account: create account'
-  uriPattern: 'account/create'
-  defaults:
-    '@package': 'Sandstorm.UserManagement'
-    '@controller': 'Account'
-    '@action':     'create'
-    '@format':     'html'
-
--
-  name: 'User: request new activation token'
-  uriPattern: 'account/requestnewtoken'
-  defaults:
-    '@package': 'Sandstorm.UserManagement'
-    '@controller': 'Account'
-    '@action':     'requestNewToken'
+    '@controller': 'Registration'
+    '@action':     'activateAccount'
     '@format':     'html'
 
 ## Reset password -----------------------------------------------------------
@@ -67,8 +67,8 @@
   uriPattern: 'account/forgotpassword'
   defaults:
     '@package': 'Sandstorm.UserManagement'
-    '@controller': 'Account'
-    '@action':     'forgotPassword'
+    '@controller': 'ResetPassword'
+    '@action':     'index'
     '@format':     'html'
 
 -
@@ -76,8 +76,8 @@
   uriPattern: 'account/requestpasswordtoken'
   defaults:
     '@package': 'Sandstorm.UserManagement'
-    '@controller': 'Account'
-    '@action':     'requestPasswordToken'
+    '@controller': 'ResetPassword'
+    '@action':     'requestToken'
     '@format':     'html'
 
 -
@@ -85,8 +85,8 @@
   uriPattern: 'account/resetpassword/{token}'
   defaults:
     '@package': 'Sandstorm.UserManagement'
-    '@controller': 'Account'
-    '@action':     'resetPassword'
+    '@controller': 'ResetPassword'
+    '@action':     'insertNewPassword'
     '@format':     'html'
 
 -
@@ -94,6 +94,6 @@
   uriPattern: 'account/updatepassword'
   defaults:
     '@package': 'Sandstorm.UserManagement'
-    '@controller': 'Account'
+    '@controller': 'ResetPassword'
     '@action':     'updatePassword'
     '@format':     'html'
