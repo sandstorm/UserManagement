@@ -3,9 +3,7 @@ namespace Sandstorm\UserManagement\Domain\Model;
 
 use TYPO3\Flow\Annotations as Flow;
 use Doctrine\ORM\Mapping as ORM;
-use TYPO3\Flow\Exception;
 use TYPO3\Flow\Security\Cryptography\HashService;
-use TYPO3\Flow\Utility\Algorithms;
 
 /**
  * @Flow\Entity
