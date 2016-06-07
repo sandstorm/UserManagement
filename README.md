@@ -11,9 +11,10 @@ This package works in Neos CMS and Flow and provides the following functionaliti
 # Configuration
 
 ## Setup
-The package automatically exposes its routes via auto-inclusion in the package settings.
-Attention: Any routes defined in the global Routes.yaml are loaded before this package's routes, so they may be overriden.
-This is especially true for the default Flow subroutes, so make sure you have removed those from your global Routes.yaml.
+Run ./flow doctrine:migrate after you add this package to install its model. The package automatically exposes its routes
+via auto-inclusion in the package settings.
+Attention: Any routes defined in the global `Routes.yaml` are loaded before this package's routes, so they may be overriden.
+This is especially true for the default Flow subroutes, so make sure you have removed those from your global `Routes.yaml`.
 If you can't remove them, just include the subroutes for this package manually before the Flow subroutes.
 
 ## Basic configuration options
