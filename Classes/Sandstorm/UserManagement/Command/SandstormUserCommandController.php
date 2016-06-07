@@ -60,9 +60,20 @@ class SandstormUserCommandController extends \TYPO3\Flow\Cli\CommandController
      * @param string $password This user's password.
      * @param string $firstName First name of the user.
      * @param string $lastName Last name of the user.
+     * @param string $additionalAttributes Additional attributes to pass to the registrationFlow as semicolon-separated list. Example: ./flow sandstormuser:create ... --additionalAttributes="customerType:CUSTOMER;color:blue"
      */
-    public function createCommand($email, $password, $firstName, $lastName)
+    public function createCommand($email, $password, $firstName, $lastName, $additionalAttributes = '')
     {
+        // Parse additionalattrs if they exist
+        $attributes = [];
+        if(strlen($additionalAttributes) > 0){
+            $attributesSplitBySeparator = explode(';', $additionalAttributes);
+            array_map(function ($singleAttribute) use (&$attributes) {
+                $splitAttribute = explode(':', $singleAttribute);
+                $attributes[$splitAttribute[0]] = $splitAttribute[1];
+            }, $attributesSplitBySeparator);
+        }
+
         $passwordDto = new PasswordDto();
         $passwordDto->setPassword($password);
         $passwordDto->setPasswordConfirmation($password);
@@ -71,6 +82,7 @@ class SandstormUserCommandController extends \TYPO3\Flow\Cli\CommandController
         $registrationFlow->setEmail($email);
         $registrationFlow->setFirstName($firstName);
         $registrationFlow->setLastName($lastName);
+        $registrationFlow->setAttributes($attributes);
 
         // Remove existing registration flows
         $alreadyExistingFlows = $this->registrationFlowRepository->findByEmail($registrationFlow->getEmail());
