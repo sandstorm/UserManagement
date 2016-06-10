@@ -1,41 +1,48 @@
+{namespace usermanagement=Sandstorm\UserManagement\ViewHelpers}
+
 <f:layout name="Default"/>
 
 <f:section name="Title">Registration</f:section>
 
 <f:section name="Content">
-  <f:form action="register" method="post" objectName="registrationFlow">
-    <fieldset>
-      <label>
-        E-Mail-Adresse
-        <f:form.textfield property="email" placeholder="test@example.com" name="__authentication[TYPO3][Flow][Security][Authentication][Token][UsernamePassword][username]" type="email"/>
-        <f:render partial="FormErrors" arguments="{for: 'registrationFlow.email'}"/>
-      </label>
+  <usermanagement:ifAuthenticated authenticationProviderName="Sandstorm.UserManagement:Login">
+    <f:then>
+    </f:then>
+    <f:else>
+      <f:form action="register" method="post" objectName="registrationFlow">
+        <fieldset>
+          <label>
+            E-Mail-Adresse
+            <f:form.textfield property="email" placeholder="test@example.com" name="__authentication[TYPO3][Flow][Security][Authentication][Token][UsernamePassword][username]" type="email"/>
+            <f:render partial="FormErrors" arguments="{for: 'registrationFlow.email'}"/>
+          </label>
 
-      <label>
-        Passwort
-        <f:form.password placeholder="Ihr Passwort" property="passwordDto.password"/>
-        <f:render partial="FormErrors" arguments="{for: 'registrationFlow.passwordDto.password'}"/>
-      </label>
+          <label>
+            Passwort
+            <f:form.password placeholder="Ihr Passwort" property="passwordDto.password"/>
+            <f:render partial="FormErrors" arguments="{for: 'registrationFlow.passwordDto.password'}"/>
+          </label>
 
-      <label>
-        Passwortbestätigung
-        <f:form.password placeholder="Passwort wiederholen" property="passwordDto.passwordConfirmation"/>
-      </label>
+          <label>
+            Passwortbestätigung
+            <f:form.password placeholder="Passwort wiederholen" property="passwordDto.passwordConfirmation"/>
+          </label>
 
-      <label>
-        Vorname
-        <f:form.textfield placeholder="Manfred" property="firstName"/>
-        <f:render partial="FormErrors" arguments="{for: 'registrationFlow.firstName'}"/>
-      </label>
+          <label>
+            Vorname
+            <f:form.textfield placeholder="Manfred" property="firstName"/>
+            <f:render partial="FormErrors" arguments="{for: 'registrationFlow.firstName'}"/>
+          </label>
 
-      <label>
-        Nachname
-        <f:form.textfield  placeholder="Mustermann" property="lastName"/>
-        <f:render partial="FormErrors" arguments="{for: 'registrationFlow.lastName'}"/>
-      </label>
+          <label>
+            Nachname
+            <f:form.textfield placeholder="Mustermann" property="lastName"/>
+            <f:render partial="FormErrors" arguments="{for: 'registrationFlow.lastName'}"/>
+          </label>
 
-      <input type="submit" value="Registrieren" class="button large primary" />
-    </fieldset>
-
-  </f:form>
+          <input type="submit" value="Registrieren" class="button large primary"/>
+        </fieldset>
+      </f:form>
+    </f:else>
+  </usermanagement:ifAuthenticated>
 </f:section>
