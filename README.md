@@ -82,13 +82,32 @@ Sandstorm\UserManagement\Domain\Service\UserCreationServiceInterface:
 
 # Usage
 
-## Creating users via the CLI
+## CLI Commands
+### Creating users
 The package exposes a command to create users. You can run
 
 `./flow sandstormuser:create test@example.com password firstName lastName`
 
-to create a test user. This will create a Neos user if you're using the package in Neos. You can assign
-roles to the new user in the Neos backend afterwards. It doesn't work yet for standalone usage in Flow (see TODOS).
+to create a user. This will create a Neos user if you're using the package in Neos. You can assign
+roles to the new user in the Neos backend afterwards.
+
+### Confirming user registration
+It is possible to confirm a registrationflow and trigger user creation by running
+
+`./flow sandstormuser:activateregistration test@example.com`
+
+### Resetting passwords
+Since 1.1.2, it is possible to reset passwords for users created with this package.
+
+`./flow sandstormuser:setpassword test@example.com password`
+
+If the package detects that the NeosUserCreationService is used, it forwards the command to the
+Neos `UserCommandController->setPasswordCommand()`. Otherwise, our oackage's own logic is used.
+
+The Authentication Provider can be passed in as an optional argument to reset passwords for users created
+ with a different provider that the default UserManagement one (`Sandstorm.UserManagement:Login`):
+
+`./flow sandstormuser:setpassword bheist cccccccc --authenticationProvider=Typo3BackendProvider`
 
 ## Redirect after login/logout
 ### Via configuration

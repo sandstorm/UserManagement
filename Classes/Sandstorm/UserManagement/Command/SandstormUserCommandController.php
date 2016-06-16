@@ -7,15 +7,20 @@ use Sandstorm\UserManagement\Domain\Repository\RegistrationFlowRepository;
 use Sandstorm\UserManagement\Domain\Repository\UserRepository;
 use Sandstorm\UserManagement\Domain\Service\UserCreationServiceInterface;
 use TYPO3\Flow\Annotations as Flow;
+use TYPO3\Flow\Cli\Request;
+use TYPO3\Flow\Cli\Response;
+use TYPO3\Flow\Mvc\Dispatcher;
+use TYPO3\Flow\Object\ObjectManagerInterface;
 use TYPO3\Flow\Persistence\Doctrine\PersistenceManager;
 use TYPO3\Flow\Security\AccountFactory;
 use TYPO3\Flow\Security\AccountRepository;
+use TYPO3\Flow\Security\Cryptography\HashService;
+use TYPO3\Neos\Domain\Service\UserService;
 
 /**
  * @Flow\Scope("singleton")
  */
-class SandstormUserCommandController extends \TYPO3\Flow\Cli\CommandController
-{
+class SandstormUserCommandController extends \TYPO3\Flow\Cli\CommandController {
 
     /**
      * @Flow\Inject
@@ -54,19 +59,36 @@ class SandstormUserCommandController extends \TYPO3\Flow\Cli\CommandController
     protected $persistenceManager;
 
     /**
+     * @Flow\Inject
+     * @var Dispatcher
+     */
+    protected $dispatcher;
+
+    /**
+     * @Flow\Inject
+     * @var ObjectManagerInterface
+     */
+    protected $objectManager;
+
+    /**
+     * @Flow\Inject
+     * @var HashService
+     */
+    protected $hashService;
+
+    /**
      * Create User on the Command Line
      *
-     * @param string $email The email address, which also serves as the username.
+     * @param string $username The email address, which also serves as the username.
      * @param string $password This user's password.
      * @param string $firstName First name of the user.
      * @param string $lastName Last name of the user.
      * @param string $additionalAttributes Additional attributes to pass to the registrationFlow as semicolon-separated list. Example: ./flow sandstormuser:create ... --additionalAttributes="customerType:CUSTOMER;color:blue"
      */
-    public function createCommand($email, $password, $firstName, $lastName, $additionalAttributes = '')
-    {
+    public function createCommand($username, $password, $firstName, $lastName, $additionalAttributes = '') {
         // Parse additionalattrs if they exist
         $attributes = [];
-        if(strlen($additionalAttributes) > 0){
+        if (strlen($additionalAttributes) > 0) {
             $attributesSplitBySeparator = explode(';', $additionalAttributes);
             array_map(function ($singleAttribute) use (&$attributes) {
                 $splitAttribute = explode(':', $singleAttribute);
@@ -79,7 +101,7 @@ class SandstormUserCommandController extends \TYPO3\Flow\Cli\CommandController
         $passwordDto->setPasswordConfirmation($password);
         $registrationFlow = new RegistrationFlow();
         $registrationFlow->setPasswordDto($passwordDto);
-        $registrationFlow->setEmail($email);
+        $registrationFlow->setEmail($username);
         $registrationFlow->setFirstName($firstName);
         $registrationFlow->setLastName($lastName);
         $registrationFlow->setAttributes($attributes);
@@ -98,20 +120,70 @@ class SandstormUserCommandController extends \TYPO3\Flow\Cli\CommandController
         $this->persistenceManager->persistAll();
 
         // Directly activate the account
-        $this->activateRegistrationCommand($email);
+        $this->activateRegistrationCommand($username);
 
-        $this->outputLine('Added the User <b>"%s"</b> with password <b>"%s"</b>.', array($email, $password));
+        $this->outputLine('Added the User <b>"%s"</b> with password <b>"%s"</b>.', array($username, $password));
     }
 
     /**
-     * @param string $email
+     * @param string $username The username identifying a pending registration flow.
      */
-    public function activateRegistrationCommand($email)
-    {
+    public function activateRegistrationCommand($username) {
         /* @var $registrationFlow \Sandstorm\UserManagement\Domain\Model\RegistrationFlow */
-        $registrationFlow = $this->registrationFlowRepository->findOneByEmail($email);
+        $registrationFlow = $this->registrationFlowRepository->findOneByEmail($username);
+
+        if ($registrationFlow === NULL) {
+            $this->outputLine('The user <b>' . $username . '</b> doesn\'t have a non-activated account.');
+            $this->quit(1);
+        }
 
         $this->userCreationService->createUserAndAccount($registrationFlow);
         $this->registrationFlowRepository->remove($registrationFlow);
+    }
+
+
+    /**
+     * Set a new password for the given user
+     *
+     * @param string $username user to modify
+     * @param string $password new password
+     * @param string $authenticationProvider Name of the authentication provider to use for finding the user. Default: "Sandstorm.UserManagement:Login".
+     * @return void
+     */
+    public function setPasswordCommand($username, $password, $authenticationProvider = 'Sandstorm.UserManagement:Login') {
+        // If we're in Neos context, we simply forward the command to the Neos command controller.
+        if ($this->shouldUseNeosService()) {
+            $cliRequest = new Request($this->request);
+            $cliRequest->setControllerObjectName('TYPO3\Neos\Command\UserCommandController');
+            $cliRequest->setControllerCommandName('setPassword');
+            $cliRequest->setArguments(['username' => $username, 'password' => $password, 'authenticationProvider' => $authenticationProvider]);
+            $cliResponse = new Response($this->response);
+            $this->dispatcher->dispatch($cliRequest, $cliResponse);
+            $this->quit(0);
+        }
+
+        // Otherwise, we use our own logic.
+        $account = $this->accountRepository->findByAccountIdentifierAndAuthenticationProviderName($username, $authenticationProvider);
+
+        if ($account === NULL) {
+            $this->outputLine('The user <b>' . $username . '</b> could not be found with auth provider <b>' . $authenticationProvider . '</b>.');
+            $this->quit(1);
+        }
+
+        $encrypted = $this->hashService->hashPassword($password);
+        $account->setCredentialsSource($encrypted);
+        $this->accountRepository->update($account);
+        $this->outputLine('Password for user <b>' . $username . '</b> changed.');
+    }
+
+
+    /**
+     * We check if we're in the Neos context by checking if we're using the Neos user creation service.
+     *
+     * @return boolean
+     */
+    protected function shouldUseNeosService() {
+        // The userCreationService is a DependencyProxy instance here, we can get the class name from it
+        return $this->userCreationService->_getClassName() === 'Sandstorm\UserManagement\Domain\Service\Neos\NeosUserCreationService';
     }
 }
