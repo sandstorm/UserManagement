@@ -107,7 +107,7 @@ Neos `UserCommandController->setPasswordCommand()`. Otherwise, our oackage's own
 The Authentication Provider can be passed in as an optional argument to reset passwords for users created
  with a different provider that the default UserManagement one (`Sandstorm.UserManagement:Login`):
 
-`./flow sandstormuser:setpassword bheist cccccccc --authenticationProvider=Typo3BackendProvider`
+`./flow sandstormuser:setpassword test@example.com password --authenticationProvider=Typo3BackendProvider`
 
 ## Redirect after login/logout
 ### Via configuration
