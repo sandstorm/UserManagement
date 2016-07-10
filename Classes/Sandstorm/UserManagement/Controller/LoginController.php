@@ -18,6 +18,18 @@ class LoginController extends AbstractAuthenticationController
     protected $redirectTargetService;
 
     /**
+     * @var string
+     * @Flow\InjectConfiguration(path="authFailedMessage.title")
+     */
+    protected $loginFailedTitle;
+
+    /**
+     * @var string
+     * @Flow\InjectConfiguration(path="authFailedMessage.body")
+     */
+    protected $loginFailedBody;
+
+    /**
      * SkipCsrfProtection is needed here because we will have errors otherwise if we render multiple
      * plugins on the same page
      *
@@ -54,13 +66,28 @@ class LoginController extends AbstractAuthenticationController
     }
 
     /**
+     * Is called if authentication failed.
+     *
+     * Override this method in your login controller to take any
+     * custom action for this event. Most likely you would want
+     * to redirect to some action showing the login form again.
+     *
+     * @param \TYPO3\Flow\Security\Exception\AuthenticationRequiredException $exception The exception thrown while the authentication process
+     * @return void
+     */
+    protected function onAuthenticationFailure(\TYPO3\Flow\Security\Exception\AuthenticationRequiredException $exception = null)
+    {
+        $this->flashMessageContainer->addMessage(new \TYPO3\Flow\Error\Error($this->loginFailedBody, ($exception === null ? 1347016771 : $exception->getCode()), [], $this->loginFailedTitle));
+    }
+
+    /**
      * Logs all active tokens out.
      */
     public function logoutAction()
     {
         parent::logoutAction();
         $result = $this->redirectTargetService->onLogout($this->controllerContext);
-        
+
         if (is_string($result)) {
             // This might be an issue in Neos; when embedding this as a plugin on a login-protected page that is no longer visible after logout.
             // It seems that $this->redirectToUri() does not work, because the parent response is still rendered (which leads to exceptions).
