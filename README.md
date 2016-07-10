@@ -11,7 +11,7 @@ This package works in Neos CMS and Flow and provides the following functionaliti
 # Configuration
 
 ## Setup
-Run ./flow doctrine:migrate after you add this package to install its model. The package automatically exposes its routes
+Run `./flow doctrine:migrate` after you add this package to install its model. The package automatically exposes its routes
 via auto-inclusion in the package settings.
 Attention: Any routes defined in the global `Routes.yaml` are loaded before this package's routes, so they may be overriden.
 This is especially true for the default Flow subroutes, so make sure you have removed those from your global `Routes.yaml`.
@@ -26,6 +26,10 @@ Sandstorm:
     activationTokenTimeout: '2 days'
     # Validity timespan for the token used to reset passwords.
     resetPasswordTokenTimeout: '4 hours'
+    # The message that appears if a user could not be logged in.
+    authFailedMessage:
+      title: 'Login nicht möglich'
+      body: 'Sie haben ungültige Zugangsdaten eingegeben. Bitte versuchen Sie es noch einmal.
     # Email settings
     email:
       # Sender Address
@@ -155,18 +159,21 @@ Sandstorm\UserManagement\Domain\Service\RedirectTargetServiceInterface:
 There is a ViewHelper available that allows you to check if somebody is logged into the frontend. Here's an example:
 
 ```
-{namespace usermanagement=Sandstorm\UserManagement\ViewHelpers}
+{namespace um=Sandstorm\UserManagement\ViewHelpers}
 
-<usermanagement:ifAuthenticated authenticationProviderName="Sandstorm.UserManagement:Login">
+<um:ifAuthenticated>
   <f:then>
     You are currently logged in.
   </f:then>
   <f:else>
     You are not logged in!
   </f:else>
-</usermanagement:ifAuthenticated>
+</um:ifAuthenticated>
 
 ```
+
+If you have configured a different Authentication Provider than the default one, the viewhelper has an `authenticationProviderName`
+argument to which you can pass the name of the Auth Provider you are using.
 
 # Extending the package
 

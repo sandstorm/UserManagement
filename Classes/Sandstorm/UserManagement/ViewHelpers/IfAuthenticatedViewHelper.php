@@ -22,7 +22,7 @@ class IfAuthenticatedViewHelper extends AbstractConditionViewHelper
      * @return string the rendered string
      * @api
      */
-    public function render($authenticationProviderName)
+    public function render($authenticationProviderName = 'Sandstorm.UserManagement:Login')
     {
         $activeTokens = $this->securityContext->getAuthenticationTokens();
         /** @var $token TokenInterface */
