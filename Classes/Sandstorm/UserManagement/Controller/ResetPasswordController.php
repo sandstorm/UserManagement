@@ -149,4 +149,14 @@ class ResetPasswordController extends ActionController
         $this->accountRepository->update($account);
         $this->resetPasswordFlowRepository->remove($resetPasswordFlow);
     }
+
+    /**
+     * Disable the default error flash message
+     *
+     * @return boolean
+     */
+    protected function getErrorFlashMessage()
+    {
+        return FALSE;
+    }
 }
