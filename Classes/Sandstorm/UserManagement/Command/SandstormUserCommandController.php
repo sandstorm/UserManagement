@@ -176,6 +176,55 @@ class SandstormUserCommandController extends \TYPO3\Flow\Cli\CommandController {
         $this->outputLine('Password for user <b>' . $username . '</b> changed.');
     }
 
+    /**
+     * Lists all available accounts.
+     */
+    public function listAccountsCommand(){
+        $accounts = $this->accountRepository->findAll()->toArray();
+        usort($accounts, function($a, $b){
+            return ($a->getAccountIdentifier() > $b->getAccountIdentifier());
+        });
+
+        $tableRows = array();
+        $headerRow = array('Identifier', 'Authentication Provider', 'Role(s)');
+
+        foreach ($accounts as $account) {
+            $tableRows[] = [$account->getAccountIdentifier(), $account->getAuthenticationProviderName(), implode(' ,', $account->getRoles())];
+        }
+
+        $this->output->outputTable($tableRows, $headerRow);
+        $this->outputLine(sprintf('  <b>%s accounts total.</b>', count($accounts)));
+    }
+
+    /**
+     * Lists all available users.
+     */
+    public function listUsersCommand(){
+        // If we're in Neos context, we pass on the command.
+        if($this->shouldUseNeosService()){
+            $cliRequest = new Request($this->request);
+            $cliRequest->setControllerObjectName('TYPO3\Neos\Command\UserCommandController');
+            $cliRequest->setControllerCommandName('list');
+            $cliResponse = new Response($this->response);
+            $this->dispatcher->dispatch($cliRequest, $cliResponse);
+            return;
+        }
+
+        $users = $this->userRepository->findAll()->toArray();
+        usort($users, function($a, $b){
+            return ($a->getEmail() > $b->getEmail());
+        });
+
+        $tableRows = array();
+        $headerRow = array('Email', 'Name', 'Role(s)');
+
+        foreach ($users as $user) {
+            $tableRows[] = [$user->getEmail(), $user->getFullName(), implode(' ,', $user->getAccount()->getRoles())];
+        }
+
+        $this->output->outputTable($tableRows, $headerRow);
+        $this->outputLine(sprintf('  <b>%s users total.</b>', count($users)));
+    }
 
     /**
      * We check if we're in the Neos context by checking if we're using the Neos user creation service.
