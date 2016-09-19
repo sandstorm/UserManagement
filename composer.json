@@ -22,7 +22,7 @@
         "source": "https://github.com/sandstorm/UserManagement"
     },
     "require": {
-        "typo3/flow": "^3.2",
+        "typo3/flow": "^3.3",
         "typo3/swiftmailer": "^5.4"
     },
     "autoload": {

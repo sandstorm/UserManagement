@@ -54,10 +54,44 @@ The UserManagement package requires SwiftMailer to send out e-mails. Please chec
 configuration options (https://github.com/neos/swiftmailer) in order to configure SMTP credentials.
 
 ## Additional Settings for usage in Neos
+You should switch the implementation of the Redirect and User Creation Services to the Neos services. Add this to your `Objects.yaml`:
+```
+# Use the Neos services
+Sandstorm\UserManagement\Domain\Service\RedirectTargetServiceInterface:
+  className: 'Sandstorm\UserManagement\Domain\Service\Neos\NeosRedirectTargetService'
+Sandstorm\UserManagement\Domain\Service\UserCreationServiceInterface:
+  className: 'Sandstorm\UserManagement\Domain\Service\Neos\NeosUserCreationService'
+```
+
+### Neos 2.3 (Flow 3.3) and higher - UserManagement 2.x and higher
+
 Add the following to your package's (or the global) `Settings.yaml`. This creates a separate authentication provider so Neos can
 distinguish between frontend and backend logins.
-TODO: Check if the default Flow provider needs to be disabled.
 
+```
+TYPO3:
+  Flow:
+    security:
+      authentication:
+        providers:
+          'Typo3BackendProvider':
+            requestPatterns:
+              Sandstorm.UserManagement:NeosBackend:
+                pattern: Sandstorm\UserManagement\Security\NeosRequestPattern
+                patternOptions:
+                  'area': 'backend'
+          'Sandstorm.UserManagement:Login':
+            provider: PersistedUsernamePasswordProvider
+            requestPatterns:
+              Sandstorm.UserManagement:NeosFrontend:
+                pattern: Sandstorm\UserManagement\Security\NeosRequestPattern
+                patternOptions:
+                  'area': 'frontend'
+
+```
+
+### Neos 2.2 and before - UserManagement 1.x
+Before Flow 3.3, the syntax for attaching a pattern to an authentication provider is different.
 ```
 
 TYPO3:
@@ -73,15 +107,6 @@ TYPO3:
             requestPatterns:
               'Sandstorm\UserManagement\Security\NeosRequestPattern': 'frontend'
 
-```
-
-Also, you should switch the implementation of the Redirect and User Creation Services. Add this to your `Objects.yaml`:
-```
-# Use the Neos services
-Sandstorm\UserManagement\Domain\Service\RedirectTargetServiceInterface:
-  className: 'Sandstorm\UserManagement\Domain\Service\Neos\NeosRedirectTargetService'
-Sandstorm\UserManagement\Domain\Service\UserCreationServiceInterface:
-  className: 'Sandstorm\UserManagement\Domain\Service\Neos\NeosUserCreationService'
 ```
 
 # Usage
