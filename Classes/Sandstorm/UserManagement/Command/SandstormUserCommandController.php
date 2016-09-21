@@ -177,6 +177,25 @@ class SandstormUserCommandController extends \TYPO3\Flow\Cli\CommandController {
     }
 
     /**
+     * Removes a user and his account.
+     *
+     * @param string $username user to remove
+     * @return void
+     */
+    public function removeCommand($username){
+        /** @var User $user */
+        $user = $this->userRepository->findOneByEmail($username);
+        if($user === NULL){
+            $this->outputLine('The user <b>' . $username . '</b> could not be found.');
+            $this->quit(1);
+        }
+
+        $this->userRepository->remove($user);
+        $this->accountRepository->remove($user->getAccount());
+        $this->outputLine('Removed the user <b>' . $username . '</b>.');
+    }
+
+    /**
      * Lists all available accounts.
      */
     public function listAccountsCommand(){
