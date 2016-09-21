@@ -35,7 +35,11 @@ class NeosRedirectTargetService implements RedirectTargetServiceInterface {
             && array_key_exists('controller', $this->redirectAfterLogin)
             && array_key_exists('package', $this->redirectAfterLogin)
         ) {
-            return $controllerContext->getUriBuilder()->reset()->setCreateAbsoluteUri(TRUE)->uriFor($this->redirectAfterLogin['action'], [], $this->redirectAfterLogin['controller'], $this->redirectAfterLogin['package']);
+            $controllerArguments = [];
+            if (array_key_exists('controllerArguments', $this->redirectAfterLogin) && is_array($this->redirectAfterLogin['controllerArguments'])) {
+                $controllerArguments = $this->redirectAfterLogin['controllerArguments'];
+            }
+            return $controllerContext->getUriBuilder()->reset()->setCreateAbsoluteUri(TRUE)->uriFor($this->redirectAfterLogin['action'], $controllerArguments, $this->redirectAfterLogin['controller'], $this->redirectAfterLogin['package']);
         }
 
         // Neos only logic (configuration at node or via TS)
@@ -53,7 +57,11 @@ class NeosRedirectTargetService implements RedirectTargetServiceInterface {
             && array_key_exists('controller', $this->redirectAfterLogout)
             && array_key_exists('package', $this->redirectAfterLogout)
         ) {
-            return $controllerContext->getUriBuilder()->reset()->setCreateAbsoluteUri(TRUE)->uriFor($this->redirectAfterLogout['action'], [], $this->redirectAfterLogout['controller'], $this->redirectAfterLogout['package']);
+            $controllerArguments = [];
+            if(array_key_exists('controllerArguments', $this->redirectAfterLogout) && is_array($this->redirectAfterLogout['controllerArguments'])){
+                $controllerArguments = $this->redirectAfterLogout['controllerArguments'];
+            }
+            return $controllerContext->getUriBuilder()->reset()->setCreateAbsoluteUri(TRUE)->uriFor($this->redirectAfterLogout['action'], $controllerArguments, $this->redirectAfterLogout['controller'], $this->redirectAfterLogout['package']);
         }
 
         // Neos only logic (configuration at node or via TS)
