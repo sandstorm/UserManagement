@@ -64,6 +64,7 @@ class EmailService
         $standaloneView = new \TYPO3\Fluid\View\StandaloneView();
         $request = $standaloneView->getRequest();
         $request->setControllerPackageKey($templatePackage);
+        $request->setFormat($format);
         $templatePathAndFilename = sprintf('resource://' . $templatePackage . '/Private/EmailTemplates/%s.%s', $templateIdentifier, $format);
         $standaloneView->setTemplatePathAndFilename($templatePathAndFilename);
         $standaloneView->assignMultiple($variables);
