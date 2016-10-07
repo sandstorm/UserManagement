@@ -221,7 +221,7 @@ As documented in the configuration options above, overriding e-mail templates is
   own package and modify the templates to your heart's desire.
 * Then, set the `email.templatePackage` configuration option to that package's name. Done!
 
-## Changing or adding properties to the registration flow; changing the User model
+## Changing the User model
 You might want to add additional information to the user model. This can be done by extending
 the User model delivered with this package and adding properties as you like. You will then
 need to switch out the implementation of `UserCreationServiceInterface` to get control over
@@ -231,7 +231,37 @@ Sandstorm\UserManagement\Domain\Service\UserCreationServiceInterface:
   className: 'Your\Package\Domain\Service\YourCustomUserCreationService'
 ```
 
-TODO: Document registrationFlow.attributes
+## Changing the Registration Flow and validation logic
+The `RegistrationFlow` class is the representation of a user signing up for your application.
+It has a few default properties and can be extended with arbitrary additional data via its `attributes` property.
+
+### Adding custom fields to the Registration Flow
+Exchange the registration template as described above and add a field:
+```
+<f:form.checkbox id="terms" property="attributes.terms" value=""/>
+```
+This will add the field, but of course you might also want to validate it.
+
+### Extending the Registration Flow validation logic
+The UserManagement package has a hook for you to implement your custom registration flow validation logic. It is
+called directly from the domain model validator of the package. All you need to to is create an implementation of
+`Sandstorm\UserManagement\Domain\Service\RegistrationFlowValidationServiceInterface` in your own package. It could
+look like this:
+```
+class RegistrationFlowValidationService implements RegistrationFlowValidationServiceInterface {
+    /**
+     * @param RegistrationFlow $registrationFlow
+     * @param RegistrationFlowValidator $validator
+     * @return void
+     */
+    public function validateRegistrationFlow(RegistrationFlow $registrationFlow, RegistrationFlowValidator $validator) {
+        // This is an example of your own custom validation logic.
+        if ($registrationFlow->getAttributes()['agb'] !== '1') {
+            $validator->getResult()->forProperty('attributes.terms')->addError(new \TYPO3\Flow\Error\Error('You need to accept the terms and conditions.'));
+        }
+    }
+}
+```
 
 # Known issues
 
