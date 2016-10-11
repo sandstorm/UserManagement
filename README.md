@@ -29,7 +29,7 @@ Sandstorm:
     # The message that appears if a user could not be logged in.
     authFailedMessage:
       title: 'Login nicht möglich'
-      body: 'Sie haben ungültige Zugangsdaten eingegeben. Bitte versuchen Sie es noch einmal.
+      body: 'Sie haben ungültige Zugangsdaten eingegeben. Bitte versuchen Sie es noch einmal.'
     # Email settings
     email:
       # Sender Address
