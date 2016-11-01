@@ -1,7 +1,7 @@
 # Sandstorm.UserManagement Neos / Flow Package
 
 ## Features
-This package works in Neos CMS and Flow and provides the following functionalities:
+This package works in Neos CMS and Flow and provides the following functionality:
 
 * Registration of (frontend) users via a registration form
 * Sending out an e-mail for account confirmation
@@ -63,6 +63,9 @@ Sandstorm\UserManagement\Domain\Service\UserCreationServiceInterface:
   className: 'Sandstorm\UserManagement\Domain\Service\Neos\NeosUserCreationService'
 ```
 
+Be aware that the `NeosUserCreationService` requires a non-empty firstName and lastName to be present in the `RegistrationFlow` attributes
+as it's in the templates of this package.
+
 ### Neos 2.3 (Flow 3.3) and higher - UserManagement 2.x and higher
 
 Add the following to your package's (or the global) `Settings.yaml`. This creates a separate authentication provider so Neos can
@@ -115,7 +118,7 @@ TYPO3:
 ### Creating users
 The package exposes a command to create users. You can run
 
-`./flow sandstormuser:create test@example.com password firstName lastName`
+`./flow sandstormuser:create test@example.com password --additionalAttributes="firstName:Max,lastName:Mustermann"`
 
 to create a user. This will create a Neos user if you're using the package in Neos. You can assign
 roles to the new user in the Neos backend afterwards.

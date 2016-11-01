@@ -2,6 +2,7 @@
 namespace Sandstorm\UserManagement\Domain\Service;
 
 use TYPO3\Flow\Annotations as Flow;
+use TYPO3\Flow\Mvc\ActionRequest;
 use TYPO3\Flow\Mvc\Controller\ControllerContext;
 
 /**
@@ -16,10 +17,13 @@ interface RedirectTargetServiceInterface
      * Otherwise, just return NULL.
      *
      * @param ControllerContext $controllerContext
-     * @param \TYPO3\Flow\Mvc\ActionRequest $originalRequest The request that was intercepted by the security framework before authentication, NULL if there was none
-     * @return string|\TYPO3\Flow\Mvc\ActionRequest|NULL
+     * @param ActionRequest $originalRequest The request that was intercepted by the security framework before authentication, NULL if there was none
+     * @return string|ActionRequest|NULL
      */
-    public function onAuthenticationSuccess(ControllerContext $controllerContext, \TYPO3\Flow\Mvc\ActionRequest $originalRequest = NULL);
+    public function onAuthenticationSuccess(
+        ControllerContext $controllerContext,
+        ActionRequest $originalRequest = null
+    );
 
 
     /**
@@ -29,7 +33,7 @@ interface RedirectTargetServiceInterface
      * Otherwise, just return NULL.
      *
      * @param ControllerContext $controllerContext
-     * @return string|\TYPO3\Flow\Mvc\ActionRequest|NULL
+     * @return string|ActionRequest|NULL
      */
     public function onLogout(ControllerContext $controllerContext);
 }

@@ -48,7 +48,7 @@ class LoginController extends AbstractAuthenticationController
      * @throws \TYPO3\Flow\Exception
      * @return string
      */
-    protected function onAuthenticationSuccess(\TYPO3\Flow\Mvc\ActionRequest $originalRequest = NULL)
+    protected function onAuthenticationSuccess(\TYPO3\Flow\Mvc\ActionRequest $originalRequest = null)
     {
         $result = $this->redirectTargetService->onAuthenticationSuccess($this->controllerContext, $originalRequest);
 
@@ -61,7 +61,8 @@ class LoginController extends AbstractAuthenticationController
         if ($result === null) {
             $this->view->assign('account', $this->securityContext->getAccount());
         } else {
-            throw new Exception('RedirectTargetServiceInterface::onAuthenticationSuccess must return either null, an URL string or an ActionRequest object, but was: ' . gettype($result) . ' - ' . get_class($result), 1464164500);
+            throw new Exception('RedirectTargetServiceInterface::onAuthenticationSuccess must return either null, an URL string or an ActionRequest object, but was: ' .
+                gettype($result) . ' - ' . get_class($result), 1464164500);
         }
     }
 
@@ -75,9 +76,11 @@ class LoginController extends AbstractAuthenticationController
      * @param \TYPO3\Flow\Security\Exception\AuthenticationRequiredException $exception The exception thrown while the authentication process
      * @return void
      */
-    protected function onAuthenticationFailure(\TYPO3\Flow\Security\Exception\AuthenticationRequiredException $exception = null)
-    {
-        $this->flashMessageContainer->addMessage(new \TYPO3\Flow\Error\Error($this->loginFailedBody, ($exception === null ? 1347016771 : $exception->getCode()), [], $this->loginFailedTitle));
+    protected function onAuthenticationFailure(
+        \TYPO3\Flow\Security\Exception\AuthenticationRequiredException $exception = null
+    ) {
+        $this->flashMessageContainer->addMessage(new \TYPO3\Flow\Error\Error($this->loginFailedBody,
+            ($exception === null ? 1347016771 : $exception->getCode()), [], $this->loginFailedTitle));
     }
 
     /**
@@ -95,7 +98,8 @@ class LoginController extends AbstractAuthenticationController
             $escapedUri = htmlentities($result, ENT_QUOTES, 'utf-8');
             header('Location: ' . $escapedUri);
             header('Status: ' . 303);
-            echo '<html><head><meta http-equiv="refresh" content="' . intval(0) . ';url=' . $escapedUri . '"/></head></html>';
+            echo '<html><head><meta http-equiv="refresh" content="' . intval(0) . ';url=' . $escapedUri .
+                '"/></head></html>';
             die();
         } elseif ($result instanceof ActionRequest) {
             $this->redirectToRequest($result);
@@ -105,7 +109,8 @@ class LoginController extends AbstractAuthenticationController
             // Default: redirect to login
             $this->redirect('login');
         } else {
-            throw new Exception('RedirectTargetServiceInterface::onLogout must return either null, an URL string or an ActionRequest object, but was: ' . gettype($result) . ' - ' . get_class($result), 1464164500);
+            throw new Exception('RedirectTargetServiceInterface::onLogout must return either null, an URL string or an ActionRequest object, but was: ' .
+                gettype($result) . ' - ' . get_class($result), 1464164500);
         }
     }
 
@@ -116,7 +121,6 @@ class LoginController extends AbstractAuthenticationController
      */
     protected function getErrorFlashMessage()
     {
-        return FALSE;
+        return false;
     }
-
 }

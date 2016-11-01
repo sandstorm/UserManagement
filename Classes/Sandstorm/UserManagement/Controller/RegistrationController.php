@@ -73,7 +73,7 @@ class RegistrationController extends ActionController
         $registrationFlow->storeEncryptedPassword();
 
         // Send out a confirmation mail
-        $activationLink = $this->uriBuilder->reset()->setCreateAbsoluteUri(TRUE)->uriFor(
+        $activationLink = $this->uriBuilder->reset()->setCreateAbsoluteUri(true)->uriFor(
             'activateAccount',
             ['token' => $registrationFlow->getActivationToken()],
             'Registration');
@@ -106,11 +106,13 @@ class RegistrationController extends ActionController
         $registrationFlow = $this->registrationFlowRepository->findOneByActivationToken($token);
         if (!$registrationFlow) {
             $this->view->assign('tokenNotFound', true);
+
             return;
         }
 
         if (!$registrationFlow->hasValidActivationToken()) {
             $this->view->assign('tokenTimeout', true);
+
             return;
         }
 
@@ -126,7 +128,8 @@ class RegistrationController extends ActionController
      *
      * @return boolean
      */
-    protected function getErrorFlashMessage() {
-        return FALSE;
+    protected function getErrorFlashMessage()
+    {
+        return false;
     }
 }

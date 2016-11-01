@@ -6,6 +6,7 @@ use Sandstorm\UserManagement\Domain\Service\UserCreationServiceInterface;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Object\ObjectManagerInterface;
 use TYPO3\Flow\Persistence\PersistenceManagerInterface;
+use TYPO3\Flow\Security\Account;
 use TYPO3\Flow\Security\AccountRepository;
 use TYPO3\Flow\Security\Policy\Role;
 use TYPO3\Neos\Domain\Model\User;
@@ -54,19 +55,20 @@ class NeosUserCreationService implements UserCreationServiceInterface
     public function createUserAndAccount(RegistrationFlow $registrationFlow)
     {
         // Create the account
-        $account = new \TYPO3\Flow\Security\Account();
+        $account = new Account();
         $account->setAccountIdentifier($registrationFlow->getEmail());
         $account->setCredentialsSource($registrationFlow->getEncryptedPassword());
         $account->setAuthenticationProviderName('Sandstorm.UserManagement:Login');
 
         // Assign preconfigured roles
-        foreach ($this->rolesForNewUsers as $roleString){
+        foreach ($this->rolesForNewUsers as $roleString) {
             $account->addRole(new Role($roleString));
         }
 
         // Create the user
         $user = new User();
-        $name = new PersonName('', $registrationFlow->getFirstName(), $registrationFlow->getLastName(), '', '', $registrationFlow->getEmail());
+        $name = new PersonName('', $registrationFlow->getAttributes()['firstName'], '',
+            $registrationFlow->getAttributes()['lastName'], '', $registrationFlow->getEmail());
         $user->setName($name);
 
         // Assign them to each other and persist

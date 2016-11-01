@@ -4,6 +4,7 @@ namespace Sandstorm\UserManagement\Domain\Model;
 use TYPO3\Flow\Annotations as Flow;
 use Doctrine\ORM\Mapping as ORM;
 use TYPO3\Flow\Exception;
+use TYPO3\Flow\Object\ObjectManagerInterface;
 use TYPO3\Flow\Security\Cryptography\HashService;
 use TYPO3\Flow\Utility\Algorithms;
 
@@ -53,19 +54,20 @@ class ResetPasswordFlow
     protected $hashService;
 
     /**
-     * @param $cause int The cause of the object initilization.
+     * @param $cause int The cause of the object initialization.
      * @see http://flowframework.readthedocs.org/en/stable/TheDefinitiveGuide/PartIII/ObjectManagement.html#lifecycle-methods
      * @throws Exception
      */
     public function initializeObject($cause)
     {
-        if ($cause === \TYPO3\Flow\Object\ObjectManagerInterface::INITIALIZATIONCAUSE_CREATED) {
+        if ($cause === ObjectManagerInterface::INITIALIZATIONCAUSE_CREATED) {
             $this->generateResetPasswordToken();
         }
     }
 
     /**
      * Generate a new password reset token
+     *
      * @throws Exception If the user doesn't have an account yet
      */
     protected function generateResetPasswordToken()
@@ -76,13 +78,15 @@ class ResetPasswordFlow
 
     /**
      * Check if the user has a valid reset password token.
+     *
      * @return bool
      */
     public function hasValidResetPasswordToken()
     {
-        if ($this->resetPasswordTokenValidUntil == NULL) {
-            return FALSE;
+        if ($this->resetPasswordTokenValidUntil == null) {
+            return false;
         }
+
         return $this->resetPasswordTokenValidUntil->getTimestamp() > time();
     }
 

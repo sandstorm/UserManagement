@@ -1,4 +1,9 @@
-{namespace usermanagement=Sandstorm\UserManagement\ViewHelpers}
+<!DOCTYPE html>
+<html xmlns:f="http://typo3.org/ns/TYPO3/Fluid/ViewHelpers"
+      xmlns:usermanagement="http://typo3.org/ns/Sandstorm/UserManagement/ViewHelpers"
+      xmlns="http://www.w3.org/1999/xhtml"
+      lang="en">
+
 <f:layout name="Default"/>
 
 <f:section name="Title">Login</f:section>
@@ -7,7 +12,7 @@
 
   <usermanagement:ifAuthenticated authenticationProviderName="Sandstorm.UserManagement:Login">
     <f:then>
-      <f:render partial="LogoutForm" arguments="{_all}"/>
+      <f:render partial="LogoutForm" section="Logout" arguments="{_all}"/>
     </f:then>
     <f:else>
       <f:form action="authenticate" method="post">
@@ -21,3 +26,5 @@
     </f:else>
   </usermanagement:ifAuthenticated>
 </f:section>
+
+</html>

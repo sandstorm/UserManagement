@@ -3,24 +3,29 @@ namespace Sandstorm\UserManagement\Command;
 
 use Sandstorm\UserManagement\Domain\Model\PasswordDto;
 use Sandstorm\UserManagement\Domain\Model\RegistrationFlow;
+use Sandstorm\UserManagement\Domain\Model\User;
 use Sandstorm\UserManagement\Domain\Repository\RegistrationFlowRepository;
 use Sandstorm\UserManagement\Domain\Repository\UserRepository;
+use Sandstorm\UserManagement\Domain\Service\Neos\NeosUserCreationService;
 use Sandstorm\UserManagement\Domain\Service\UserCreationServiceInterface;
 use TYPO3\Flow\Annotations as Flow;
+use TYPO3\Flow\Cli\CommandController;
 use TYPO3\Flow\Cli\Request;
 use TYPO3\Flow\Cli\Response;
 use TYPO3\Flow\Mvc\Dispatcher;
 use TYPO3\Flow\Object\ObjectManagerInterface;
 use TYPO3\Flow\Persistence\Doctrine\PersistenceManager;
+use TYPO3\Flow\Security\Account;
 use TYPO3\Flow\Security\AccountFactory;
 use TYPO3\Flow\Security\AccountRepository;
 use TYPO3\Flow\Security\Cryptography\HashService;
-use TYPO3\Neos\Domain\Service\UserService;
+use TYPO3\Neos\Command\UserCommandController;
 
 /**
  * @Flow\Scope("singleton")
  */
-class SandstormUserCommandController extends \TYPO3\Flow\Cli\CommandController {
+class SandstormUserCommandController extends CommandController
+{
 
     /**
      * @Flow\Inject
@@ -81,12 +86,11 @@ class SandstormUserCommandController extends \TYPO3\Flow\Cli\CommandController {
      *
      * @param string $username The email address, which also serves as the username.
      * @param string $password This user's password.
-     * @param string $firstName First name of the user.
-     * @param string $lastName Last name of the user.
      * @param string $additionalAttributes Additional attributes to pass to the registrationFlow as semicolon-separated list. Example: ./flow sandstormuser:create ... --additionalAttributes="customerType:CUSTOMER;color:blue"
      */
-    public function createCommand($username, $password, $firstName, $lastName, $additionalAttributes = '') {
-        // Parse additionalattrs if they exist
+    public function createCommand($username, $password, $additionalAttributes = '')
+    {
+        // Parse additionalAttributes if they exist
         $attributes = [];
         if (strlen($additionalAttributes) > 0) {
             $attributesSplitBySeparator = explode(';', $additionalAttributes);
@@ -102,8 +106,6 @@ class SandstormUserCommandController extends \TYPO3\Flow\Cli\CommandController {
         $registrationFlow = new RegistrationFlow();
         $registrationFlow->setPasswordDto($passwordDto);
         $registrationFlow->setEmail($username);
-        $registrationFlow->setFirstName($firstName);
-        $registrationFlow->setLastName($lastName);
         $registrationFlow->setAttributes($attributes);
 
         // Remove existing registration flows
@@ -122,17 +124,18 @@ class SandstormUserCommandController extends \TYPO3\Flow\Cli\CommandController {
         // Directly activate the account
         $this->activateRegistrationCommand($username);
 
-        $this->outputLine('Added the User <b>"%s"</b> with password <b>"%s"</b>.', array($username, $password));
+        $this->outputLine('Added the User <b>"%s"</b> with password <b>"%s"</b>.', [$username, $password]);
     }
 
     /**
      * @param string $username The username identifying a pending registration flow.
      */
-    public function activateRegistrationCommand($username) {
+    public function activateRegistrationCommand($username)
+    {
         /* @var $registrationFlow \Sandstorm\UserManagement\Domain\Model\RegistrationFlow */
         $registrationFlow = $this->registrationFlowRepository->findOneByEmail($username);
 
-        if ($registrationFlow === NULL) {
+        if ($registrationFlow === null) {
             $this->outputLine('The user <b>' . $username . '</b> doesn\'t have a non-activated account.');
             $this->quit(1);
         }
@@ -150,23 +153,30 @@ class SandstormUserCommandController extends \TYPO3\Flow\Cli\CommandController {
      * @param string $authenticationProvider Name of the authentication provider to use for finding the user. Default: "Sandstorm.UserManagement:Login".
      * @return void
      */
-    public function setPasswordCommand($username, $password, $authenticationProvider = 'Sandstorm.UserManagement:Login') {
+    public function setPasswordCommand($username, $password, $authenticationProvider = 'Sandstorm.UserManagement:Login')
+    {
         // If we're in Neos context, we simply forward the command to the Neos command controller.
         if ($this->shouldUseNeosService()) {
             $cliRequest = new Request($this->request);
-            $cliRequest->setControllerObjectName('TYPO3\Neos\Command\UserCommandController');
+            $cliRequest->setControllerObjectName(UserCommandController::class);
             $cliRequest->setControllerCommandName('setPassword');
-            $cliRequest->setArguments(['username' => $username, 'password' => $password, 'authenticationProvider' => $authenticationProvider]);
+            $cliRequest->setArguments([
+                'username' => $username,
+                'password' => $password,
+                'authenticationProvider' => $authenticationProvider
+            ]);
             $cliResponse = new Response($this->response);
             $this->dispatcher->dispatch($cliRequest, $cliResponse);
             $this->quit(0);
         }
 
         // Otherwise, we use our own logic.
-        $account = $this->accountRepository->findByAccountIdentifierAndAuthenticationProviderName($username, $authenticationProvider);
+        $account = $this->accountRepository->findByAccountIdentifierAndAuthenticationProviderName($username,
+            $authenticationProvider);
 
-        if ($account === NULL) {
-            $this->outputLine('The user <b>' . $username . '</b> could not be found with auth provider <b>' . $authenticationProvider . '</b>.');
+        if ($account === null) {
+            $this->outputLine('The user <b>' . $username . '</b> could not be found with auth provider <b>' .
+                $authenticationProvider . '</b>.');
             $this->quit(1);
         }
 
@@ -182,10 +192,11 @@ class SandstormUserCommandController extends \TYPO3\Flow\Cli\CommandController {
      * @param string $username user to remove
      * @return void
      */
-    public function removeCommand($username){
+    public function removeCommand($username)
+    {
         /** @var User $user */
         $user = $this->userRepository->findOneByEmail($username);
-        if($user === NULL){
+        if ($user === null) {
             $this->outputLine('The user <b>' . $username . '</b> could not be found.');
             $this->quit(1);
         }
@@ -198,17 +209,25 @@ class SandstormUserCommandController extends \TYPO3\Flow\Cli\CommandController {
     /**
      * Lists all available accounts.
      */
-    public function listAccountsCommand(){
+    public function listAccountsCommand()
+    {
+        /** @var Account[] $accounts */
         $accounts = $this->accountRepository->findAll()->toArray();
-        usort($accounts, function($a, $b){
+        usort($accounts, function ($a, $b) {
+            /** @var Account $a */
+            /** @var Account $b */
             return ($a->getAccountIdentifier() > $b->getAccountIdentifier());
         });
 
-        $tableRows = array();
-        $headerRow = array('Identifier', 'Authentication Provider', 'Role(s)');
+        $tableRows = [];
+        $headerRow = ['Identifier', 'Authentication Provider', 'Role(s)'];
 
         foreach ($accounts as $account) {
-            $tableRows[] = [$account->getAccountIdentifier(), $account->getAuthenticationProviderName(), implode(' ,', $account->getRoles())];
+            $tableRows[] = [
+                $account->getAccountIdentifier(),
+                $account->getAuthenticationProviderName(),
+                implode(' ,', $account->getRoles())
+            ];
         }
 
         $this->output->outputTable($tableRows, $headerRow);
@@ -218,24 +237,28 @@ class SandstormUserCommandController extends \TYPO3\Flow\Cli\CommandController {
     /**
      * Lists all available users.
      */
-    public function listUsersCommand(){
+    public function listUsersCommand()
+    {
         // If we're in Neos context, we pass on the command.
-        if($this->shouldUseNeosService()){
+        if ($this->shouldUseNeosService()) {
             $cliRequest = new Request($this->request);
-            $cliRequest->setControllerObjectName('TYPO3\Neos\Command\UserCommandController');
+            $cliRequest->setControllerObjectName(UserCommandController::class);
             $cliRequest->setControllerCommandName('list');
             $cliResponse = new Response($this->response);
             $this->dispatcher->dispatch($cliRequest, $cliResponse);
+
             return;
         }
-
+        /** @var User[] $users */
         $users = $this->userRepository->findAll()->toArray();
-        usort($users, function($a, $b){
+        usort($users, function ($a, $b) {
+            /** @var User $a */
+            /** @var User $b */
             return ($a->getEmail() > $b->getEmail());
         });
 
-        $tableRows = array();
-        $headerRow = array('Email', 'Name', 'Role(s)');
+        $tableRows = [];
+        $headerRow = ['Email', 'Name', 'Role(s)'];
 
         foreach ($users as $user) {
             $tableRows[] = [$user->getEmail(), $user->getFullName(), implode(' ,', $user->getAccount()->getRoles())];
@@ -250,8 +273,9 @@ class SandstormUserCommandController extends \TYPO3\Flow\Cli\CommandController {
      *
      * @return boolean
      */
-    protected function shouldUseNeosService() {
+    protected function shouldUseNeosService()
+    {
         // The userCreationService is a DependencyProxy instance here, we can get the class name from it
-        return $this->userCreationService->_getClassName() === 'Sandstorm\UserManagement\Domain\Service\Neos\NeosUserCreationService';
+        return get_class($this->userCreationService) === NeosUserCreationService::class;
     }
 }

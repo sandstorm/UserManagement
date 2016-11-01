@@ -4,7 +4,7 @@ namespace Sandstorm\UserManagement\Domain\Model;
 use TYPO3\Flow\Annotations as Flow;
 use Doctrine\ORM\Mapping as ORM;
 use TYPO3\Flow\Exception;
-use TYPO3\Flow\Security\Cryptography\HashService;
+use TYPO3\Flow\Object\ObjectManagerInterface;
 use TYPO3\Flow\Utility\Algorithms;
 
 /**
@@ -18,18 +18,6 @@ class RegistrationFlow
      * @Flow\Validate(type="EmailAddress")
      */
     protected $email;
-
-    /**
-     * @var string
-     * @Flow\Validate(type="NotEmpty")
-     */
-    protected $firstName;
-
-    /**
-     * @var string
-     * @Flow\Validate(type="NotEmpty")
-     */
-    protected $lastName;
 
     /**
      * @var string
@@ -69,13 +57,13 @@ class RegistrationFlow
     protected $activationTokenTimeout;
 
     /**
-     * @param $cause int The cause of the object initilization.
+     * @param $cause int The cause of the object initialization.
      * @see http://flowframework.readthedocs.org/en/stable/TheDefinitiveGuide/PartIII/ObjectManagement.html#lifecycle-methods
      * @throws Exception
      */
     public function initializeObject($cause)
     {
-        if ($cause === \TYPO3\Flow\Object\ObjectManagerInterface::INITIALIZATIONCAUSE_CREATED) {
+        if ($cause === ObjectManagerInterface::INITIALIZATIONCAUSE_CREATED) {
             $this->generateActivationToken();
         }
     }
@@ -90,6 +78,7 @@ class RegistrationFlow
 
     /**
      * Generate a new activation token
+     *
      * @throws Exception If the user has an account already
      */
     public function generateActivationToken()
@@ -100,13 +89,15 @@ class RegistrationFlow
 
     /**
      * Check if the user has a valid activation token.
+     *
      * @return bool
      */
     public function hasValidActivationToken()
     {
-        if ($this->activationTokenValidUntil == NULL) {
-            return FALSE;
+        if ($this->activationTokenValidUntil == null) {
+            return false;
         }
+
         return $this->activationTokenValidUntil->getTimestamp() > time();
     }
 
@@ -125,35 +116,6 @@ class RegistrationFlow
     {
         $this->email = $email;
     }
-
-    /**
-     * @return string
-     */
-    public function getFirstName() {
-        return $this->firstName;
-    }
-
-    /**
-     * @param string $firstName
-     */
-    public function setFirstName($firstName) {
-        $this->firstName = $firstName;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLastName() {
-        return $this->lastName;
-    }
-
-    /**
-     * @param string $lastName
-     */
-    public function setLastName($lastName) {
-        $this->lastName = $lastName;
-    }
-
 
     /**
      * @return array
@@ -191,5 +153,4 @@ class RegistrationFlow
     {
         return $this->activationToken;
     }
-
 }

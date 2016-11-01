@@ -70,10 +70,10 @@ class ResetPasswordController extends ActionController
      */
     public function requestTokenAction(ResetPasswordFlow $resetPasswordFlow)
     {
+        $account = $this->accountRepository->findActiveByAccountIdentifierAndAuthenticationProviderName($resetPasswordFlow->getEmail(),
+            'Sandstorm.UserManagement:Login');
 
-        $account = $this->accountRepository->findActiveByAccountIdentifierAndAuthenticationProviderName($resetPasswordFlow->getEmail(), 'Sandstorm.UserManagement:Login');
-
-        if ($account !== NULL) {
+        if ($account !== null) {
             $alreadyExistingFlows = $this->resetPasswordFlowRepository->findByEmail($resetPasswordFlow->getEmail());
             if (count($alreadyExistingFlows) > 0) {
                 foreach ($alreadyExistingFlows as $alreadyExistingFlow) {
@@ -82,7 +82,7 @@ class ResetPasswordController extends ActionController
             }
 
             // Send out a confirmation mail
-            $resetPasswordLink = $this->uriBuilder->reset()->setCreateAbsoluteUri(TRUE)->uriFor(
+            $resetPasswordLink = $this->uriBuilder->reset()->setCreateAbsoluteUri(true)->uriFor(
                 'insertNewPassword',
                 ['token' => $resetPasswordFlow->getResetPasswordToken()],
                 'ResetPassword');
@@ -97,7 +97,9 @@ class ResetPasswordController extends ActionController
                     'applicationName' => $this->emailSenderName,
                     'resetPasswordFlow' => $resetPasswordFlow,
                     // BaseUri can be used to embed resources (images) into the email
-                    'baseUri' => htmlspecialchars($this->controllerContext->getRequest()->getHttpRequest()->getBaseUri())
+                    'baseUri' => htmlspecialchars($this->controllerContext->getRequest()
+                        ->getHttpRequest()
+                        ->getBaseUri())
                 ]
             );
 
@@ -114,15 +116,17 @@ class ResetPasswordController extends ActionController
      */
     public function insertNewPasswordAction($token)
     {
-        /* @var $resetPasswordFlow \Sandstorm\UserManagement\Domain\Model\ResetPasswordFlow */
+        /* @var $resetPasswordFlow ResetPasswordFlow */
         $resetPasswordFlow = $this->resetPasswordFlowRepository->findOneByResetPasswordToken($token);
         if (!$resetPasswordFlow) {
             $this->view->assign('tokenNotFound', true);
+
             return;
         }
 
         if (!$resetPasswordFlow->hasValidResetPasswordToken()) {
             $this->view->assign('tokenTimeout', true);
+
             return;
         }
 
@@ -137,10 +141,12 @@ class ResetPasswordController extends ActionController
      */
     public function updatePasswordAction(ResetPasswordFlow $resetPasswordFlow)
     {
-        $account = $this->accountRepository->findActiveByAccountIdentifierAndAuthenticationProviderName($resetPasswordFlow->getEmail(), 'Sandstorm.UserManagement:Login');
+        $account = $this->accountRepository->findActiveByAccountIdentifierAndAuthenticationProviderName($resetPasswordFlow->getEmail(),
+            'Sandstorm.UserManagement:Login');
 
         if (!$account) {
             $this->view->assign('accountNotFound', true);
+
             return;
         }
 
@@ -157,6 +163,6 @@ class ResetPasswordController extends ActionController
      */
     protected function getErrorFlashMessage()
     {
-        return FALSE;
+        return false;
     }
 }

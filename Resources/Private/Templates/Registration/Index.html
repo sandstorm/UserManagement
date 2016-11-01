@@ -1,4 +1,8 @@
-{namespace usermanagement=Sandstorm\UserManagement\ViewHelpers}
+<!DOCTYPE html>
+<html xmlns:f="http://typo3.org/ns/TYPO3/Fluid/ViewHelpers"
+      xmlns:usermanagement="http://typo3.org/ns/Sandstorm/UserManagement/ViewHelpers"
+      xmlns="http://www.w3.org/1999/xhtml"
+      lang="en">
 
 <f:layout name="Default"/>
 
@@ -14,13 +18,13 @@
           <label>
             E-Mail-Adresse
             <f:form.textfield property="email" placeholder="test@example.com" name="__authentication[TYPO3][Flow][Security][Authentication][Token][UsernamePassword][username]" type="email"/>
-            <f:render partial="FormErrors" arguments="{for: 'registrationFlow.email'}"/>
+            <f:render partial="FormErrors" section="ValidationResults" arguments="{for: 'registrationFlow.email'}"/>
           </label>
 
           <label>
             Passwort
             <f:form.password placeholder="Ihr Passwort" property="passwordDto.password"/>
-            <f:render partial="FormErrors" arguments="{for: 'registrationFlow.passwordDto.password'}"/>
+            <f:render partial="FormErrors" section="ValidationResults" arguments="{for: 'registrationFlow.passwordDto.password'}"/>
           </label>
 
           <label>
@@ -29,15 +33,21 @@
           </label>
 
           <label>
+            Anrede
+            <f:form.select options="{'m': 'Herr', 'f': 'Frau'}" property="attributes.salutation" />
+            <f:render partial="FormErrors" section="ValidationResults" arguments="{for: 'registrationFlow.attributes.salutation'}"/>
+          </label>
+
+          <label>
             Vorname
-            <f:form.textfield placeholder="Manfred" property="firstName"/>
-            <f:render partial="FormErrors" arguments="{for: 'registrationFlow.firstName'}"/>
+            <f:form.textfield placeholder="Manfred" property="attributes.firstName"/>
+            <f:render partial="FormErrors" section="ValidationResults" arguments="{for: 'registrationFlow.attributes.firstName'}"/>
           </label>
 
           <label>
             Nachname
-            <f:form.textfield placeholder="Mustermann" property="lastName"/>
-            <f:render partial="FormErrors" arguments="{for: 'registrationFlow.lastName'}"/>
+            <f:form.textfield placeholder="Mustermann" property="attributes.lastName"/>
+            <f:render partial="FormErrors" section="ValidationResults" arguments="{for: 'registrationFlow.attributes.lastName'}"/>
           </label>
 
           <input type="submit" value="Registrieren" class="button large primary"/>
@@ -46,3 +56,5 @@
     </f:else>
   </usermanagement:ifAuthenticated>
 </f:section>
+
+</html>

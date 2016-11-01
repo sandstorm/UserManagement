@@ -34,13 +34,14 @@ class NeosRequestPattern implements RequestPatternInterface
      */
     public function matchRequest(RequestInterface $request)
     {
-        $shouldMatchBackend = ($this->options['area'] === self::AREA_FRONTEND) ? FALSE : TRUE;
+        $shouldMatchBackend = ($this->options['area'] === self::AREA_FRONTEND) ? false : true;
 
         if (!$request instanceof ActionRequest) {
-            return FALSE;
+            return false;
         }
         $requestPath = $request->getHttpRequest()->getUri()->getPath();
-        $requestPathMatchesBackend = substr($requestPath, 0, 5) === '/neos' || strpos($requestPath, '@') !== FALSE;
+        $requestPathMatchesBackend = substr($requestPath, 0, 5) === '/neos' || strpos($requestPath, '@') !== false;
+
         return $shouldMatchBackend === $requestPathMatchesBackend;
     }
 }

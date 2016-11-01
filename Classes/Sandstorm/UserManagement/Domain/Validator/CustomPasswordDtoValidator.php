@@ -4,11 +4,14 @@ namespace Sandstorm\UserManagement\Domain\Validator;
 use Sandstorm\UserManagement\Domain\Model\PasswordDto;
 use Sandstorm\UserManagement\Domain\Repository\UserRepository;
 use TYPO3\Flow\Annotations as Flow;
+use TYPO3\Flow\Error\Error;
+use TYPO3\Flow\Validation\Exception\InvalidValidationOptionsException;
+use TYPO3\Flow\Validation\Validator\AbstractValidator;
 
 /**
  * Validator for users
  */
-class CustomPasswordDtoValidator extends \TYPO3\Flow\Validation\Validator\AbstractValidator
+class CustomPasswordDtoValidator extends AbstractValidator
 {
 
     /**
@@ -20,14 +23,12 @@ class CustomPasswordDtoValidator extends \TYPO3\Flow\Validation\Validator\Abstra
     /**
      * @param PasswordDto $value The value that should be validated
      * @return void
-     * @throws \TYPO3\Flow\Validation\Exception\InvalidValidationOptionsException
+     * @throws InvalidValidationOptionsException
      */
     protected function isValid($value)
     {
         if (!$value->arePasswordsEqual()) {
-            $this->result->forProperty('password')->addError(new \TYPO3\Flow\Error\Error('Passwords do not match.', 1464086581));
+            $this->result->forProperty('password')->addError(new Error('Passwords do not match.', 1464086581));
         }
     }
 }
-
-?>
