@@ -1,4 +1,14 @@
-<p>Sie sind eingeloggt als <strong>{account.accountIdentifier}</strong>.</p>
-<f:form action="logout" method="post" additionalAttributes="{role:'form'}">
-  <f:form.submit value="Ausloggen" class="button primary" />
-</f:form>
+<!DOCTYPE html>
+<html xmlns:f="http://typo3.org/ns/TYPO3/Fluid/ViewHelpers"
+      xmlns:usermanagement="http://typo3.org/ns/Sandstorm/UserManagement/ViewHelpers"
+      xmlns="http://www.w3.org/1999/xhtml"
+      lang="en">
+
+<f:section name="Logout">
+  <p>Sie sind eingeloggt als <strong>{account.accountIdentifier}</strong>.</p>
+  <f:form action="logout" method="post" additionalAttributes="{role:'form'}">
+    <f:form.submit value="Ausloggen" class="button primary" />
+  </f:form>
+</f:section>
+
+</html>

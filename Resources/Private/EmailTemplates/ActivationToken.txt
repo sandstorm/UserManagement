@@ -1,4 +1,4 @@
-Dear {registrationFlow.firstName} {registrationFlow.lastName},
+Dear User,
 
 you signed up for an account at {applicationName}. To confirm your account,
 please click the link below or copy it into your browser:

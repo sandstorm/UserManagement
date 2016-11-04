@@ -31,6 +31,7 @@ class IfAuthenticatedViewHelper extends AbstractConditionViewHelper
                 return $this->renderThenChild();
             }
         }
+
         return $this->renderElseChild();
     }
 }

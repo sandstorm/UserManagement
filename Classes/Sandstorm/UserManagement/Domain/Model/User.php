@@ -51,11 +51,12 @@ class User
 
     /**
      * Get the account name of an user.
+     *
      * @return string
      */
     public function getAccountName()
     {
-        if ($this->account == NULL) {
+        if ($this->account == null) {
             return $this->email;
         } else {
             return $this->account->getAccountIdentifier();
@@ -64,6 +65,7 @@ class User
 
     /**
      * Get the full name of an user.
+     *
      * @return string
      */
     public function getFullName()
@@ -73,11 +75,12 @@ class User
 
     /**
      * Check if the user is active.
+     *
      * @return bool
      */
     public function isActive()
     {
-        return $this->account !== NULL;
+        return $this->account !== null;
     }
 
 

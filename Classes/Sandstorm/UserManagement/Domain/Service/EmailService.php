@@ -2,6 +2,8 @@
 namespace Sandstorm\UserManagement\Domain\Service;
 
 use TYPO3\Flow\Annotations as Flow;
+use TYPO3\Fluid\View\StandaloneView;
+use TYPO3\SwiftMailer\Message;
 
 /**
  * @Flow\Scope("singleton")
@@ -35,17 +37,23 @@ class EmailService
      * @param array $variables variables that will be available in the email template. in the format array('<key>' => '<value>', ....)
      * @return boolean TRUE on success, otherwise FALSE
      */
-    public function sendTemplateBasedEmail($templateIdentifier, $subject, array $sender, array $recipient, array $variables = array())
-    {
+    public function sendTemplateBasedEmail(
+        $templateIdentifier,
+        $subject,
+        array $sender,
+        array $recipient,
+        array $variables = []
+    ) {
         $plaintextBody = $this->renderEmailBody($templateIdentifier, 'txt', $variables);
         $htmlBody = $this->renderEmailBody($templateIdentifier, 'html', $variables);
-        $mail = new \TYPO3\SwiftMailer\Message();
+        $mail = new Message();
         $mail
             ->setFrom($sender)
             ->setTo($recipient)
             ->setSubject($subject)
             ->setBody($plaintextBody)
             ->addPart($htmlBody, 'text/html');
+
         return $this->sendMail($mail);
     }
 
@@ -61,23 +69,25 @@ class EmailService
         // Default package to use
         $templatePackage = $this->templatePackage ? $this->templatePackage : 'Sandstorm.UserManagement';
 
-        $standaloneView = new \TYPO3\Fluid\View\StandaloneView();
+        $standaloneView = new StandaloneView();
         $request = $standaloneView->getRequest();
         $request->setControllerPackageKey($templatePackage);
         $request->setFormat($format);
-        $templatePathAndFilename = sprintf('resource://' . $templatePackage . '/Private/EmailTemplates/%s.%s', $templateIdentifier, $format);
+        $templatePathAndFilename = sprintf('resource://' . $templatePackage . '/Private/EmailTemplates/%s.%s',
+            $templateIdentifier, $format);
         $standaloneView->setTemplatePathAndFilename($templatePathAndFilename);
         $standaloneView->assignMultiple($variables);
+
         return $standaloneView->render();
     }
 
     /**
      * Sends a mail and creates a system logger entry if sending failed
      *
-     * @param \TYPO3\SwiftMailer\Message $mail
+     * @param Message $mail
      * @return boolean TRUE on success, otherwise FALSE
      */
-    protected function sendMail(\TYPO3\SwiftMailer\Message $mail)
+    protected function sendMail(Message $mail)
     {
         $numberOfRecipients = 0;
         // ignore exceptions but log them
@@ -89,13 +99,15 @@ class EmailService
             $exceptionMessage = $e->getMessage();
         }
         if ($numberOfRecipients < 1) {
-            $this->systemLogger->log('Could not send notification email "' . $mail->getSubject() . '"', LOG_ERR, array(
+            $this->systemLogger->log('Could not send notification email "' . $mail->getSubject() . '"', LOG_ERR, [
                 'exception' => $exceptionMessage,
                 'message' => $mail->getSubject(),
                 'id' => (string)$mail->getHeaders()->get('Message-ID')
-            ));
-            return FALSE;
+            ]);
+
+            return false;
         }
-        return TRUE;
+
+        return true;
     }
 }

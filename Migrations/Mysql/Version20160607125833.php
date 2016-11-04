@@ -13,7 +13,8 @@ class Version20160607125833 extends AbstractMigration
     /**
      * @return string
      */
-    public function getDescription() {
+    public function getDescription()
+    {
         return '';
     }
 

@@ -6,6 +6,7 @@ use Sandstorm\UserManagement\Domain\Repository\UserRepository;
 use Sandstorm\UserManagement\Domain\Service\UserCreationServiceInterface;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Persistence\PersistenceManagerInterface;
+use TYPO3\Flow\Security\Account;
 use TYPO3\Flow\Security\Policy\Role;
 use Sandstorm\UserManagement\Domain\Model\User;
 
@@ -44,22 +45,29 @@ class FlowUserCreationService implements UserCreationServiceInterface
     public function createUserAndAccount(RegistrationFlow $registrationFlow)
     {
         // Create the account
-        $account = new \TYPO3\Flow\Security\Account();
+        $account = new Account();
         $account->setAccountIdentifier($registrationFlow->getEmail());
         $account->setCredentialsSource($registrationFlow->getEncryptedPassword());
         $account->setAuthenticationProviderName('Sandstorm.UserManagement:Login');
 
-        // Assign preconfigured roles
-        foreach ($this->rolesForNewUsers as $roleString){
+        // Assign pre-configured roles
+        foreach ($this->rolesForNewUsers as $roleString) {
             $account->addRole(new Role($roleString));
         }
 
         // Create the user
         $user = new User();
-        $user->setFirstName($registrationFlow->getFirstName());
-        $user->setLastName($registrationFlow->getLastName());
-        $user->setEmail($registrationFlow->getEmail());
         $user->setAccount($account);
+        $user->setEmail($registrationFlow->getEmail());
+        if (array_key_exists('salutation', $registrationFlow->getAttributes())) {
+            $user->setGender($registrationFlow->getAttributes()['salutation']);
+        }
+        if (array_key_exists('firstName', $registrationFlow->getAttributes())) {
+            $user->setFirstName($registrationFlow->getAttributes()['firstName']);
+        }
+        if (array_key_exists('lastName', $registrationFlow->getAttributes())) {
+            $user->setLastName($registrationFlow->getAttributes()['lastName']);
+        }
 
         // Persist user
         $this->userRepository->add($user);

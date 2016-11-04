@@ -8,7 +8,8 @@ use TYPO3\Flow\Mvc\Controller\ControllerContext;
 use TYPO3\Flow\Object\ObjectManagerInterface;
 use TYPO3\Neos\Service\LinkingService;
 
-class NeosRedirectTargetService implements RedirectTargetServiceInterface {
+class NeosRedirectTargetService implements RedirectTargetServiceInterface
+{
 
     /**
      * @Flow\Inject
@@ -28,7 +29,8 @@ class NeosRedirectTargetService implements RedirectTargetServiceInterface {
      */
     protected $redirectAfterLogout;
 
-    public function onAuthenticationSuccess(ControllerContext $controllerContext, \TYPO3\Flow\Mvc\ActionRequest $originalRequest = NULL) {
+    public function onAuthenticationSuccess(ControllerContext $controllerContext, ActionRequest $originalRequest = null)
+    {
         // Check if config for redirect is done
         if (is_array($this->redirectAfterLogin)
             && array_key_exists('action', $this->redirectAfterLogin)
@@ -36,21 +38,30 @@ class NeosRedirectTargetService implements RedirectTargetServiceInterface {
             && array_key_exists('package', $this->redirectAfterLogin)
         ) {
             $controllerArguments = [];
-            if (array_key_exists('controllerArguments', $this->redirectAfterLogin) && is_array($this->redirectAfterLogin['controllerArguments'])) {
+            if (array_key_exists('controllerArguments', $this->redirectAfterLogin) &&
+                is_array($this->redirectAfterLogin['controllerArguments'])
+            ) {
                 $controllerArguments = $this->redirectAfterLogin['controllerArguments'];
             }
-            return $controllerContext->getUriBuilder()->reset()->setCreateAbsoluteUri(TRUE)->uriFor($this->redirectAfterLogin['action'], $controllerArguments, $this->redirectAfterLogin['controller'], $this->redirectAfterLogin['package']);
+
+            return $controllerContext->getUriBuilder()
+                ->reset()
+                ->setCreateAbsoluteUri(true)
+                ->uriFor($this->redirectAfterLogin['action'], $controllerArguments,
+                    $this->redirectAfterLogin['controller'], $this->redirectAfterLogin['package']);
         }
 
         // Neos only logic (configuration at node or via TS)
         /** @var ActionRequest $actionRequest */
         $actionRequest = $controllerContext->getRequest();
         if ($actionRequest->getInternalArgument('__redirectAfterLogin')) {
-            return $this->getNodeLinkingService()->createNodeUri($controllerContext, $actionRequest->getInternalArgument('__redirectAfterLogin'));
+            return $this->getNodeLinkingService()
+                ->createNodeUri($controllerContext, $actionRequest->getInternalArgument('__redirectAfterLogin'));
         }
     }
 
-    public function onLogout(ControllerContext $controllerContext) {
+    public function onLogout(ControllerContext $controllerContext)
+    {
         // Check if config for redirect is done
         if (is_array($this->redirectAfterLogout)
             && array_key_exists('action', $this->redirectAfterLogout)
@@ -58,24 +69,33 @@ class NeosRedirectTargetService implements RedirectTargetServiceInterface {
             && array_key_exists('package', $this->redirectAfterLogout)
         ) {
             $controllerArguments = [];
-            if(array_key_exists('controllerArguments', $this->redirectAfterLogout) && is_array($this->redirectAfterLogout['controllerArguments'])){
+            if (array_key_exists('controllerArguments', $this->redirectAfterLogout) &&
+                is_array($this->redirectAfterLogout['controllerArguments'])
+            ) {
                 $controllerArguments = $this->redirectAfterLogout['controllerArguments'];
             }
-            return $controllerContext->getUriBuilder()->reset()->setCreateAbsoluteUri(TRUE)->uriFor($this->redirectAfterLogout['action'], $controllerArguments, $this->redirectAfterLogout['controller'], $this->redirectAfterLogout['package']);
+
+            return $controllerContext->getUriBuilder()
+                ->reset()
+                ->setCreateAbsoluteUri(true)
+                ->uriFor($this->redirectAfterLogout['action'], $controllerArguments,
+                    $this->redirectAfterLogout['controller'], $this->redirectAfterLogout['package']);
         }
 
         // Neos only logic (configuration at node or via TS)
         /** @var ActionRequest $actionRequest */
         $actionRequest = $controllerContext->getRequest();
         if ($actionRequest->getInternalArgument('__redirectAfterLogout')) {
-            return $this->getNodeLinkingService()->createNodeUri($controllerContext, $actionRequest->getInternalArgument('__redirectAfterLogout'));
+            return $this->getNodeLinkingService()
+                ->createNodeUri($controllerContext, $actionRequest->getInternalArgument('__redirectAfterLogout'));
         }
     }
 
     /**
      * @return LinkingService
      */
-    protected function getNodeLinkingService() {
+    protected function getNodeLinkingService()
+    {
         return $this->objectManager->get(LinkingService::class);
     }
 }
