@@ -44,7 +44,7 @@ Sandstorm:
 #        controllerArguments:
 #          yourAdditionalArgument: 'test1'
 
-TYPO3:
+Neos:
   Flow:
     mvc:
       routes:
@@ -65,7 +65,7 @@ TYPO3:
                 '@action': 'login'
 
   Neos:
-    typoScript:
+    fusion:
       autoInclude:
         'Sandstorm.UserManagement': TRUE
 

@@ -3,7 +3,7 @@
 #
 'Sandstorm.UserManagement:Registration':
   superTypes:
-    'TYPO3.Neos:Plugin': TRUE
+    'Neos.Neos:Plugin': TRUE
   ui:
     label: i18n
     icon: 'icon-key'

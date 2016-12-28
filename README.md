@@ -82,7 +82,7 @@ Add the following to your package's (or the global) `Settings.yaml`. This create
 distinguish between frontend and backend logins.
 
 ```
-TYPO3:
+Neos:
   Flow:
     security:
       authentication:
@@ -107,7 +107,7 @@ TYPO3:
 Before Flow 3.3, the syntax for attaching a pattern to an authentication provider is different.
 ```
 
-TYPO3:
+Neos:
   Flow:
     security:
       authentication:
@@ -270,7 +270,7 @@ class RegistrationFlowValidationService implements RegistrationFlowValidationSer
     public function validateRegistrationFlow(RegistrationFlow $registrationFlow, RegistrationFlowValidator $validator) {
         // This is an example of your own custom validation logic.
         if ($registrationFlow->getAttributes()['agb'] !== '1') {
-            $validator->getResult()->forProperty('attributes.terms')->addError(new \TYPO3\Flow\Error\Error('You need to accept the terms and conditions.'));
+            $validator->getResult()->forProperty('attributes.terms')->addError(new \Neos\Flow\Validation\Error('You need to accept the terms and conditions.'));
         }
     }
 }

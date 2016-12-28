@@ -3,7 +3,7 @@
 #
 'Sandstorm.UserManagement:LoginForm':
   superTypes:
-    'TYPO3.Neos:Plugin': TRUE
+    'Neos.Neos:Plugin': TRUE
   ui:
     label: i18n
     icon: 'icon-key'
@@ -22,7 +22,7 @@
           group: pluginSettings
           editorOptions:
             nodeTypes:
-              - 'TYPO3.Neos:Document'
+              - 'Neos.Neos:Document'
     redirectAfterLogout:
       type: reference
       ui:
@@ -32,4 +32,4 @@
           group: pluginSettings
           editorOptions:
             nodeTypes:
-              - 'TYPO3.Neos:Document'
+              - 'Neos.Neos:Document'

@@ -1,0 +1,16 @@
+##
+# "LoginForm" element, extending "Plugin"
+#
+prototype(Sandstorm.UserManagement:LoginForm) < prototype(Neos.Neos:Plugin) {
+    package = 'Sandstorm.UserManagement'
+    controller = 'Login'
+    action = 'login'
+
+    redirectAfterLoginUri = Neos.Neos:NodeUri {
+        node = ${q(node).property('redirectAfterLogin')}
+    }
+
+    redirectAfterLogoutUri = Neos.Neos:NodeUri {
+        node = ${q(node).property('redirectAfterLogout')}
+    }
+}

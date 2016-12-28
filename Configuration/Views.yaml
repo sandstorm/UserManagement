@@ -1,4 +1,4 @@
 -
-  requestFilter: 'mainRequest.isPackage("TYPO3.Neos") && isPackage("Sandstorm.UserManagement")'
+  requestFilter: 'mainRequest.isPackage("Neos.Neos") && isPackage("Sandstorm.UserManagement")'
   options:
     layoutRootPaths: ['resource://Sandstorm.UserManagement/Private/Layouts/Neos']
