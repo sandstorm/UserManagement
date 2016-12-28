@@ -8,6 +8,16 @@ This package works in Neos CMS and Flow and provides the following functionality
 * Login of registered (frontend) users via a login form
 * "Forgotten password" with password reset e-mail
 
+## Compatibility and Maintenance
+Sandstorm.UserManagement is currently being maintained for Neos 2.3 LTS and Neos 3.x. There is an older release for Neos 2.2,
+which is no longer maintained.
+
+| Neos / Flow Version        | Sandstorm.UserManagement Version | Maintained |
+|----------------------------|----------------------------------|------------|
+| Neos 3.x, Flow 4.x         | 4.x                              | Yes        |
+| Neos 2.3 LTS, Flow 3.3 LTS | 3.x                              | Yes        |
+| Neos 2.2, Flow 3.2         | 1.x                              | No         |
+
 # Configuration
 
 ## Setup
