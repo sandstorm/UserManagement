@@ -40,7 +40,7 @@ class NeosRequestPattern implements RequestPatternInterface
             return false;
         }
         $requestPath = $request->getHttpRequest()->getUri()->getPath();
-        $requestPathMatchesBackend = substr($requestPath, 0, 5) === '/neos' || strpos($requestPath, '@') !== false;
+        $requestPathMatchesBackend = substr($requestPath, 0, 5) === '/neos' || substr($requestPath, 0, 6) === '/setup' || strpos($requestPath, '@') !== false;
 
         return $shouldMatchBackend === $requestPathMatchesBackend;
     }
