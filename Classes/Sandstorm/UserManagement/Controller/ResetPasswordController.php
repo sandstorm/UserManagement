@@ -65,6 +65,17 @@ class ResetPasswordController extends ActionController
     {
     }
 
+    public function initializeRequestTokenAction()
+    {
+        $config = $this->arguments->getArgument('resetPasswordFlow')->getPropertyMappingConfiguration();
+        $config->allowProperties('email');
+        $config->setTypeConverterOption(
+            \TYPO3\Flow\Property\TypeConverter\PersistentObjectConverter::class,
+            \TYPO3\Flow\Property\TypeConverter\PersistentObjectConverter::CONFIGURATION_CREATION_ALLOWED,
+            TRUE
+        );
+    }
+
     /**
      * @param ResetPasswordFlow $resetPasswordFlow
      */
