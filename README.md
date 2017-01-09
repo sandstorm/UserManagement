@@ -160,6 +160,7 @@ Sandstorm:
     redirect:
     # To activate redirection, make these settings:
       afterLogin:
+        toOriginalRequest: false
         action: 'action'
         controller: 'Controller'
         package: 'Your.Package'
@@ -168,6 +169,9 @@ Sandstorm:
         controller: 'Controller'
         package: 'Your.Package'
 ```
+
+Set `toOriginalRequest` to `true` if you want to redirect to the original request after a successful login.
+When no original request is present the `toOriginalRequest` setting will be ignored.
 
 ### Via node properties
 When using the package within Neos, you have another possibility: you can set properties on the LoginForm node type.
