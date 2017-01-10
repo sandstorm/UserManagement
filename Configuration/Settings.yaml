@@ -30,8 +30,10 @@ Sandstorm:
     redirect:
       afterLogin: []
       afterLogout: []
-    # To activate redirection, make these settings. controllerArguments are optional.
+    # To activate redirection, make these settings. controllerArguments are optional. For "afterLogin", either "action / controller / package" or
+    # "toOriginalRequest" are mandatory.
 #      afterLogin:
+#        toOriginalRequest: false           # set to TRUE if you want to redirect to the original request.
 #        action: 'action'
 #        controller: 'Controller'
 #        package: 'Your.Package'

@@ -29,6 +29,15 @@ class FlowRedirectTargetService implements RedirectTargetServiceInterface
     public function onAuthenticationSuccess(ControllerContext $controllerContext, ActionRequest $originalRequest = null)
     {
         if (is_array($this->redirectAfterLogin)
+            && array_key_exists('toOriginalRequest', $this->redirectAfterLogin)
+            && $this->redirectAfterLogin['toOriginalRequest'] === true
+            && $originalRequest !== null
+        ) {
+            // If an original request is stored, redirect there!
+            return $originalRequest;
+        }
+
+        if (is_array($this->redirectAfterLogin)
             && array_key_exists('action', $this->redirectAfterLogin)
             && array_key_exists('controller', $this->redirectAfterLogin)
             && array_key_exists('package', $this->redirectAfterLogin)
