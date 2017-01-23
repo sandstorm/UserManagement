@@ -46,6 +46,11 @@ class EmailService
     ) {
         $plaintextBody = $this->renderEmailBody($templateIdentifier, 'txt', $variables);
         $htmlBody = $this->renderEmailBody($templateIdentifier, 'html', $variables);
+
+        // Emogrify - this will inline any styles in the HTML for proper display in Gmail.
+        $emogrifier = new \Pelago\Emogrifier($htmlBody);
+        $htmlBody = $emogrifier->emogrify();
+
         $mail = new Message();
         $mail
             ->setFrom($sender)

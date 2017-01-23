@@ -23,7 +23,8 @@
     },
     "require": {
         "typo3/flow": "^3.3",
-        "typo3/swiftmailer": "^5.4"
+        "typo3/swiftmailer": "^5.4",
+        "pelago/emogrifier": "^1.1"
     },
     "autoload": {
         "psr-0": {
