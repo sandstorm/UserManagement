@@ -70,8 +70,8 @@ class ResetPasswordController extends ActionController
         $config = $this->arguments->getArgument('resetPasswordFlow')->getPropertyMappingConfiguration();
         $config->allowProperties('email');
         $config->setTypeConverterOption(
-            \TYPO3\Flow\Property\TypeConverter\PersistentObjectConverter::class,
-            \TYPO3\Flow\Property\TypeConverter\PersistentObjectConverter::CONFIGURATION_CREATION_ALLOWED,
+            \Neos\Flow\Property\TypeConverter\PersistentObjectConverter::class,
+            \Neos\Flow\Property\TypeConverter\PersistentObjectConverter::CONFIGURATION_CREATION_ALLOWED,
             TRUE
         );
     }
