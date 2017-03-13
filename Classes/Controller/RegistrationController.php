@@ -94,6 +94,9 @@ class RegistrationController extends ActionController
 
         $this->registrationFlowRepository->add($registrationFlow);
 
+        $this->view->assign('registrationFlow', $registrationFlow);
+
+        //This line will be removed in 5.0.0
         $this->view->assign('email', $registrationFlow->getEmail());
     }
 
@@ -116,11 +119,12 @@ class RegistrationController extends ActionController
             return;
         }
 
-        $this->userCreationService->createUserAndAccount($registrationFlow);
+        $user = $this->userCreationService->createUserAndAccount($registrationFlow);
         $this->registrationFlowRepository->remove($registrationFlow);
         $this->persistenceManager->whitelistObject($registrationFlow);
 
         $this->view->assign('success', true);
+        $this->view->assign('user', $user);
     }
 
     /**

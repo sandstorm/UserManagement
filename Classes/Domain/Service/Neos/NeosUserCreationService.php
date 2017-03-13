@@ -50,7 +50,7 @@ class NeosUserCreationService implements UserCreationServiceInterface
      * in your object as you need them.
      *
      * @param RegistrationFlow $registrationFlow
-     * @return void
+     * @return User
      */
     public function createUserAndAccount(RegistrationFlow $registrationFlow)
     {
@@ -79,6 +79,9 @@ class NeosUserCreationService implements UserCreationServiceInterface
         $this->persistenceManager->whitelistObject($user->getPreferences());
         $this->persistenceManager->whitelistObject($name);
         $this->persistenceManager->whitelistObject($account);
+
+        // Return the user so the controller can directly use it
+        return $user;
     }
 
     /**

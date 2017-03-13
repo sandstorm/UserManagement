@@ -40,7 +40,7 @@ class FlowUserCreationService implements UserCreationServiceInterface
      * in your object as you need them.
      *
      * @param RegistrationFlow $registrationFlow
-     * @return void
+     * @return User
      */
     public function createUserAndAccount(RegistrationFlow $registrationFlow)
     {
@@ -73,5 +73,8 @@ class FlowUserCreationService implements UserCreationServiceInterface
         $this->userRepository->add($user);
         $this->persistenceManager->whitelistObject($user);
         $this->persistenceManager->whitelistObject($account);
+
+        // Return the user so the controller can directly use it
+        return $user;
     }
 }
