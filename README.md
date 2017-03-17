@@ -9,14 +9,34 @@ This package works in Neos CMS and Flow and provides the following functionality
 * "Forgotten password" with password reset e-mail
 
 ## Compatibility and Maintenance
-Sandstorm.UserManagement is currently being maintained for Neos 2.3 LTS and Neos 3.x. There is an older release for Neos 2.2,
-which is no longer maintained.
+Sandstorm.UserManagement is currently being maintained for Neos 2.3 LTS and Neos 3.x.
 
-| Neos / Flow Version        | Sandstorm.UserManagement Version | Maintained |
-|----------------------------|----------------------------------|------------|
-| Neos 3.x, Flow 4.x         | 4.x                              | Yes        |
-| Neos 2.3 LTS, Flow 3.3 LTS | 3.x                              | Yes        |
-| Neos 2.2, Flow 3.2         | 1.x                              | No         |
+| Neos / Flow Version        | Sandstorm.UserManagement Version | Maintained      |
+|----------------------------|----------------------------------|-----------------|
+| Neos 3.x, Flow 4.x         | 5.x                              | Yes             |
+| Neos 2.3 LTS, Flow 3.3 LTS | 3.x                              | Bugfixes        |
+| Neos 2.2, Flow 3.2         | 1.x                              | No              |
+
+## Breaking changes in Version 5.x
+Since I've removed the direct dependency to swiftmailer in favor of the Sandstorm/TemplateMailer package
+(which provides css inlining), the EmailService in this package was removed. This means that you will need
+to change some of your config options, because they are now set in the Sandstorm.TemplateMailer config path
+instead of inside the Sandstom.UserManagement path. Please refer to the [Sandstorm/TemplateMailer Documentation](https://github.com/sandstorm/TemplateMailer)
+for instructions on how to set the following configurations:
+
+* senderAddress
+* senderName
+* templatePackage
+
+Hint: to override the sender address for this package, you will need the following setting:
+```YAML
+Sandstorm:
+  TemplateMailer:
+    senderAddresses:
+      sandstorm_usermanagement_sender_email: # You need to use this exact key to override the UserManagement defaults
+        name: Your-App
+        address: yoursenderemail@yourapp.de
+```
 
 # Configuration
 
@@ -42,26 +62,13 @@ Sandstorm:
       body: 'Sie haben ungültige Zugangsdaten eingegeben. Bitte versuchen Sie es noch einmal.'
     # Email settings
     email:
-      # Sender Address
-      senderAddress: 'test@example.com'
-      # Sender name - will be merged with senderAddress to something
-      # like "Sandstorm Usermanagement Package <test@example.com>"
-      senderName: 'Sandstorm Usermanagement Package'
       # Subject line for the account confirmation email
       subjectActivation: 'Please confirm your account'
       # Subject line for the password reset email
       subjectResetPassword: 'Password reset'
-      # Template package to read the email templates from - this can be used to override
-      # e-mail templates. They are expected in the package given here, in the folder
-      # <Package>/Resources/Private/EmailTemplates.
-      templatePackage: 'Sandstorm.UserManagement'
     # An array of roles which are assigned to users after they activate their account.
     rolesForNewUsers: []
 ```
-
-## Configuring SwiftMailer
-The UserManagement package requires SwiftMailer to send out e-mails. Please check the swiftmailer package's
-configuration options (https://github.com/neos/swiftmailer) in order to configure SMTP credentials.
 
 ## Additional Settings for usage in Neos
 You should switch the implementation of the Redirect and User Creation Services to the Neos services. Add this to your `Objects.yaml`:
@@ -219,7 +226,9 @@ argument to which you can pass the name of the Auth Provider you are using.
 You can change any template via the default method using `Views.yaml`. Please see
 http://flowframework.readthedocs.io/en/stable/TheDefinitiveGuide/PartIII/ModelViewController.html#configuring-views-through-views-yaml.
 Here's an example how to plug your own login template:
+
 ```
+
 -
   requestFilter: 'isPackage("Sandstorm.UserManagement") && isController("Login") && isAction("login")'
   options:
@@ -232,7 +241,7 @@ Here's an example how to plug your own login template:
 As documented in the configuration options above, overriding e-mail templates is easy:
 * Copy the `EmailTemplates` folder from the UserManagement's `Resources/Private` folder into your
   own package and modify the templates to your heart's desire.
-* Then, set the `email.templatePackage` configuration option to that package's name. Done!
+* Add your own package to the templatePackages config, as described in [Sandstorm/TemplateMailer Documentation](https://github.com/sandstorm/TemplateMailer).
 
 ## Changing the User model
 You might want to add additional information to the user model. This can be done by extending

@@ -1,8 +1,8 @@
 Dear User,
 
-you signed up for an account at {applicationName}. To confirm your account,
+you signed up for an account at our service. To confirm your account,
 please click the link below or copy it into your browser:
 
 {activationLink}
 
-Thank you for your interest in {applicationName}!
+Thank you for your interest in our service!

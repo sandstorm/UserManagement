@@ -1,9 +1,9 @@
 <?php
 namespace Sandstorm\UserManagement\Controller;
 
+use Neos\Flow\Property\TypeConverter\PersistentObjectConverter;
 use Sandstorm\UserManagement\Domain\Model\ResetPasswordFlow;
 use Sandstorm\UserManagement\Domain\Repository\ResetPasswordFlowRepository;
-use Sandstorm\UserManagement\Domain\Service\EmailService;
 use Sandstorm\UserManagement\Domain\Service\UserCreationServiceInterface;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Mvc\Controller\ActionController;
@@ -35,21 +35,9 @@ class ResetPasswordController extends ActionController
 
     /**
      * @Flow\Inject
-     * @var EmailService
+     * @var \Sandstorm\TemplateMailer\Domain\Service\EmailService
      */
     protected $emailService;
-
-    /**
-     * @var string
-     * @Flow\InjectConfiguration(path="email.senderAddress")
-     */
-    protected $emailSenderAddress;
-
-    /**
-     * @var string
-     * @Flow\InjectConfiguration(path="email.senderName")
-     */
-    protected $emailSenderName;
 
     /**
      * @var string
@@ -70,8 +58,8 @@ class ResetPasswordController extends ActionController
         $config = $this->arguments->getArgument('resetPasswordFlow')->getPropertyMappingConfiguration();
         $config->allowProperties('email');
         $config->setTypeConverterOption(
-            \TYPO3\Flow\Property\TypeConverter\PersistentObjectConverter::class,
-            \TYPO3\Flow\Property\TypeConverter\PersistentObjectConverter::CONFIGURATION_CREATION_ALLOWED,
+            PersistentObjectConverter::class,
+            PersistentObjectConverter::CONFIGURATION_CREATION_ALLOWED,
             TRUE
         );
     }
@@ -98,20 +86,15 @@ class ResetPasswordController extends ActionController
                 ['token' => $resetPasswordFlow->getResetPasswordToken()],
                 'ResetPassword');
 
-            $this->emailService->sendTemplateBasedEmail(
+            $this->emailService->sendTemplateEmail(
                 'ResetPasswordToken',
                 $this->subjectResetPassword,
-                [$this->emailSenderAddress => $this->emailSenderName],
                 [$resetPasswordFlow->getEmail()],
                 [
                     'resetPasswordLink' => $resetPasswordLink,
-                    'applicationName' => $this->emailSenderName,
-                    'resetPasswordFlow' => $resetPasswordFlow,
-                    // BaseUri can be used to embed resources (images) into the email
-                    'baseUri' => htmlspecialchars($this->controllerContext->getRequest()
-                        ->getHttpRequest()
-                        ->getBaseUri())
-                ]
+                    'resetPasswordFlow' => $resetPasswordFlow
+                ],
+                'sandstorm_usermanagement_sender_email'
             );
 
             $this->resetPasswordFlowRepository->add($resetPasswordFlow);

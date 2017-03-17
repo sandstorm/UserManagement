@@ -1,9 +1,9 @@
 <?php
 namespace Sandstorm\UserManagement\Controller;
 
+use Sandstorm\TemplateMailer\Domain\Service\EmailService;
 use Sandstorm\UserManagement\Domain\Model\RegistrationFlow;
 use Sandstorm\UserManagement\Domain\Repository\RegistrationFlowRepository;
-use Sandstorm\UserManagement\Domain\Service\EmailService;
 use Sandstorm\UserManagement\Domain\Service\UserCreationServiceInterface;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Mvc\Controller\ActionController;
@@ -31,18 +31,6 @@ class RegistrationController extends ActionController
      * @var EmailService
      */
     protected $emailService;
-
-    /**
-     * @var string
-     * @Flow\InjectConfiguration(path="email.senderAddress")
-     */
-    protected $emailSenderAddress;
-
-    /**
-     * @var string
-     * @Flow\InjectConfiguration(path="email.senderName")
-     */
-    protected $emailSenderName;
 
     /**
      * @var string
@@ -78,18 +66,17 @@ class RegistrationController extends ActionController
             ['token' => $registrationFlow->getActivationToken()],
             'Registration');
 
-        $this->emailService->sendTemplateBasedEmail(
+        $this->emailService->sendTemplateEmail(
             'ActivationToken',
             $this->subjectActivation,
-            [$this->emailSenderAddress => $this->emailSenderName],
             [$registrationFlow->getEmail()],
             [
                 'activationLink' => $activationLink,
-                'applicationName' => $this->emailSenderName,
                 'registrationFlow' => $registrationFlow,
                 // BaseUri can be used to embed resources (images) into the email
                 'baseUri' => htmlspecialchars($this->controllerContext->getRequest()->getHttpRequest()->getBaseUri())
-            ]
+            ],
+            'sandstorm_usermanagement_sender_email'
         );
 
         $this->registrationFlowRepository->add($registrationFlow);

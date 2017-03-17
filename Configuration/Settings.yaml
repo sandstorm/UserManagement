@@ -10,19 +10,9 @@ Sandstorm:
       body: 'Sie haben ungültige Zugangsdaten eingegeben. Bitte versuchen Sie es noch einmal.'
     # Email settings
     email:
-      # Sender Address
-      senderAddress: 'test@example.com'
-      # Sender name - will be merged with senderAddress to something
-      # like "Sandstorm Usermanagement Package <test@example.com>"
-      senderName: 'Sandstorm Usermanagement Package'
-      # Subject line for the account confirmation email
       subjectActivation: 'Please confirm your account'
       # Subject line for the password reset email
       subjectResetPassword: 'Password reset'
-      # Template package to read the email templates from - this can be used to override
-      # e-mail templates. They are expected in the package given here, in the folder
-      # <Package>/Resources/Private/EmailTemplates.
-      templatePackage: 'Sandstorm.UserManagement'
     # An array of roles which are assigned to users after they activate their account.
     rolesForNewUsers: []
 
@@ -43,6 +33,14 @@ Sandstorm:
 #        package: 'Your.Package'
 #        controllerArguments:
 #          yourAdditionalArgument: 'test1'
+
+  TemplateMailer:
+    templatePackages:
+      99999: 'Sandstorm.UserManagement'
+    senderAddresses:
+      'sandstorm_usermanagement_sender_email':
+        name: 'Sandstorm Usermanagement Package'
+        address: 'test@example.com'
 
 Neos:
   Flow:
