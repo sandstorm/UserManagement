@@ -72,9 +72,7 @@ class RegistrationController extends ActionController
             [$registrationFlow->getEmail()],
             [
                 'activationLink' => $activationLink,
-                'registrationFlow' => $registrationFlow,
-                // BaseUri can be used to embed resources (images) into the email
-                'baseUri' => htmlspecialchars($this->controllerContext->getRequest()->getHttpRequest()->getBaseUri())
+                'registrationFlow' => $registrationFlow
             ],
             'sandstorm_usermanagement_sender_email'
         );
@@ -82,9 +80,6 @@ class RegistrationController extends ActionController
         $this->registrationFlowRepository->add($registrationFlow);
 
         $this->view->assign('registrationFlow', $registrationFlow);
-
-        //This line will be removed in 5.0.0
-        $this->view->assign('email', $registrationFlow->getEmail());
     }
 
     /**
