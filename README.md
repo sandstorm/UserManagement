@@ -18,6 +18,7 @@ Sandstorm.UserManagement is currently being maintained for Neos 2.3 LTS and Neos
 | Neos 2.2, Flow 3.2         | 1.x                              | No              |
 
 ## Breaking changes in Version 5.x
+### Configuration Changes
 Since I've removed the direct dependency to swiftmailer in favor of the Sandstorm/TemplateMailer package
 (which provides css inlining), the EmailService in this package was removed. This means that you will need
 to change some of your config options, because they are now set in the Sandstorm.TemplateMailer config path
@@ -37,6 +38,13 @@ Sandstorm:
         name: Your-App
         address: yoursenderemail@yourapp.de
 ```
+
+### Changes to Email Templates
+In the registration email templates, two variables are no longer available by default:
+* "applicationName" (filled with configured email senderAddress)
+* "email" (filled with the email address the mail is sent to)
+However, in the registration email, "registrationFlow" is now available, which gives access to the email as well to all
+other information the user has entered during the registration process (as long as it is stored in the RegistrationFlow object).
 
 # Configuration
 

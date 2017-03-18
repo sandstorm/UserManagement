@@ -23,7 +23,7 @@
     },
     "require": {
         "neos/flow": "^4.0",
-        "sandstorm/templatemailer": "~1.0.0"
+        "sandstorm/templatemailer": "^1.0"
     },
     "autoload": {
         "psr-4": {
