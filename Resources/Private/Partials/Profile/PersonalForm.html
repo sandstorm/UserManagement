@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:f="http://typo3.org/ns/TYPO3/Fluid/ViewHelpers"
+      xmlns="http://www.w3.org/1999/xhtml"
+      lang="en">
+
+<f:section name="PersonalForm">
+  <fieldset>
+    <label>
+      Titel
+      <f:form.textfield property="name.title" name="title" value="{user.name.title}" placeholder="Title"/>
+    </label>
+
+    <label class="{f:validation.ifHasErrors(for: 'password', then: ' form-error')}">
+      Vorname
+      <f:form.textfield property="name.firstName" name="firstName" value="{user.name.firstName}" placeholder="Vorname"/>
+      <f:form.textfield property="name.middleName" name="middleName" value="{user.name.middleName}" placeholder="Zweiter Vorname"/>
+    </label>
+
+    <label>
+      Nachname
+      <f:form.textfield property="name.lastName" name="lastName" value="{user.name.lastName}" placeholder="Nachname"/>
+      <f:form.textfield property="name.otherName" name="otherName" value="{user.name.otherName}" placeholder="Anderer Name"/>
+    </label>
+
+    <f:render partial="FormErrors" section="ValidationResults" arguments="{for: 'user'}"/>
+
+    <input type="submit" value="Persönliche Angaben ändern" class="button large primary" />
+  </fieldset>
+</f:section>
+
+</html>

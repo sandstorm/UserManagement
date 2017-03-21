@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<html xmlns:f="http://typo3.org/ns/TYPO3/Fluid/ViewHelpers"
+      xmlns:usermanagement="http://typo3.org/ns/Sandstorm/UserManagement/ViewHelpers"
+      xmlns="http://www.w3.org/1999/xhtml"
+      lang="en">
+
+<f:layout name="Default"/>
+
+<f:section name="Title">Registration</f:section>
+
+<f:section name="Content">
+  <usermanagement:ifAuthenticated authenticationProviderName="Sandstorm.UserManagement:Login">
+    <f:then>
+
+      <h2>Benutzerprofil</h2>
+
+      <h4>Persönliche Angaben</h4>
+      <f:form action="editProfile" method="post" object="{user}" objectName="user">
+        <f:render partial="Profile/PersonalForm" section="PersonalForm" arguments="{_all}"/>
+      </f:form>
+
+      <h4>Account</h4>
+      <f:render partial="Profile/AccountData" section="DataTable" arguments="{_all}"/>
+
+      <h4>Passwort ändern</h4>
+      <f:form action="setNewPassword" object="{account}" objectName="account">
+        <f:render partial="Profile/PasswordForm" section="NewPassword" arguments="{_all}"/>
+      </f:form>
+    </f:then>
+  </usermanagement:ifAuthenticated>
+
+
+</f:section>
+
+</html>
