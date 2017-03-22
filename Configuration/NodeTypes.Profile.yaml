@@ -11,3 +11,25 @@
       groups:
         pluginSettings:
           label: i18n
+  properties:
+    showPersonalInformation:
+      type: boolean
+      defaultValue: TRUE
+      ui:
+        label: i18n
+        inspector:
+          group: pluginSettings
+    showAccountInformation:
+      type: boolean
+      defaultValue: TRUE
+      ui:
+        label: i18n
+        inspector:
+          group: pluginSettings
+    enableNewPassword:
+      type: boolean
+      defaultValue: TRUE
+      ui:
+        label: i18n
+        inspector:
+          group: pluginSettings

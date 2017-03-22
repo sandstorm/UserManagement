@@ -25,7 +25,7 @@ roles:
       -
         privilegeTarget: 'Sandstorm.UserManagement:Logout'
         permission: GRANT
-  'Neos.Neos:TestRole':
+  'Neos.Neos:FrontendUser':
     privileges:
       -
         privilegeTarget: 'Sandstorm.UserManagement:Profile'

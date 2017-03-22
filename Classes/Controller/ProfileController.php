@@ -9,8 +9,6 @@ use Neos\Neos\Domain\Repository\UserRepository;
 use Neos\Neos\Domain\Model\User;
 use Neos\Neos\Domain\Service\UserService;
 use Neos\Party\Domain\Repository\PartyRepository;
-use Neos\Error\Messages as Error;
-use Sandstorm\UserManagement\Domain\Model\PasswordDto;
 
 /**
  */
@@ -44,11 +42,12 @@ class ProfileController extends ActionController
 
     public function indexAction()
     {
+        $pluginArguments = $this->request->getInternalArguments();
         $account = $this->securityContext->getAccount();
         $user = $this->userService->getUser($account->getAccountIdentifier(), $account->getAuthenticationProviderName());
-
         $this->view->assign('account', $account);
         $this->view->assign('user', $user);
+        $this->view->assign('pluginArguments', $pluginArguments);
     }
 
     /**
