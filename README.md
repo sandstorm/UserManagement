@@ -54,6 +54,7 @@ via auto-inclusion in the package settings.
 Attention: Any routes defined in the global `Routes.yaml` are loaded before this package's routes, so they may be overriden.
 This is especially true for the default Flow subroutes, so make sure you have removed those from your global `Routes.yaml`.
 If you can't remove them, just include the subroutes for this package manually before the Flow subroutes.
+When using this as part of your own plugin keep in mind that you have to add this in your package's `composer.json`. After requirering new packages you have to run `./flow neos.flow:package:rescan` to regenerate to order in which all your packages are loaded.
 
 ## Basic configuration options
 These are the basic configuration options for e-mails, timeouts etc. You will usually want to adapt these to your application.
