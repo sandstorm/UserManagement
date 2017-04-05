@@ -143,7 +143,7 @@ Neos:
 ### Creating users
 The package exposes a command to create users. You can run
 
-`./flow sandstormuser:create test@example.com password --additionalAttributes="firstName:Max,lastName:Mustermann"`
+`./flow sandstormuser:create test@example.com password --additionalAttributes="firstName:Max;lastName:Mustermann"`
 
 to create a user. This will create a Neos user if you're using the package in Neos. You can assign
 roles to the new user in the Neos backend afterwards.
