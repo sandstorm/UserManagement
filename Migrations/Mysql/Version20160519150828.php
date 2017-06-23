@@ -1,4 +1,5 @@
 <?php
+
 namespace Neos\Flow\Persistence\Doctrine\Migrations;
 
 use Doctrine\DBAL\Migrations\AbstractMigration;
@@ -26,13 +27,13 @@ class Version20160519150828 extends AbstractMigration
          * comes before the Flow migration where the table is renamed (Version20161124185047). So we need to check which of these two
          * tables exist and set the FK relation accordingly.
          **/
-        $query = "SELECT * FROM information_schema.tables WHERE table_schema = '".$this->connection->getDatabase()."' AND table_name = 'neos_flow_security_account'";
-        $result = $this->connection->executeQuery($query)->fetchAll();
-        if(count($result) > 0){
-            // Neos table is there - this means flow migrations have already been run.
-            $this->addSql("ALTER TABLE sandstorm_usermanagement_domain_model_user ADD CONSTRAINT FK_5DEB8A977D3656A4 FOREIGN KEY (account) REFERENCES neos_flow_security_account (persistence_object_identifier)");
-        } else {
-            // Table is called typo3_
+        if ($this->sm->tablesExist('neos_flow_security_account')) {
+            // "neos_" table is there - this means flow migrations have already been run.
+            {
+                $this->addSql("ALTER TABLE sandstorm_usermanagement_domain_model_user ADD CONSTRAINT FK_5DEB8A977D3656A4 FOREIGN KEY (account) REFERENCES neos_flow_security_account (persistence_object_identifier)");
+            }
+        } else if ($this->sm->tablesExist('typo3_flow_security_account')) {
+            // Flow migrations have not been run fully yet, table still has the old name.
             $this->addSql("ALTER TABLE sandstorm_usermanagement_domain_model_user ADD CONSTRAINT FK_5DEB8A977D3656A4 FOREIGN KEY (account) REFERENCES typo3_flow_security_account (persistence_object_identifier)");
         }
     }
