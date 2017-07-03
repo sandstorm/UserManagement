@@ -262,9 +262,59 @@ You might want to add additional information to the user model. This can be done
 the User model delivered with this package and adding properties as you like. You will then
 need to switch out the implementation of `UserCreationServiceInterface` to get control over
 the creation process. This can be done via `Objects.yaml`:
-```
+```YAML
 Sandstorm\UserManagement\Domain\Service\UserCreationServiceInterface:
   className: 'Your\Package\Domain\Service\YourCustomUserCreationService'
+```
+
+## Hooking into the login/logout process
+The UserManagement package emits three signals during the login and logout process, into which you can hook
+using Flows [Signals and Slots](http://flowframework.readthedocs.io/en/stable/TheDefinitiveGuide/PartIII/SignalsAndSlots.html)
+mechanism. You could for example use this to set additional cookies when a user logs in, e.g. to enable JWT authentication
+with another service. Here is an example of using all three, you could copy this into your own `Package.php` file:
+```PHP
+public function boot(Bootstrap $bootstrap) {
+    $dispatcher = $bootstrap->getSignalSlotDispatcher();
+    $dispatcher->connect(
+        \Sandstorm\UserManagement\Controller\LoginController::class, 'authenticationSuccess',
+        \Your\Package\Domain\Service\ExampleService::class, 'onAuthenticationSuccess'
+    );
+    $dispatcher->connect(
+        \Sandstorm\UserManagement\Controller\LoginController::class, 'authenticationFailure',
+        \Your\Package\Domain\Service\ExampleService::class, 'onAuthenticationFailure'
+    );
+    $dispatcher->connect(
+        \Sandstorm\UserManagement\Controller\LoginController::class, 'logout',
+        \Your\Package\Domain\Service\ExampleService::class, 'onLogout'
+    );
+}
+```
+
+Your example service could then look like this:
+```PHP
+namespace Your\Package\Domain\Service;
+
+use Neos\Flow\Http\Request;
+use Neos\Flow\Mvc\Controller\ControllerContext;
+use Neos\Flow\Security\Exception\AuthenticationRequiredException;
+
+class ExampleService
+{
+    public function onAuthenticationSuccess(ControllerContext $controllerContext, Request $originalRequest = null)
+    {
+        // Do custom stuff here
+    }
+
+    public function onAuthenticationFailure(ControllerContext $controllerContext, AuthenticationRequiredException $exception = null)
+    {
+        // Do custom stuff here
+    }
+
+    public function onLogout(ControllerContext $controllerContext)
+    {
+        // Do custom stuff here
+    }
+}
 ```
 
 ## Changing the Registration Flow and validation logic
@@ -273,7 +323,7 @@ It has a few default properties and can be extended with arbitrary additional da
 
 ### Adding custom fields to the Registration Flow
 Exchange the registration template as described above and add a field:
-```
+```HTML
 <f:form.checkbox id="terms" property="attributes.terms" value=""/>
 ```
 This will add the field, but of course you might also want to validate it.
@@ -283,7 +333,7 @@ The UserManagement package has a hook for you to implement your custom registrat
 called directly from the domain model validator of the package. All you need to to is create an implementation of
 `Sandstorm\UserManagement\Domain\Service\RegistrationFlowValidationServiceInterface` in your own package. It could
 look like this:
-```
+```PHP
 class RegistrationFlowValidationService implements RegistrationFlowValidationServiceInterface {
     /**
      * @param RegistrationFlow $registrationFlow

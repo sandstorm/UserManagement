@@ -2,6 +2,9 @@
 namespace Sandstorm\UserManagement\Controller;
 
 use Neos\Error\Messages\Error;
+use Neos\Flow\Http\Request;
+use Neos\Flow\Mvc\Controller\ControllerContext;
+use Neos\Flow\Security\Exception\AuthenticationRequiredException;
 use Sandstorm\UserManagement\Domain\Service\RedirectTargetServiceInterface;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Exception;
@@ -48,10 +51,11 @@ class LoginController extends AbstractAuthenticationController
      * @throws \Neos\Flow\Exception
      * @return string
      */
-    protected function onAuthenticationSuccess(\Neos\Flow\Mvc\ActionRequest $originalRequest = null)
+    protected function onAuthenticationSuccess(ActionRequest $originalRequest = null)
     {
-        $result = $this->redirectTargetService->onAuthenticationSuccess($this->controllerContext, $originalRequest);
+        $this->emitAuthenticationSuccess($this->controllerContext, $originalRequest);
 
+        $result = $this->redirectTargetService->onAuthenticationSuccess($this->controllerContext, $originalRequest);
         if (is_string($result)) {
             $this->redirectToUri($result);
         } elseif ($result instanceof ActionRequest) {
@@ -76,9 +80,10 @@ class LoginController extends AbstractAuthenticationController
      * @param \Neos\Flow\Security\Exception\AuthenticationRequiredException $exception The exception thrown while the authentication process
      * @return void
      */
-    protected function onAuthenticationFailure(
-        \Neos\Flow\Security\Exception\AuthenticationRequiredException $exception = null
-    ) {
+    protected function onAuthenticationFailure(AuthenticationRequiredException $exception = null)
+    {
+        $this->emitAuthenticationFailure($this->controllerContext, $exception);
+
         $this->flashMessageContainer->addMessage(new Error($this->loginFailedBody,
             ($exception === null ? 1347016771 : $exception->getCode()), [], $this->loginFailedTitle));
     }
@@ -89,6 +94,9 @@ class LoginController extends AbstractAuthenticationController
     public function logoutAction()
     {
         parent::logoutAction();
+
+        $this->emitLogout($this->controllerContext);
+
         $result = $this->redirectTargetService->onLogout($this->controllerContext);
 
         if (is_string($result)) {
@@ -122,5 +130,31 @@ class LoginController extends AbstractAuthenticationController
     protected function getErrorFlashMessage()
     {
         return false;
+    }
+
+    /**
+     * @param ControllerContext $controllerContext
+     * @param Request $originalRequest
+     * @Flow\Signal
+     */
+    protected function emitAuthenticationSuccess(ControllerContext $controllerContext, Request $originalRequest = null)
+    {
+    }
+
+    /**
+     * @param ControllerContext $controllerContext
+     * @param AuthenticationRequiredException $exception
+     * @Flow\Signal
+     */
+    protected function emitAuthenticationFailure(ControllerContext $controllerContext, AuthenticationRequiredException $exception = null)
+    {
+    }
+
+    /**
+     * @param ControllerContext $controllerContext
+     * @Flow\Signal
+     */
+    protected function emitLogout(ControllerContext $controllerContext)
+    {
     }
 }
