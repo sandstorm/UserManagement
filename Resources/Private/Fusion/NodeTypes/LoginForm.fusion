@@ -8,4 +8,5 @@ prototype(Sandstorm.UserManagement:LoginForm) < prototype(Neos.Neos:Plugin) {
 
     redirectAfterLogin = ${q(node).property('redirectAfterLogin')}
     redirectAfterLogout = ${q(node).property('redirectAfterLogout')}
+    node = ${node}
 }

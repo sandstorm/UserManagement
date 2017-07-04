@@ -42,6 +42,7 @@ class LoginController extends AbstractAuthenticationController
     public function loginAction()
     {
         $this->view->assign('account', $this->securityContext->getAccount());
+        $this->view->assign('node', $this->request->getInternalArgument('__node'));
     }
 
     /**
