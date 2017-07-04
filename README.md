@@ -241,10 +241,10 @@ You can change any template via the default method using `Views.yaml`. Please se
 http://flowframework.readthedocs.io/en/stable/TheDefinitiveGuide/PartIII/ModelViewController.html#configuring-views-through-views-yaml.
 Here's an example how to plug your own login template:
 
-```
+```YAML
 
 -
-  requestFilter: 'isPackage("Sandstorm.UserManagement") && isController("Login") && isAction("login")'
+  requestFilter: 'mainRequest.isPackage("Neos.Neos") && isPackage("Sandstorm.UserManagement") && isController("Login") && isAction("login")'
   options:
     templatePathAndFilename: 'resource://Your.Package/Private/Templates/Login/Login.html'
     partialRootPaths: ['resource://Your.Package/Private/Partials']
