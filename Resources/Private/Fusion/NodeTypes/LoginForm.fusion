@@ -6,11 +6,6 @@ prototype(Sandstorm.UserManagement:LoginForm) < prototype(Neos.Neos:Plugin) {
     controller = 'Login'
     action = 'login'
 
-    redirectAfterLoginUri = Neos.Neos:NodeUri {
-        node = ${q(node).property('redirectAfterLogin')}
-    }
-
-    redirectAfterLogoutUri = Neos.Neos:NodeUri {
-        node = ${q(node).property('redirectAfterLogout')}
-    }
+    redirectAfterLogin = ${q(node).property('redirectAfterLogin')}
+    redirectAfterLogout = ${q(node).property('redirectAfterLogout')}
 }
