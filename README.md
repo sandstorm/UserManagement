@@ -123,6 +123,7 @@ Neos:
       authentication:
         providers:
           'Neos.Neos:Backend':
+            provider: PersistedUsernamePasswordProvider
             requestPatterns:
               Sandstorm.UserManagement:NeosBackend:
                 pattern: Sandstorm\UserManagement\Security\NeosRequestPattern
