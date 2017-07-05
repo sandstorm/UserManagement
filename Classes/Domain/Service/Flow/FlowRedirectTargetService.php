@@ -1,4 +1,5 @@
 <?php
+
 namespace Sandstorm\UserManagement\Domain\Service\Flow;
 
 use Sandstorm\UserManagement\Domain\Service\RedirectTargetServiceInterface;
@@ -34,9 +35,7 @@ class FlowRedirectTargetService implements RedirectTargetServiceInterface
             && array_key_exists('package', $this->redirectAfterLogin)
         ) {
             $controllerArguments = [];
-            if (array_key_exists('controllerArguments', $this->redirectAfterLogin) &&
-                is_array($this->redirectAfterLogin['controllerArguments'])
-            ) {
+            if (array_key_exists('controllerArguments', $this->redirectAfterLogin) && is_array($this->redirectAfterLogin['controllerArguments'])) {
                 $controllerArguments = $this->redirectAfterLogin['controllerArguments'];
             }
 
@@ -60,9 +59,7 @@ class FlowRedirectTargetService implements RedirectTargetServiceInterface
             && array_key_exists('package', $this->redirectAfterLogout)
         ) {
             $controllerArguments = [];
-            if (array_key_exists('controllerArguments', $this->redirectAfterLogout) &&
-                is_array($this->redirectAfterLogout['controllerArguments'])
-            ) {
+            if (array_key_exists('controllerArguments', $this->redirectAfterLogout) && is_array($this->redirectAfterLogout['controllerArguments'])) {
                 $controllerArguments = $this->redirectAfterLogout['controllerArguments'];
             }
 

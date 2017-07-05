@@ -2,7 +2,6 @@
 namespace Sandstorm\UserManagement\Controller;
 
 use Neos\Error\Messages\Error;
-use Neos\Flow\Http\Request;
 use Neos\Flow\Mvc\Controller\ControllerContext;
 use Neos\Flow\Security\Exception\AuthenticationRequiredException;
 use Sandstorm\UserManagement\Domain\Service\RedirectTargetServiceInterface;
@@ -135,10 +134,10 @@ class LoginController extends AbstractAuthenticationController
 
     /**
      * @param ControllerContext $controllerContext
-     * @param Request $originalRequest
+     * @param ActionRequest $originalRequest
      * @Flow\Signal
      */
-    protected function emitAuthenticationSuccess(ControllerContext $controllerContext, Request $originalRequest = null)
+    protected function emitAuthenticationSuccess(ControllerContext $controllerContext, ActionRequest $originalRequest = null)
     {
     }
 

@@ -294,13 +294,13 @@ Your example service could then look like this:
 ```PHP
 namespace Your\Package\Domain\Service;
 
-use Neos\Flow\Http\Request;
+use Neos\Flow\Mvc\ActionRequest;
 use Neos\Flow\Mvc\Controller\ControllerContext;
 use Neos\Flow\Security\Exception\AuthenticationRequiredException;
 
 class ExampleService
 {
-    public function onAuthenticationSuccess(ControllerContext $controllerContext, Request $originalRequest = null)
+    public function onAuthenticationSuccess(ControllerContext $controllerContext, ActionRequest $originalRequest = null)
     {
         // Do custom stuff here
     }
