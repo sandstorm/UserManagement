@@ -4,27 +4,22 @@
       lang="en">
 
 <f:section name="PersonalForm">
-  <fieldset>
-    <label>
-      Titel
-      <f:form.textfield property="name.title" name="title" value="{user.name.title}" placeholder="Title"/>
-    </label>
+    <fieldset>
+        <label class="{f:validation.ifHasErrors(for: 'password', then: ' form-error')}">
+            <f:translate id="personalForm.firstName" package="Sandstorm.UserManagement" source="Partials/Profile/PersonalForm"/>:
+            <f:form.textfield property="firstName" name="firstName" value="{user.firstName}" placeholder='<f:translate id="personalForm.firstName" package="Sandstorm.UserManagement" source="Partials/Profile/PersonalForm"/>'/>
+        </label>
 
-    <label class="{f:validation.ifHasErrors(for: 'password', then: ' form-error')}">
-      Vorname
-      <f:form.textfield property="name.firstName" name="firstName" value="{user.name.firstName}" placeholder="Vorname"/>
-      <f:form.textfield property="name.middleName" name="middleName" value="{user.name.middleName}" placeholder="Zweiter Vorname"/>
-    </label>
+        <label>
+            <f:translate id="personalForm.lastName" package="Sandstorm.UserManagement" source="Partials/Profile/PersonalForm"/>:
+            <f:form.textfield property="lastName" name="lastName" value="{user.lastName}" placeholder='<f:translate id="personalForm.lastName" package="Sandstorm.UserManagement" source="Partials/Profile/PersonalForm"/>'/>
+        </label>
 
-    <label>
-      Nachname
-      <f:form.textfield property="name.lastName" name="lastName" value="{user.name.lastName}" placeholder="Nachname"/>
-      <f:form.textfield property="name.otherName" name="otherName" value="{user.name.otherName}" placeholder="Anderer Name"/>
-    </label>
+        <f:render partial="FormErrors" section="ValidationResults" arguments="{for: 'user'}"/>
 
-    <f:render partial="FormErrors" section="ValidationResults" arguments="{for: 'user'}"/>
-
-    <input type="submit" value="Persönliche Angaben ändern" class="button large primary" />
+        <button class="button large primary">
+            <f:translate id="personalForm.changeData" package="Sandstorm.UserManagement" source="Partials/Profile/PersonalForm"/>
+        </button>
   </fieldset>
 </f:section>
 

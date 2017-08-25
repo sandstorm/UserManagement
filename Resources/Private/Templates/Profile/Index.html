@@ -7,33 +7,48 @@
       lang="en">
 <f:layout name="Default"/>
 
-<f:section name="Title">Registration</f:section>
+<f:section name="Title">Profile Settings</f:section>
 
 <f:section name="Content">
-  <usermanagement:ifAuthenticated authenticationProviderName="Sandstorm.UserManagement:Login">
-    <f:then>
-      <h2>Benutzerprofil</h2>
-
+      <h2><f:translate id="profile.title" package="Sandstorm.UserManagement" source="Templates/Partials/Profile"/></h2>
       <f:if condition="{pluginArguments.__showPersonalInformation}">
-        <h4>Persönliche Angaben</h4>
-        <f:form action="editProfile" method="post" object="{user}" objectName="user">
-          <f:render partial="Profile/PersonalForm" section="PersonalForm" arguments="{_all}"/>
-        </f:form>
+          <f:render section="Personal" />
       </f:if>
-
       <f:if condition="{pluginArguments.__showAccountInformation}">
-        <h4>Account</h4>
-        <f:render partial="Profile/AccountData" section="DataTable" arguments="{_all}"/>
+          <f:render section="Account" />
       </f:if>
-
       <f:if condition="{pluginArguments.__enableNewPassword}">
-        <h4>Passwort ändern</h4>
-        <f:form action="setNewPassword" object="{account}" objectName="account">
-          <f:render partial="Profile/PasswordForm" section="NewPassword" arguments="{_all}"/>
-        </f:form>
+          <f:render section="Password" />
       </f:if>
-    </f:then>
-  </usermanagement:ifAuthenticated>
 </f:section>
-
+<f:section name="Personal">
+    <h4><f:translate id="profile.personal" package="Sandstorm.UserManagement" source="Templates/Partials/Profile"/></h4>
+    <usermanagement:ifAuthenticated authenticationProviderName="Sandstorm.UserManagement:Login">
+        <f:then>
+            <f:form action="editProfile" method="post" object="{user}" objectName="user">
+                <f:render partial="Profile/PersonalForm" section="PersonalForm" arguments="{_all}"/>
+            </f:form>
+        </f:then>
+        <f:else>
+            <f:render partial="Profile/PersonalForm" section="PersonalForm" arguments="{_all}"/>
+        </f:else>
+    </usermanagement:ifAuthenticated>
+</f:section>
+<f:section name="Account">
+    <h4><f:translate id="profile.account" package="Sandstorm.UserManagement" source="Templates/Partials/Profile"/></h4>
+    <f:render partial="Profile/AccountData" section="DataTable" arguments="{_all}"/>
+</f:section>
+<f:section name="Password">
+    <h4><f:translate id="profile.password" package="Sandstorm.UserManagement" source="Templates/Partials/Profile"/></h4>
+    <usermanagement:ifAuthenticated authenticationProviderName="Sandstorm.UserManagement:Login">
+        <f:then>
+            <f:form action="setNewPassword" object="{account}" objectName="account">
+                <f:render partial="Profile/PasswordForm" section="NewPassword" arguments="{_all}"/>
+            </f:form>
+        </f:then>
+        <f:else>
+            <f:render partial="Profile/PasswordForm" section="NewPassword" arguments="{_all}"/>
+        </f:else>
+    </usermanagement:ifAuthenticated>
+</f:section>
 </html>
