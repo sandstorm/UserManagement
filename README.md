@@ -1,6 +1,6 @@
 # Sandstorm.UserManagement Neos / Flow Package
 
-## Features
+# 0. Features
 This package works in Neos CMS and Flow and provides the following functionality:
 
 * Registration of (frontend) users via a registration form
@@ -8,14 +8,14 @@ This package works in Neos CMS and Flow and provides the following functionality
 * Login of registered (frontend) users via a login form
 * "Forgotten password" with password reset e-mail
 
-## Compatibility and Maintenance
+# 1. Compatibility and Maintenance
 Sandstorm.UserManagement is currently being maintained for Neos 2.3 LTS and Neos 3.x.
 
-| Neos / Flow Version        | Sandstorm.UserManagement Version | Maintained      |
-|----------------------------|----------------------------------|-----------------|
-| Neos 3.x, Flow 4.x         | 5.x                              | Yes             |
-| Neos 2.3 LTS, Flow 3.3 LTS | 3.x                              | Bugfixes        |
-| Neos 2.2, Flow 3.2         | 1.x                              | No              |
+| Neos / Flow Version        | Sandstorm.UserManagement Version | Branch | Maintained |
+|----------------------------|----------------------------------|--------|------------|
+| Neos 3.x, Flow 4.x         | 5.x                              | master | Yes        |
+| Neos 2.3 LTS, Flow 3.3 LTS | 3.x                              | 3.0    | Bugfixes   |
+| Neos 2.2, Flow 3.2         | 1.x                              | No     | No         |
 
 ## Breaking changes in Version 5.x
 ### Configuration Changes
@@ -46,14 +46,34 @@ In the registration email templates, two variables are no longer available by de
 However, in the registration email, "registrationFlow" is now available, which gives access to the email as well to all
 other information the user has entered during the registration process (as long as it is stored in the RegistrationFlow object).
 
-# Configuration
+# 2. Configuration
 
 ## Setup
-Run `./flow doctrine:migrate` after you add this package to install its model. The package automatically exposes its routes
-via auto-inclusion in the package settings.
-Attention: Any routes defined in the global `Routes.yaml` are loaded before this package's routes, so they may be overriden.
-This is especially true for the default Flow subroutes, so make sure you have removed those from your global `Routes.yaml`.
+There are the basic config steps:
+1. Run `./flow doctrine:migrate` after you add this package to install its model. The package automatically exposes its routes
+via auto-inclusion in the package settings. Attention: Any routes defined in the global `Routes.yaml` are loaded before this package's 
+routes, so they may be overriden. This is especially true for the default Flow subroutes, so make sure you have removed those from your global `Routes.yaml`.
 If you can't remove them, just include the subroutes for this package manually before the Flow subroutes.
+
+2. Require this package in your own package's `composer.json`. This will inform Flow that it needs to load UserManagement before
+your packages, which allows you to override config and will make sure authorizations work correctly. Keep in mind that you have to add this into all
+packages that use features from user management - very important if your site is split into multiple packages or plugins.
+Here's an example:
+```
+{
+    "description": "Your Site Package",
+    "type": "neos-site", (or "neos-package" if you're using Flow only or building a Plugin)
+    "require": {
+        "neos/neos": "*",
+        "sandstorm/usermanagement": "*"
+    }
+    ...more settings here...
+}
+```
+
+3. Run `./flow neos.flow:package:rescan` to regenerate to order in which all your packages are loaded.
+
+4. Add and adapt the configuration settings below to your config (make sure to not miss the special Neos settings).
 
 ## Basic configuration options
 These are the basic configuration options for e-mails, timeouts etc. You will usually want to adapt these to your application.
@@ -91,7 +111,7 @@ Sandstorm\UserManagement\Domain\Service\UserCreationServiceInterface:
 Be aware that the `NeosUserCreationService` requires a non-empty firstName and lastName to be present in the `RegistrationFlow` attributes
 as it's in the templates of this package.
 
-### Neos 2.3 (Flow 3.3) and higher - UserManagement 2.x and higher
+### Neos 3.0 and higher
 
 Add the following to your package's (or the global) `Settings.yaml`. This creates a separate authentication provider so Neos can
 distinguish between frontend and backend logins.
@@ -102,7 +122,7 @@ Neos:
     security:
       authentication:
         providers:
-          'Typo3BackendProvider':
+          'Neos.Neos:Backend':
             requestPatterns:
               Sandstorm.UserManagement:NeosBackend:
                 pattern: Sandstorm\UserManagement\Security\NeosRequestPattern
@@ -118,32 +138,18 @@ Neos:
 
 ```
 
-### Neos 2.2 and before - UserManagement 1.x
-Before Flow 3.3, the syntax for attaching a pattern to an authentication provider is different.
-```
+### Neos 2.3 (Flow 3.3)
 
-Neos:
-  Flow:
-    security:
-      authentication:
-        providers:
-          'Typo3BackendProvider':
-            requestPatterns:
-              'Sandstorm\UserManagement\Security\NeosRequestPattern': 'backend'
-          'Sandstorm.UserManagement:Login':
-            provider: 'PersistedUsernamePasswordProvider'
-            requestPatterns:
-              'Sandstorm\UserManagement\Security\NeosRequestPattern': 'frontend'
+Before Neos 3.0, the `Neos.Neos:Backend` authentication provider was called `Typo3BackendProvider`. Replace `Neos.Neos:Backend`
+with `Typo3BackendProvider` in the config above.
 
-```
-
-# Usage
+# 3. Usage
 
 ## CLI Commands
 ### Creating users
 The package exposes a command to create users. You can run
 
-`./flow sandstormuser:create test@example.com password --additionalAttributes="firstName:Max,lastName:Mustermann"`
+`./flow sandstormuser:create test@example.com password --additionalAttributes="firstName:Max;lastName:Mustermann"`
 
 to create a user. This will create a Neos user if you're using the package in Neos. You can assign
 roles to the new user in the Neos backend afterwards.
@@ -235,10 +241,10 @@ You can change any template via the default method using `Views.yaml`. Please se
 http://flowframework.readthedocs.io/en/stable/TheDefinitiveGuide/PartIII/ModelViewController.html#configuring-views-through-views-yaml.
 Here's an example how to plug your own login template:
 
-```
+```YAML
 
 -
-  requestFilter: 'isPackage("Sandstorm.UserManagement") && isController("Login") && isAction("login")'
+  requestFilter: 'mainRequest.isPackage("Neos.Neos") && isPackage("Sandstorm.UserManagement") && isController("Login") && isAction("login")'
   options:
     templatePathAndFilename: 'resource://Your.Package/Private/Templates/Login/Login.html'
     partialRootPaths: ['resource://Your.Package/Private/Partials']
@@ -256,9 +262,59 @@ You might want to add additional information to the user model. This can be done
 the User model delivered with this package and adding properties as you like. You will then
 need to switch out the implementation of `UserCreationServiceInterface` to get control over
 the creation process. This can be done via `Objects.yaml`:
-```
+```YAML
 Sandstorm\UserManagement\Domain\Service\UserCreationServiceInterface:
   className: 'Your\Package\Domain\Service\YourCustomUserCreationService'
+```
+
+## Hooking into the login/logout process
+The UserManagement package emits three signals during the login and logout process, into which you can hook
+using Flows [Signals and Slots](http://flowframework.readthedocs.io/en/stable/TheDefinitiveGuide/PartIII/SignalsAndSlots.html)
+mechanism. You could for example use this to set additional cookies when a user logs in, e.g. to enable JWT authentication
+with another service. Here is an example of using all three, you could copy this into your own `Package.php` file:
+```PHP
+public function boot(Bootstrap $bootstrap) {
+    $dispatcher = $bootstrap->getSignalSlotDispatcher();
+    $dispatcher->connect(
+        \Sandstorm\UserManagement\Controller\LoginController::class, 'authenticationSuccess',
+        \Your\Package\Domain\Service\ExampleService::class, 'onAuthenticationSuccess'
+    );
+    $dispatcher->connect(
+        \Sandstorm\UserManagement\Controller\LoginController::class, 'authenticationFailure',
+        \Your\Package\Domain\Service\ExampleService::class, 'onAuthenticationFailure'
+    );
+    $dispatcher->connect(
+        \Sandstorm\UserManagement\Controller\LoginController::class, 'logout',
+        \Your\Package\Domain\Service\ExampleService::class, 'onLogout'
+    );
+}
+```
+
+Your example service could then look like this:
+```PHP
+namespace Your\Package\Domain\Service;
+
+use Neos\Flow\Mvc\ActionRequest;
+use Neos\Flow\Mvc\Controller\ControllerContext;
+use Neos\Flow\Security\Exception\AuthenticationRequiredException;
+
+class ExampleService
+{
+    public function onAuthenticationSuccess(ControllerContext $controllerContext, ActionRequest $originalRequest = null)
+    {
+        // Do custom stuff here
+    }
+
+    public function onAuthenticationFailure(ControllerContext $controllerContext, AuthenticationRequiredException $exception = null)
+    {
+        // Do custom stuff here
+    }
+
+    public function onLogout(ControllerContext $controllerContext)
+    {
+        // Do custom stuff here
+    }
+}
 ```
 
 ## Changing the Registration Flow and validation logic
@@ -267,7 +323,7 @@ It has a few default properties and can be extended with arbitrary additional da
 
 ### Adding custom fields to the Registration Flow
 Exchange the registration template as described above and add a field:
-```
+```HTML
 <f:form.checkbox id="terms" property="attributes.terms" value=""/>
 ```
 This will add the field, but of course you might also want to validate it.
@@ -277,7 +333,7 @@ The UserManagement package has a hook for you to implement your custom registrat
 called directly from the domain model validator of the package. All you need to to is create an implementation of
 `Sandstorm\UserManagement\Domain\Service\RegistrationFlowValidationServiceInterface` in your own package. It could
 look like this:
-```
+```PHP
 class RegistrationFlowValidationService implements RegistrationFlowValidationServiceInterface {
     /**
      * @param RegistrationFlow $registrationFlow
@@ -293,22 +349,21 @@ class RegistrationFlowValidationService implements RegistrationFlowValidationSer
 }
 ```
 
-# Known issues
+# 4. Known issues
 
 Feel free to submit issues/PRs :)
 
-# TODOs
+# 5. TODOs
 
-* We haven't described all features in detail yet.
 * An important missing feature: configuring password restrictions (8 chars min, a smiley and a celtic rune, ...)
 * I18N for Templates.
 * Tests.
 
-# FAQ
+# 6. FAQ
 
 * *What happens if the user did not receive the registration email?*
   Just tell the user to register again. In this case, previous unfinished registrations are discarded.
 
-# License
+# 7. License
 MIT.
 https://opensource.org/licenses/MIT

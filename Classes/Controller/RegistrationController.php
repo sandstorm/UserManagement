@@ -44,6 +44,7 @@ class RegistrationController extends ActionController
      */
     public function indexAction()
     {
+        $this->view->assign('node', $this->request->getInternalArgument('__node'));
     }
 
     /**
@@ -80,6 +81,7 @@ class RegistrationController extends ActionController
         $this->registrationFlowRepository->add($registrationFlow);
 
         $this->view->assign('registrationFlow', $registrationFlow);
+        $this->view->assign('node', $this->request->getInternalArgument('__node'));
     }
 
     /**
@@ -107,6 +109,7 @@ class RegistrationController extends ActionController
 
         $this->view->assign('success', true);
         $this->view->assign('user', $user);
+        $this->view->assign('node', $this->request->getInternalArgument('__node'));
     }
 
     /**

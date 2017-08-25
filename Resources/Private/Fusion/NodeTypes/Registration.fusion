@@ -2,4 +2,5 @@ prototype(Sandstorm.UserManagement:Registration) < prototype(Neos.Neos:Plugin) {
     package = 'Sandstorm.UserManagement'
     controller = 'Registration'
     action = 'index'
+    node = ${node}
 }
