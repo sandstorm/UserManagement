@@ -2,6 +2,9 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
     <file original="" product-name="Sandstorm.UserManagement" source-language="en" datatype="plaintext">
         <body>
+            <trans-unit id="personalForm.title" xml:space="preserve">
+                <source>Title</source>
+            </trans-unit>
             <trans-unit id="personalForm.firstName" xml:space="preserve">
                 <source>First name</source>
             </trans-unit>
