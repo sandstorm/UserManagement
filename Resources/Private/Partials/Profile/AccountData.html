@@ -6,17 +6,17 @@
 <f:section name="DataTable">
     <table>
         <tr>
-            <td><f:translate id="accountData.email" package="Sandstorm.UserManagement" source="Partials/Profile/AccountData"/>:</td>
+            <td><f:translate id="accountData.email" package="Sandstorm.UserManagement" source="Partials/Profile/AccountData"/></td>
             <td>{account.accountIdentifier}</td>
         </tr>
         <tr>
-            <td><f:translate id="accountData.roles" package="Sandstorm.UserManagement" source="Partials/Profile/AccountData"/>:</td>
+            <td><f:translate id="accountData.roles" package="Sandstorm.UserManagement" source="Partials/Profile/AccountData"/></td>
             <td>
                 <f:for each="{account.roles}" as="role">{role.name}</f:for>
             </td>
         </tr>
         <tr>
-            <td><f:translate id="accountData.createdOn" package="Sandstorm.UserManagement" source="Partials/Profile/AccountData"/>:</td>
+            <td><f:translate id="accountData.createdOn" package="Sandstorm.UserManagement" source="Partials/Profile/AccountData"/></td>
             <td>
                 <f:format.date format='<f:translate id="accountData.dateFormat" package="Sandstorm.UserManagement" source="Partials/Profile/AccountData"/>'>{account.creationDate.date}</f:format.date>
             </td>

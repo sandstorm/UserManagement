@@ -4,8 +4,12 @@ namespace Sandstorm\UserManagement\Controller;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Security\Account;
 use Neos\Flow\Security\Context;
+use Neos\Flow\Security\AccountRepository;
+use Neos\Flow\Security\Authentication\AuthenticationManagerInterface;
+use Neos\Flow\Security\Authentication\Token\UsernamePassword;
+use Neos\Flow\Security\Authentication\TokenInterface;
+use Neos\Flow\Security\Cryptography\HashService;
 use Neos\Flow\Mvc\Controller\ActionController;
-use Neos\Neos\Domain\Service\UserService;
 use Neos\Party\Domain\Repository\PartyRepository;
 use Sandstorm\UserManagement\Domain\Model\User;
 use Sandstorm\UserManagement\Domain\Repository\UserRepository;
@@ -34,10 +38,22 @@ class ProfileController extends ActionController
     protected $userRepository;
 
     /**
-     * @var UserService
      * @Flow\Inject
+     * @var AuthenticationManagerInterface
      */
-    protected $userService;
+    protected $authenticationManager;
+
+    /**
+     * @Flow\Inject
+     * @var AccountRepository
+     */
+    protected $accountRepository;
+
+    /**
+     * @Flow\Inject
+     * @var HashService
+     */
+    protected $hashService;
 
 
     public function indexAction()
@@ -65,10 +81,10 @@ class ProfileController extends ActionController
      * @Flow\Validate(argumentName="password", type="\Neos\Neos\Validation\Validator\PasswordValidator", options={ "allowEmpty"=1, "minimum"=1, "maximum"=255 })
      */
     public function setNewPasswordAction(Account $account, array $password = array()) {
-        $user = $this->userService->getUser($account->getAccountIdentifier(), $account->getAuthenticationProviderName());
+        $user = $this->userRepository->findOneByAccount($account);
         $password = array_shift($password);
         if (strlen(trim(strval($password))) > 0) {
-            $this->userService->setUserPassword($user, $password);
+            $this->setPassword($account, $password);
         }
         $this->redirect('index');
 
@@ -84,4 +100,28 @@ class ProfileController extends ActionController
         return false;
     }
 
+    /**
+     * Sets a new password for the given account
+     *
+     * @param Account $account The user to set the password for
+     * @param string $password A new password
+     * @return void
+     * @api
+     */
+    protected function setPassword(Account $account, $password)
+    {
+        $tokens = $this->authenticationManager->getTokens();
+        $indexedTokens = array();
+        foreach ($tokens as $token) {
+            /** @var TokenInterface $token */
+            $indexedTokens[$token->getAuthenticationProviderName()] = $token;
+        }
+
+        /** @var Account $account */
+        $authenticationProviderName = $account->getAuthenticationProviderName();
+        if (isset($indexedTokens[$authenticationProviderName]) && $indexedTokens[$authenticationProviderName] instanceof UsernamePassword) {
+            $account->setCredentialsSource($this->hashService->hashPassword($password));
+            $this->accountRepository->update($account);
+        }
+    }
 }
