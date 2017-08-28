@@ -6,19 +6,13 @@
 <f:section name="PersonalForm">
     <fieldset>
         <label class="{f:validation.ifHasErrors(for: 'password', then: ' form-error')}">
-            <f:translate id="personalForm.title" package="Sandstorm.UserManagement" source="Partials/Profile/PersonalForm"/>:
-            <f:form.textfield property="name.title" name="title" value="{user.name.title}" placeholder='<f:translate id="personalForm.title" package="Sandstorm.UserManagement" source="Partials/Profile/PersonalForm"/>'/>
-        </label>
-
-        <label class="{f:validation.ifHasErrors(for: 'password', then: ' form-error')}">
             <f:translate id="personalForm.firstName" package="Sandstorm.UserManagement" source="Partials/Profile/PersonalForm"/>:
-            <f:form.textfield property="name.firstName" name="firstName" value="{user.name.firstName}" placeholder='<f:translate id="personalForm.firstName" package="Sandstorm.UserManagement" source="Partials/Profile/PersonalForm"/>'/>
+            <f:form.textfield property="firstName" name="firstName" value="{user.firstName}" placeholder='<f:translate id="personalForm.firstName" package="Sandstorm.UserManagement" source="Partials/Profile/PersonalForm"/>'/>
         </label>
 
-
-      <label>
+        <label>
             <f:translate id="personalForm.lastName" package="Sandstorm.UserManagement" source="Partials/Profile/PersonalForm"/>:
-            <f:form.textfield property="name.lastName" name="lastName" value="{user.name.lastName}" placeholder='<f:translate id="personalForm.lastName" package="Sandstorm.UserManagement" source="Partials/Profile/PersonalForm"/>'/>
+            <f:form.textfield property="lastName" name="lastName" value="{user.lastName}" placeholder='<f:translate id="personalForm.lastName" package="Sandstorm.UserManagement" source="Partials/Profile/PersonalForm"/>'/>
         </label>
 
         <f:render partial="FormErrors" section="ValidationResults" arguments="{for: 'user'}"/>

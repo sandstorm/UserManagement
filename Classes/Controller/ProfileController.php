@@ -5,10 +5,10 @@ use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Security\Account;
 use Neos\Flow\Security\Context;
 use Neos\Flow\Mvc\Controller\ActionController;
-use Neos\Neos\Domain\Repository\UserRepository;
-use Neos\Neos\Domain\Model\User;
 use Neos\Neos\Domain\Service\UserService;
 use Neos\Party\Domain\Repository\PartyRepository;
+use Sandstorm\UserManagement\Domain\Model\User;
+use Sandstorm\UserManagement\Domain\Repository\UserRepository;
 
 /**
  */
@@ -39,11 +39,12 @@ class ProfileController extends ActionController
      */
     protected $userService;
 
+
     public function indexAction()
     {
         $pluginArguments = $this->request->getInternalArguments();
         $account = $this->securityContext->getAccount();
-        $user = $this->userService->getUser($account->getAccountIdentifier(), $account->getAuthenticationProviderName());
+        $user = $this->userRepository->findOneByAccount($account);
         $this->view->assign('account', $account);
         $this->view->assign('user', $user);
         $this->view->assign('pluginArguments', $pluginArguments);
@@ -54,7 +55,7 @@ class ProfileController extends ActionController
      */
     public function editProfileAction(User $user)
     {
-        $this->userService->updateUser($user);
+        $this->userRepository->update($user);
         $this->redirect('index');
     }
 
@@ -70,6 +71,7 @@ class ProfileController extends ActionController
             $this->userService->setUserPassword($user, $password);
         }
         $this->redirect('index');
+
     }
 
     /**
