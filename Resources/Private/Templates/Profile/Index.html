@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<html xmlns:f="http://typo3.org/ns/TYPO3/Fluid/ViewHelpers"
+      xmlns:usermanagement="http://typo3.org/ns/Sandstorm/UserManagement/ViewHelpers"
+      xmlns:neos="http://typo3.org/ns/Neos/Neos/ViewHelpers"
+      xmlns="http://www.w3.org/1999/xhtml"
+      lang="en">
+<f:layout name="Default"/>
+
+<f:section name="Title">Profile Settings</f:section>
+
+<f:section name="Content">
+      <h2><f:translate id="profile.title" package="Sandstorm.UserManagement" source="Templates/Partials/Profile"/></h2>
+      <f:if condition="{pluginArguments.__showPersonalInformation}">
+          <f:render section="Personal" />
+      </f:if>
+      <f:if condition="{pluginArguments.__showAccountInformation}">
+          <f:render section="Account" />
+      </f:if>
+      <f:if condition="{pluginArguments.__enableNewPassword}">
+          <f:render section="Password" />
+      </f:if>
+</f:section>
+<f:section name="Personal">
+    <h4><f:translate id="profile.personal" package="Sandstorm.UserManagement" source="Templates/Partials/Profile"/></h4>
+    <usermanagement:ifAuthenticated authenticationProviderName="Sandstorm.UserManagement:Login">
+        <f:then>
+            <f:form action="editProfile" method="post" object="{user}" objectName="user">
+                <f:render partial="Profile/PersonalForm" section="PersonalForm" arguments="{_all}"/>
+            </f:form>
+        </f:then>
+        <f:else>
+            <f:render partial="Profile/PersonalForm" section="PersonalForm" arguments="{_all}"/>
+        </f:else>
+    </usermanagement:ifAuthenticated>
+</f:section>
+<f:section name="Account">
+    <h4><f:translate id="profile.account" package="Sandstorm.UserManagement" source="Templates/Partials/Profile"/></h4>
+    <f:render partial="Profile/AccountData" section="DataTable" arguments="{_all}"/>
+</f:section>
+<f:section name="Password">
+    <h4><f:translate id="profile.password" package="Sandstorm.UserManagement" source="Templates/Partials/Profile"/></h4>
+    <usermanagement:ifAuthenticated authenticationProviderName="Sandstorm.UserManagement:Login">
+        <f:then>
+            <f:form action="setNewPassword" object="{account}" objectName="account">
+                <f:render partial="Profile/PasswordForm" section="NewPassword" arguments="{_all}"/>
+            </f:form>
+        </f:then>
+        <f:else>
+            <f:render partial="Profile/PasswordForm" section="NewPassword" arguments="{_all}"/>
+        </f:else>
+    </usermanagement:ifAuthenticated>
+</f:section>
+</html>

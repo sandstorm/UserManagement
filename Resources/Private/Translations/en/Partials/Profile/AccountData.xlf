@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file original="" product-name="Sandstorm.UserManagement" source-language="en" datatype="plaintext">
+        <body>
+            <trans-unit id="accountData.email" xml:space="preserve">
+                <source>E-mail address:</source>
+            </trans-unit>
+            <trans-unit id="accountData.roles" xml:space="preserve">
+                <source>Role(s):</source>
+            </trans-unit>
+            <trans-unit id="accountData.createdOn" xml:space="preserve">
+                <source>Created on:</source>
+            </trans-unit>
+            <trans-unit id="accountData.dateFormat" xml:space="preserve">
+                <source>Y-m-d</source>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

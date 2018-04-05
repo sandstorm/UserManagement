@@ -10,6 +10,8 @@ privilegeTargets:
       matcher: 'method(Neos\Flow\Security\Authentication\Controller\AbstractAuthenticationController->logoutAction())'
     'Sandstorm.UserManagement:Registration':
       matcher: 'method(Sandstorm\UserManagement\Controller\RegistrationController->(?!initialize).*Action())'
+    'Sandstorm.UserManagement:Profile':
+      matcher: 'method(Sandstorm\UserManagement\Controller\ProfileController->(?!initialize).*Action())'
 
 roles:
   'Neos.Flow:Everybody':
@@ -23,3 +25,14 @@ roles:
       -
         privilegeTarget: 'Sandstorm.UserManagement:Logout'
         permission: GRANT
+  'Neos.Neos:FrontendUser':
+    privileges:
+      -
+        privilegeTarget: 'Sandstorm.UserManagement:Profile'
+        permission: GRANT
+  'Neos.Neos:Editor':
+    privileges:
+      -
+        privilegeTarget: 'Sandstorm.UserManagement:Profile'
+        permission: GRANT
+

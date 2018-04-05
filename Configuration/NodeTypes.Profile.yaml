@@ -1,0 +1,35 @@
+##
+# A simple "Login form" plugin that demonstrates "Frontend authorization"
+#
+'Sandstorm.UserManagement:Profile':
+  superTypes:
+    'Neos.Neos:Plugin': TRUE
+  ui:
+    label: i18n
+    icon: 'icon-user'
+    inspector:
+      groups:
+        pluginSettings:
+          label: i18n
+  properties:
+    showPersonalInformation:
+      type: boolean
+      defaultValue: TRUE
+      ui:
+        label: i18n
+        inspector:
+          group: pluginSettings
+    showAccountInformation:
+      type: boolean
+      defaultValue: TRUE
+      ui:
+        label: i18n
+        inspector:
+          group: pluginSettings
+    enableNewPassword:
+      type: boolean
+      defaultValue: TRUE
+      ui:
+        label: i18n
+        inspector:
+          group: pluginSettings

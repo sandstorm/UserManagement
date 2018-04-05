@@ -1,0 +1,8 @@
+prototype(Sandstorm.UserManagement:Profile) < prototype(Neos.Neos:Plugin) {
+    package = 'Sandstorm.UserManagement'
+    controller = 'Profile'
+    action = 'index'
+    showPersonalInformation = ${q(node).property('showPersonalInformation')}
+    showAccountInformation = ${q(node).property('showAccountInformation')}
+    enableNewPassword = ${q(node).property('enableNewPassword')}
+}

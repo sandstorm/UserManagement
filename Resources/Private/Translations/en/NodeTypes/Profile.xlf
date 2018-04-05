@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+    <file original="" product-name="Sandstorm.UserManagement" source-language="en" datatype="plaintext">
+        <body>
+            <trans-unit id="ui.label" xml:space="preserve">
+                <source>User Profile</source>
+            </trans-unit>
+            <trans-unit id="groups.pluginSettings" xml:space="preserve">
+                <source>User Profile Settings</source>
+            </trans-unit>
+            <trans-unit id="properties.showPersonalInformation" xml:space="preserve">
+                <source>Show Personal Information</source>
+            </trans-unit>
+            <trans-unit id="properties.showAccountInformation" xml:space="preserve">
+                <source>Show Account Information</source>
+            </trans-unit>
+            <trans-unit id="properties.enableNewPassword" xml:space="preserve">
+                <source>Enable Setting of a new Password</source>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
