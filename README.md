@@ -205,6 +205,16 @@ loginform = Sandstorm.UserManagement:LoginForm {
 }
 ```
 
+### Via url parameter
+When using the package within Neos, you can also use an url parameter to provide a redirect target, e.g. the site where
+the user clicked on login. To do so, just append the parameter `forwardUrl` to your url. This url will be sanitized by 
+removing all characters which are not allowed in urls and then will be used before checking the noe properties. 
+
+URL example:
+```
+http://localhost/login.html?forwardUrl=http%3A//localhost/editor%3FeditMode%3D%22true%22
+```
+
 ### Via custom RedirectTargetService
 If redirecting to a specific controller method is still not enough for you, you can simply roll your own implementation of the
 `RedirectTargetServiceInterface`. Just add the implementation within your own package and add the following lines to your `Objects.yaml`.
