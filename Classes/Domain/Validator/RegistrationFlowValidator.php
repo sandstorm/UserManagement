@@ -1,6 +1,7 @@
 <?php
 namespace Sandstorm\UserManagement\Domain\Validator;
 
+use Neos\Flow\I18n\Translator;
 use Sandstorm\UserManagement\Domain\Model\RegistrationFlow;
 use Sandstorm\UserManagement\Domain\Service\RegistrationFlowValidationServiceInterface;
 use Neos\Flow\Annotations as Flow;
@@ -29,6 +30,13 @@ class RegistrationFlowValidator extends AbstractValidator
      */
     protected $objectManager;
 
+
+    /**
+     * @var Translator
+     * @Flow\Inject
+     */
+    protected $translator;
+
     /**
      * @param RegistrationFlow $value The value that should be validated
      * @return void
@@ -41,9 +49,8 @@ class RegistrationFlowValidator extends AbstractValidator
         $existingAccount = $this->accountRepository->findOneByAccountIdentifier($value->getEmail());
 
         if ($existingAccount) {
-            // todo: error message translatable
             $this->result->forProperty('email')->addError(
-                new Error('Die Email-Adresse %s wird bereits verwendet!',
+                new Error($this->translator->translateByOriginalLabel('Email address %s is already in use!', [$value->getEmail()], null, null, 'Main', 'SandStorm:UserManagement'),
                     1336499566, [$value->getEmail()]));
         }
 
