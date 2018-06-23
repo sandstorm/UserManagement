@@ -22,7 +22,7 @@
         "source": "https://github.com/sandstorm/UserManagement"
     },
     "require": {
-        "neos/flow": "^4.0",
+        "neos/flow": "^5.0",
         "sandstorm/templatemailer": "^1.0"
     },
     "autoload": {
