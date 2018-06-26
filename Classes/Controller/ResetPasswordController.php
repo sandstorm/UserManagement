@@ -94,7 +94,11 @@ class ResetPasswordController extends ActionController
                     'resetPasswordLink' => $resetPasswordLink,
                     'resetPasswordFlow' => $resetPasswordFlow
                 ],
-                'sandstorm_usermanagement_sender_email'
+                'sandstorm_usermanagement_sender_email',
+                [], // cc
+                [], // bcc
+                [], // attachments
+                'sandstorm_usermanagement_replyTo_email'
             );
 
             $this->resetPasswordFlowRepository->add($resetPasswordFlow);
