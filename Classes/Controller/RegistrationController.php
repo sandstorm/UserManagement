@@ -75,7 +75,11 @@ class RegistrationController extends ActionController
                 'activationLink' => $activationLink,
                 'registrationFlow' => $registrationFlow
             ],
-            'sandstorm_usermanagement_sender_email'
+            'sandstorm_usermanagement_sender_email',
+            [], // cc
+            [], // bcc
+            [], // attachments
+            'sandstorm_usermanagement_replyTo_email'
         );
 
         $this->registrationFlowRepository->add($registrationFlow);
