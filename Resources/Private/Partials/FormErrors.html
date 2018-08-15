@@ -4,7 +4,7 @@
       lang="en">
 
 <f:section name="ValidationResults">
-  <f:form.validationResults for="{for}">
+  <f:validation.results for="{for}">
     <f:if condition="{validationResults.flattenedErrors}">
       <dl class="errors">
         <f:for each="{validationResults.flattenedErrors}" key="propertyName" as="errors">
@@ -14,7 +14,7 @@
         </f:for>
       </dl>
     </f:if>
-  </f:form.validationResults>
+  </f:validation.results>
 </f:section>
 
 </html>
