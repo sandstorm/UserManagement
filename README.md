@@ -13,9 +13,10 @@ Sandstorm.UserManagement is currently being maintained for Neos 2.3 LTS and Neos
 
 | Neos / Flow Version        | Sandstorm.UserManagement Version | Branch | Maintained |
 |----------------------------|----------------------------------|--------|------------|
-| Neos 3.x, Flow 4.x         | 5.x                              | master | Yes        |
-| Neos 2.3 LTS, Flow 3.3 LTS | 3.x                              | 3.0    | Bugfixes   |
-| Neos 2.2, Flow 3.2         | 1.x                              | No     | No         |
+| Neos 4.x, Flow 5.x         | 6.x                              | master | Yes        |
+| Neos 3.x, Flow 4.x         | 5.x                              | 5.0    | Bugfixes   |
+| Neos 2.3 LTS, Flow 3.3 LTS | 3.x                              | 3.0    | No         |
+| Neos 2.2, Flow 3.2         | 1.x                              | -      | No         |
 
 ## Breaking changes in Version 5.x
 ### Configuration Changes
@@ -51,7 +52,7 @@ other information the user has entered during the registration process (as long 
 ## Setup
 There are the basic config steps:
 1. Run `./flow doctrine:migrate` after you add this package to install its model. The package automatically exposes its routes
-via auto-inclusion in the package settings. Attention: Any routes defined in the global `Routes.yaml` are loaded before this package's 
+via auto-inclusion in the package settings. Attention: Any routes defined in the global `Routes.yaml` are loaded before this package's
 routes, so they may be overriden. This is especially true for the default Flow subroutes, so make sure you have removed those from your global `Routes.yaml`.
 If you can't remove them, just include the subroutes for this package manually before the Flow subroutes.
 
