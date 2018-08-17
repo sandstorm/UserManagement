@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:f="http://typo3.org/ns/TYPO3/Fluid/ViewHelpers"
+<html xmlns:f="http://typo3.org/ns/Neos/FluidAdaptor/ViewHelpers"
       xmlns="http://www.w3.org/1999/xhtml"
       lang="en">
 
@@ -12,7 +12,7 @@
   <p>Bitte geben Sie ihre Email-Adresse ein. Wir schicken Ihnen dann einen Link, mit dem Sie ihr Passwort zurücksetzen können.</p>
   <f:form action="requestToken" method="POST" objectName="resetPasswordFlow">
     <f:form.textfield property="email" type="text" placeholder="Email-Adresse oder Benutzername"/>
-    <f:form.validationResults for="{email}">
+    <f:validation.results for="{email}">
       <f:if condition="{validationResults.flattenedErrors}">
         <dl class="errors">
           <f:for each="{validationResults.flattenedErrors}" key="propertyName" as="errors">
@@ -25,7 +25,7 @@
           </f:for>
         </dl>
       </f:if>
-    </f:form.validationResults>
+    </f:validation.results>
 
     <f:form.submit class="button large primary" value="Abschicken"/>
   </f:form>
