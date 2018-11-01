@@ -267,6 +267,48 @@ class SandstormUserCommandController extends CommandController
         $this->output->outputTable($tableRows, $headerRow);
         $this->outputLine(sprintf('  <b>%s users total.</b>', count($users)));
     }
+    
+    /**
+     * Add a role to a given account
+     *
+     * @param string $accountIdentifier
+     * @param string $role
+     * @throws \Neos\Flow\Persistence\Exception\IllegalObjectTypeException
+     */
+    public function addRoleCommand($accountIdentifier, $role)
+    {
+        /** @var Account $account */
+        $account = $this->accountRepository->findOneByAccountIdentifier($accountIdentifier);
+        if ($account === null) {
+            $this->outputLine(sprintf('Account %s not found! Exiting.', $accountIdentifier));
+            $this->quit(1);
+        }
+
+        $account->addRole(new Role($role));
+        $this->accountRepository->update($account);
+        $this->outputLine(sprintf('  Account %s now has roles %s.</b>',  $accountIdentifier, implode(', ', $account->getRoles())));
+    }
+
+    /**
+     * Remove a role from an accont
+     *
+     * @param string $accountIdentifier
+     * @param string $role
+     * @throws \Neos\Flow\Persistence\Exception\IllegalObjectTypeException
+     */
+    public function removeRoleCommand($accountIdentifier, $role)
+    {
+        /** @var Account $account */
+        $account = $this->accountRepository->findOneByAccountIdentifier($accountIdentifier);
+        if ($account === null) {
+            $this->outputLine(sprintf('Account %s not found! Exiting.', $accountIdentifier));
+            $this->quit(1);
+        }
+
+        $account->removeRole(new Role($role));
+        $this->accountRepository->update($account);
+        $this->outputLine(sprintf('  Account %s now has roles %s.</b>',  $accountIdentifier, implode(', ', $account->getRoles())));
+    }
 
     /**
      * We check if we're in the Neos context by checking if we're using the Neos user creation service.
