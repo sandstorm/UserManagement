@@ -1,6 +1,7 @@
 <?php
 namespace Sandstorm\UserManagement\Command;
 
+use Neos\Flow\Security\Policy\Role;
 use Sandstorm\UserManagement\Domain\Model\PasswordDto;
 use Sandstorm\UserManagement\Domain\Model\RegistrationFlow;
 use Sandstorm\UserManagement\Domain\Model\User;
