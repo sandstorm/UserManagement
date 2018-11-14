@@ -48,9 +48,8 @@ class RegistrationFlowValidator extends AbstractValidator
         $existingAccount = $this->accountRepository->findOneByAccountIdentifier($value->getEmail());
 
         if ($existingAccount) {
-            $this->result->forProperty('email')->addError(
-                new Error($this->translator->translateByOriginalLabel('Email address %s is already in use!', [$value->getEmail()], null, null, 'Main', 'SandStorm:UserManagement'),
-                    1336499566, [$value->getEmail()]));
+            $message = $this->translator->translateById('validations.registrationflow.email', [$value->getEmail()], null, null, 'Main', 'Sandstorm.UserManagement');
+            $this->result->forProperty('email')->addError(new Error($message, 1336499566));
         }
 
         // If a custom validation service is registered, call its validate method to allow custom validations during registration

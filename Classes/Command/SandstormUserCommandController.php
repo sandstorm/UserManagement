@@ -143,6 +143,7 @@ class SandstormUserCommandController extends CommandController
 
         $this->userCreationService->createUserAndAccount($registrationFlow);
         $this->registrationFlowRepository->remove($registrationFlow);
+        $this->outputLine('The user <b>' . $username . '</b> was activated.');
     }
 
 
@@ -268,7 +269,7 @@ class SandstormUserCommandController extends CommandController
         $this->output->outputTable($tableRows, $headerRow);
         $this->outputLine(sprintf('  <b>%s users total.</b>', count($users)));
     }
-    
+
     /**
      * Add a role to a given account
      *

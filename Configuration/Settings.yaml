@@ -52,6 +52,10 @@ Sandstorm:
       'sandstorm_usermanagement_sender_email':
         name: 'Sandstorm Usermanagement Package'
         address: 'test@example.com'
+    replyToAddresses:
+      'sandstorm_usermanagement_replyTo_email':
+        name: 'Sandstorm Usermanagement Package Reply-To Email'
+        address: 'test@example.com'
 
 Neos:
   Flow:
