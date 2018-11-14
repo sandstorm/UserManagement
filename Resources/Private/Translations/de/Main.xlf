@@ -2,9 +2,37 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
     <file original="" product-name="Sandstorm.UserManagement" source-language="en" target-language="de" datatype="plaintext">
         <body>
-            <trans-unit id="ui.label" xml:space="preserve">
-                <source>Email address %s is already in use!</source>
-                <target>Die E-mail-Adresse %s wird bereits verwendet!</target>
+            <trans-unit id="validations.registrationflow.email" xml:space="preserve">
+                <source>Email address {0} is already in use!</source>
+                <target>Die E-Mail-Adresse {0} wird bereits verwendet!</target>
+            </trans-unit>
+            <trans-unit id="validations.password.matching" xml:space="preserve">
+                <source>Your passwords do not match.</source>
+                <target>Die Passwörter stimmen nicht überein.</target>
+            </trans-unit>
+            <trans-unit id="validations.password.minlength" xml:space="preserve">
+                <source>Your password needs to be at least {0} characters long.</source>
+                <target>Das Passwort muss mindestens {0} Zeichen lang sein.</target>
+            </trans-unit>
+            <trans-unit id="validations.password.maxlength" xml:space="preserve">
+                <source>Your password must be at most {0} characters long.</source>
+                <target>Das Passwort darf höchstens {0} Zeichen lang sein.</target>
+            </trans-unit>
+            <trans-unit id="validations.password.lowercase" xml:space="preserve">
+                <source>Your password needs to contain at least {0} lowercase letters.</source>
+                <target>Das Passwort muss mindestens {0} Kleinbuchstaben enthalten.</target>
+            </trans-unit>
+            <trans-unit id="validations.password.uppercase" xml:space="preserve">
+                <source>Your password needs to contain at least {0} uppercase letters.</source>
+                <target>Das Passwort muss mindestens {0} Großbuchstaben enthalten.</target>
+            </trans-unit>
+            <trans-unit id="validations.password.numbers" xml:space="preserve">
+                <source>Your password needs to contain at least {0} numbers.</source>
+                <target>Das Passwort muss mindestens {0} Zahlen enthalten.</target>
+            </trans-unit>
+            <trans-unit id="validations.password.special" xml:space="preserve">
+                <source>Your password needs to contain at least {0} special characters (e.g. %!=).</source>
+                <target>Das Passwort muss mindestens {0} Sonderzeichen (z.B. %!=) enthalten.</target>
             </trans-unit>
         </body>
     </file>

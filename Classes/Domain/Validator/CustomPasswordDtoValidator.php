@@ -1,6 +1,7 @@
 <?php
 namespace Sandstorm\UserManagement\Domain\Validator;
 
+use Neos\Flow\I18n\Translator;
 use Sandstorm\UserManagement\Domain\Model\PasswordDto;
 use Sandstorm\UserManagement\Domain\Repository\UserRepository;
 use Neos\Flow\Annotations as Flow;
@@ -21,14 +22,65 @@ class CustomPasswordDtoValidator extends AbstractValidator
     protected $userRepository;
 
     /**
+     * @var array
+     * @Flow\InjectConfiguration(path="passwordConstraints")
+     */
+    protected $passwordConstraints;
+
+
+    /**
+     * @var Translator
+     * @Flow\Inject
+     */
+    protected $translator;
+
+    /**
      * @param PasswordDto $value The value that should be validated
      * @return void
      * @throws InvalidValidationOptionsException
      */
     protected function isValid($value)
     {
+        // Matching PW and PW confirmation
         if (!$value->arePasswordsEqual()) {
-            $this->result->forProperty('password')->addError(new Error('Passwords do not match.', 1464086581));
+            $message = $this->translator->translateById('validations.password.matching', [], null, null, 'Main', 'Sandstorm.UserManagement');
+            $this->result->forProperty('password')->addError(new Error($message, 1464086581));
+        }
+
+        // Min length
+        if (!$value->isPasswordMinLength($this->passwordConstraints['minLength'])) {
+            $message = $this->translator->translateById('validations.password.minlength', [$this->passwordConstraints['minLength']], null, null, 'Main', 'Sandstorm.UserManagement');
+            $this->result->forProperty('password')->addError(new Error($message, 1542220177));
+        }
+
+        // Max length
+        if (!$value->isPasswordMaxLength($this->passwordConstraints['maxLength'])) {
+            $message = $this->translator->translateById('validations.password.maxlength', [$this->passwordConstraints['maxLength']], null, null, 'Main', 'Sandstorm.UserManagement');
+            $this->result->forProperty('password')->addError(new Error($message, 1542220177));
+        }
+
+        // minNumberOfLowercaseLetters
+        if (!$value->doesPasswordContainLowercaseLetters($this->passwordConstraints['minNumberOfLowercaseLetters'])) {
+            $message = $this->translator->translateById('validations.password.lowercase', [$this->passwordConstraints['minNumberOfLowercaseLetters']], null, null, 'Main', 'Sandstorm.UserManagement');
+            $this->result->forProperty('password')->addError(new Error($message, 1542220177));
+        }
+
+        // minNumberOfUppercaseLetters
+        if (!$value->doesPasswordContainUppercaseLetters($this->passwordConstraints['minNumberOfUppercaseLetters'])) {
+            $message = $this->translator->translateById('validations.password.uppercase', [$this->passwordConstraints['minNumberOfUppercaseLetters']], null, null, 'Main', 'Sandstorm.UserManagement');
+            $this->result->forProperty('password')->addError(new Error($message, 1542220177));
+        }
+
+        // minNumberOfNumbers
+        if (!$value->doesPasswordContainNumbers($this->passwordConstraints['minNumberOfNumbers'])) {
+            $message = $this->translator->translateById('validations.password.numbers', [$this->passwordConstraints['minNumberOfNumbers']], null, null, 'Main', 'Sandstorm.UserManagement');
+            $this->result->forProperty('password')->addError(new Error($message, 1542220177));
+        }
+
+        // minNumberOfNumbers
+        if (!$value->doesPasswordContainSpecialCharacters($this->passwordConstraints['minNumberOfSpecialCharacters'])) {
+            $message = $this->translator->translateById('validations.password.special', [$this->passwordConstraints['minNumberOfSpecialCharacters']], null, null, 'Main', 'Sandstorm.UserManagement');
+            $this->result->forProperty('password')->addError(new Error($message, 1542220177));
         }
     }
 }

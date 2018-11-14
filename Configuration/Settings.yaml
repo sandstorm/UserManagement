@@ -16,6 +16,17 @@ Sandstorm:
     # An array of roles which are assigned to users after they activate their account.
     rolesForNewUsers: []
 
+    # You can make constraints on allowed passwords here.
+    passwordConstraints:
+      minLength: 8
+      maxLength: 128
+      # per default, we do not prescribe anything about the password content - feel free to change these.
+      # make sure that the sum of these values does not exceed the minLength, otherwise users can't register.
+      minNumberOfLowercaseLetters: 0
+      minNumberOfUppercaseLetters: 0
+      minNumberOfNumbers: 0
+      minNumberOfSpecialCharacters: 0
+
     # Redirect settings after logout/login
     redirect:
       afterLogin: []

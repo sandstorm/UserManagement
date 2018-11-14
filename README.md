@@ -350,21 +350,25 @@ class RegistrationFlowValidationService implements RegistrationFlowValidationSer
 }
 ```
 
-# 4. Known issues
+# 4. Running Tests
+Run all tests with:
+`./bin/phpunit -c ./Build/BuildEssentials/PhpUnit/UnitTests.xml Packages/Application/Sandstorm.UserManagement/Tests/Unit`
+
+# 5. Known issues
 
 Feel free to submit issues/PRs :)
 
-# 5. TODOs
+# 6. TODOs
 
 * An important missing feature: configuring password restrictions (8 chars min, a smiley and a celtic rune, ...)
 * I18N for Templates.
-* Tests.
+* More Tests.
 
-# 6. FAQ
+# 7. FAQ
 
 * *What happens if the user did not receive the registration email?*
   Just tell the user to register again. In this case, previous unfinished registrations are discarded.
 
-# 7. License
+# 8. License
 MIT.
 https://opensource.org/licenses/MIT

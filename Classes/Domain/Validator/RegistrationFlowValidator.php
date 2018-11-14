@@ -30,7 +30,6 @@ class RegistrationFlowValidator extends AbstractValidator
      */
     protected $objectManager;
 
-
     /**
      * @var Translator
      * @Flow\Inject
