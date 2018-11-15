@@ -360,7 +360,6 @@ Feel free to submit issues/PRs :)
 
 # 6. TODOs
 
-* An important missing feature: configuring password restrictions (8 chars min, a smiley and a celtic rune, ...)
 * I18N for Templates.
 * More Tests.
 

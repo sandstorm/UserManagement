@@ -61,25 +61,25 @@ class CustomPasswordDtoValidator extends AbstractValidator
 
         // minNumberOfLowercaseLetters
         if (!$value->doesPasswordContainLowercaseLetters($this->passwordConstraints['minNumberOfLowercaseLetters'])) {
-            $message = $this->translator->translateById('validations.password.lowercase', [$this->passwordConstraints['minNumberOfLowercaseLetters']], null, null, 'Main', 'Sandstorm.UserManagement');
+            $message = $this->translator->translateById('validations.password.lowercase', [$this->passwordConstraints['minNumberOfLowercaseLetters']], $this->passwordConstraints['minNumberOfLowercaseLetters'], null, 'Main', 'Sandstorm.UserManagement');
             $this->result->forProperty('password')->addError(new Error($message, 1542220177));
         }
 
         // minNumberOfUppercaseLetters
         if (!$value->doesPasswordContainUppercaseLetters($this->passwordConstraints['minNumberOfUppercaseLetters'])) {
-            $message = $this->translator->translateById('validations.password.uppercase', [$this->passwordConstraints['minNumberOfUppercaseLetters']], null, null, 'Main', 'Sandstorm.UserManagement');
+            $message = $this->translator->translateById('validations.password.uppercase', [$this->passwordConstraints['minNumberOfUppercaseLetters']], $this->passwordConstraints['minNumberOfUppercaseLetters'], null, 'Main', 'Sandstorm.UserManagement');
             $this->result->forProperty('password')->addError(new Error($message, 1542220177));
         }
 
         // minNumberOfNumbers
         if (!$value->doesPasswordContainNumbers($this->passwordConstraints['minNumberOfNumbers'])) {
-            $message = $this->translator->translateById('validations.password.numbers', [$this->passwordConstraints['minNumberOfNumbers']], null, null, 'Main', 'Sandstorm.UserManagement');
+            $message = $this->translator->translateById('validations.password.numbers', [$this->passwordConstraints['minNumberOfNumbers']], $this->passwordConstraints['minNumberOfNumbers'], null, 'Main', 'Sandstorm.UserManagement');
             $this->result->forProperty('password')->addError(new Error($message, 1542220177));
         }
 
-        // minNumberOfNumbers
+        // minNumberOfSpecialCharacters
         if (!$value->doesPasswordContainSpecialCharacters($this->passwordConstraints['minNumberOfSpecialCharacters'])) {
-            $message = $this->translator->translateById('validations.password.special', [$this->passwordConstraints['minNumberOfSpecialCharacters']], null, null, 'Main', 'Sandstorm.UserManagement');
+            $message = $this->translator->translateById('validations.password.special', [$this->passwordConstraints['minNumberOfSpecialCharacters']], $this->passwordConstraints['minNumberOfSpecialCharacters'], null, 'Main', 'Sandstorm.UserManagement');
             $this->result->forProperty('password')->addError(new Error($message, 1542220177));
         }
     }

@@ -14,18 +14,38 @@
             <trans-unit id="validations.password.maxlength" xml:space="preserve">
                 <source>Your password must be at most {0} characters long.</source>
             </trans-unit>
-            <trans-unit id="validations.password.lowercase" xml:space="preserve">
-                <source>Your password needs to contain at least {0} lowercase letters.</source>
-            </trans-unit>
-            <trans-unit id="validations.password.uppercase" xml:space="preserve">
-                <source>Your password needs to contain at least {0} uppercase letters.</source>
-            </trans-unit>
-            <trans-unit id="validations.password.numbers" xml:space="preserve">
-                <source>Your password needs to contain at least {0} numbers.</source>
-            </trans-unit>
-            <trans-unit id="validations.password.special" xml:space="preserve">
-                <source>Your password needs to contain at least {0} special characters (e.g. %!=).</source>
-            </trans-unit>
+            <group id="validations.password.lowercase" restype="x-gettext-plurals">
+                <trans-unit id="validations.password.lowercase[0]">
+                    <source>Your password needs to contain at least {0} lowercase letter.</source>
+                </trans-unit>
+                <trans-unit id="validations.password.lowercase[1]">
+                    <source>Your password needs to contain at least {0} lowercase letters.</source>
+                </trans-unit>
+            </group>
+            <group id="validations.password.uppercase" restype="x-gettext-plurals">
+                <trans-unit id="validations.password.uppercase[0]">
+                    <source>Your password needs to contain at least {0} uppercase letter.</source>
+                </trans-unit>
+                <trans-unit id="validations.password.uppercase[1]">
+                    <source>Your password needs to contain at least {0} uppercase letters.</source>
+                </trans-unit>
+            </group>
+            <group id="validations.password.numbers" restype="x-gettext-plurals">
+                <trans-unit id="validations.password.numbers[0]">
+                    <source>Your password needs to contain at least {0} number.</source>
+                </trans-unit>
+                <trans-unit id="validations.password.numbers[1]">
+                    <source>Your password needs to contain at least {0} numbers.</source>
+                </trans-unit>
+            </group>
+            <group id="validations.password.special" restype="x-gettext-plurals">
+                <trans-unit id="validations.password.special[0]">
+                    <source>Your password needs to contain at least {0} special character.</source>
+                </trans-unit>
+                <trans-unit id="validations.password.special[1]">
+                    <source>Your password needs to contain at least {0} special characters.</source>
+                </trans-unit>
+            </group>
         </body>
     </file>
 </xliff>
