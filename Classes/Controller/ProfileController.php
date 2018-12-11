@@ -2,14 +2,14 @@
 namespace Sandstorm\UserManagement\Controller;
 
 use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Mvc\Controller\ActionController;
 use Neos\Flow\Security\Account;
-use Neos\Flow\Security\Context;
 use Neos\Flow\Security\AccountRepository;
 use Neos\Flow\Security\Authentication\AuthenticationManagerInterface;
 use Neos\Flow\Security\Authentication\Token\UsernamePassword;
 use Neos\Flow\Security\Authentication\TokenInterface;
+use Neos\Flow\Security\Context;
 use Neos\Flow\Security\Cryptography\HashService;
-use Neos\Flow\Mvc\Controller\ActionController;
 use Neos\Party\Domain\Repository\PartyRepository;
 use Sandstorm\UserManagement\Domain\Model\User;
 use Sandstorm\UserManagement\Domain\Repository\UserRepository;
@@ -24,12 +24,6 @@ class ProfileController extends ActionController
      * @Flow\Inject
      */
     protected $securityContext;
-
-    /**
-     * @var PartyRepository
-     * @Flow\Inject
-     */
-    protected $partyRepository;
 
     /**
      * @var UserRepository
