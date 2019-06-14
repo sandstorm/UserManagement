@@ -171,7 +171,9 @@ class LoginController extends AbstractAuthenticationController
         $response->setHeader('Status', '303');
 
         $response->setContent('<html><head><meta http-equiv="refresh" content="0;url=' . $escapedUri . '"/></head></html>');
+        $response->send();
 
         $this->bootstrap->shutdown(Bootstrap::RUNLEVEL_RUNTIME);
+        exit();
     }
 }
