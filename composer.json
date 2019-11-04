@@ -22,8 +22,8 @@
         "source": "https://github.com/sandstorm/UserManagement"
     },
     "require": {
-        "neos/flow": "^5.0",
-        "sandstorm/templatemailer": "^1.0"
+        "neos/flow": "^6.0 || dev-master",
+        "sandstorm/templatemailer": "^2.0"
     },
     "autoload": {
         "psr-4": {
