@@ -9,6 +9,7 @@ use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Exception;
 use Neos\Flow\Mvc\ActionRequest;
 use Neos\Flow\Security\Authentication\Controller\AbstractAuthenticationController;
+use Neos\Flow\Mvc\FlashMessage\FlashMessageContainer;
 
 use Neos\Flow\Core\Bootstrap;
 
@@ -40,6 +41,11 @@ class LoginController extends AbstractAuthenticationController
      * @Flow\InjectConfiguration(path="authFailedMessage.body")
      */
     protected $loginFailedBody;
+
+    /**
+     * @var FlashMessageContainer
+     */
+    protected $flashMessageContainer;
 
     /**
      * SkipCsrfProtection is needed here because we will have errors otherwise if we render multiple
@@ -94,6 +100,9 @@ class LoginController extends AbstractAuthenticationController
     {
         $this->emitAuthenticationFailure($this->controllerContext, $exception);
 
+        $this->flashMessageContainer = new FlashMessageContainer();
+
+        //TODO: This does not work yet. There is no error but it will not be displayed.
         $this->flashMessageContainer->addMessage(new Error($this->loginFailedBody,
             ($exception === null ? 1347016771 : $exception->getCode()), [], $this->loginFailedTitle));
     }
@@ -165,8 +174,11 @@ class LoginController extends AbstractAuthenticationController
     {
         $escapedUri = htmlentities($result, ENT_QUOTES, 'utf-8');
 
+
+        //TODO: Switch to ActionRequest. This does not work anymore.
         $response = $this->bootstrap->getActiveRequestHandler()->getHttpResponse(); /** @var  \Neos\Flow\Http\Response $response*/
 
+        //TODO: When switched to ActionRequest then you can make this in one line with ->setRedirectUri()
         $response->setHeader('Location', $escapedUri);
         $response->setHeader('Status', '303');
 

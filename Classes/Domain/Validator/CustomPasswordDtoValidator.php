@@ -41,6 +41,8 @@ class CustomPasswordDtoValidator extends AbstractValidator
      */
     protected function isValid($value)
     {
+        //TODO: result can't be resolved
+
         // Matching PW and PW confirmation
         if (!$value->arePasswordsEqual()) {
             $message = $this->translator->translateById('validations.password.matching', [], null, null, 'Main', 'Sandstorm.UserManagement');
