@@ -10,7 +10,6 @@ use Neos\Flow\Exception;
 use Neos\Flow\Mvc\ActionRequest;
 use Neos\Flow\Security\Authentication\Controller\AbstractAuthenticationController;
 use Neos\Flow\Mvc\FlashMessage\FlashMessageContainer;
-
 use Neos\Flow\Core\Bootstrap;
 
 class LoginController extends AbstractAuthenticationController
@@ -173,18 +172,7 @@ class LoginController extends AbstractAuthenticationController
     protected function redirectToUriAndShutdown(string $result)
     {
         $escapedUri = htmlentities($result, ENT_QUOTES, 'utf-8');
-
-
-        //TODO: Switch to ActionRequest. This does not work anymore.
-        $response = $this->bootstrap->getActiveRequestHandler()->getHttpResponse(); /** @var  \Neos\Flow\Http\Response $response*/
-
-        //TODO: When switched to ActionRequest then you can make this in one line with ->setRedirectUri()
-        $response->setHeader('Location', $escapedUri);
-        $response->setHeader('Status', '303');
-
-        $response->setContent('<html><head><meta http-equiv="refresh" content="0;url=' . $escapedUri . '"/></head></html>');
-        $response->send();
-
+        $this->redirectToUri($this->uriFactory->createUri((string)$escapedUri));
         $this->bootstrap->shutdown(Bootstrap::RUNLEVEL_RUNTIME);
         exit();
     }

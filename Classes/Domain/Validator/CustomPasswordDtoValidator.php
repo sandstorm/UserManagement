@@ -41,7 +41,7 @@ class CustomPasswordDtoValidator extends AbstractValidator
      */
     protected function isValid($value)
     {
-        //TODO: result can't be resolved
+        //TODO: result can't be resolved. Something like $result = new result(); do not throw an error but don't give back the msg.
 
         // Matching PW and PW confirmation
         if (!$value->arePasswordsEqual()) {
