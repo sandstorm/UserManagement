@@ -2,6 +2,7 @@
 namespace Sandstorm\UserManagement\Controller;
 
 use Neos\Error\Messages\Error;
+use Neos\Error\Messages\Message;
 use Neos\Flow\Mvc\Controller\ControllerContext;
 use Neos\Flow\Security\Exception\AuthenticationRequiredException;
 use Sandstorm\UserManagement\Domain\Service\RedirectTargetServiceInterface;
@@ -9,8 +10,9 @@ use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Exception;
 use Neos\Flow\Mvc\ActionRequest;
 use Neos\Flow\Security\Authentication\Controller\AbstractAuthenticationController;
-use Neos\Flow\Mvc\FlashMessage\FlashMessageContainer;
 use Neos\Flow\Core\Bootstrap;
+use Psr\Http\Message\UriFactoryInterface;
+
 
 class LoginController extends AbstractAuthenticationController
 {
@@ -40,11 +42,6 @@ class LoginController extends AbstractAuthenticationController
      * @Flow\InjectConfiguration(path="authFailedMessage.body")
      */
     protected $loginFailedBody;
-
-    /**
-     * @var FlashMessageContainer
-     */
-    protected $flashMessageContainer;
 
     /**
      * SkipCsrfProtection is needed here because we will have errors otherwise if we render multiple
@@ -98,12 +95,7 @@ class LoginController extends AbstractAuthenticationController
     protected function onAuthenticationFailure(AuthenticationRequiredException $exception = null)
     {
         $this->emitAuthenticationFailure($this->controllerContext, $exception);
-
-        $this->flashMessageContainer = new FlashMessageContainer();
-
-        //TODO: This does not work yet. There is no error but it will not be displayed.
-        $this->flashMessageContainer->addMessage(new Error($this->loginFailedBody,
-            ($exception === null ? 1347016771 : $exception->getCode()), [], $this->loginFailedTitle));
+        $this->addFlashMessage($this->loginFailedBody, $this->loginFailedTitle,Message::SEVERITY_ERROR, [], ($exception === null ? 1347016771 : $exception->getCode()));
     }
 
     /**
