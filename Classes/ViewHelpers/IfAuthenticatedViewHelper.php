@@ -28,8 +28,9 @@ class IfAuthenticatedViewHelper extends AbstractConditionViewHelper
      * @return string the rendered string
      * @api
      */
-    public function render($authenticationProviderName = 'Sandstorm.UserManagement:Login')
+    public function render()
     {
+        $authenticationProviderName = $this->arguments['authenticationProviderName'];
         if (static::evaluateCondition($this->arguments, $this->renderingContext)) {
             return $this->renderThenChild();
         }
