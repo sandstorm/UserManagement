@@ -17,19 +17,19 @@
         <fieldset>
           <label>
             E-Mail-Adresse
-            <f:form.textfield property="email" placeholder="test@example.com" name="__authentication[Neos][Flow][Security][Authentication][Token][UsernamePassword][username]" type="email"/>
+            <f:form.textfield property="email" placeholder="test@example.com" name="__authentication[Neos][Flow][Security][Authentication][Token][UsernamePassword][username]" type="email" required="true"/>
             <f:render partial="FormErrors" section="ValidationResults" arguments="{for: 'registrationFlow.email'}"/>
           </label>
 
           <label>
             Passwort
-            <f:form.password placeholder="Ihr Passwort" property="passwordDto.password"/>
+            <f:form.password placeholder="Ihr Passwort" property="passwordDto.password" required="true"/>
             <f:render partial="FormErrors" section="ValidationResults" arguments="{for: 'registrationFlow.passwordDto.password'}"/>
           </label>
 
           <label>
             Passwortbestätigung
-            <f:form.password placeholder="Passwort wiederholen" property="passwordDto.passwordConfirmation"/>
+            <f:form.password placeholder="Passwort wiederholen" property="passwordDto.passwordConfirmation" required="true"/>
           </label>
 
           <label>
@@ -40,7 +40,7 @@
 
           <label>
             Vorname
-            <f:form.textfield placeholder="Manfred" property="attributes.firstName"/>
+            <f:form.textfield placeholder="Manfred" property="attributes.firstName" required="true"/>
             <f:render partial="FormErrors" section="ValidationResults" arguments="{for: 'registrationFlow.attributes.firstName'}"/>
           </label>
 

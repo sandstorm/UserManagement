@@ -11,14 +11,26 @@ class IfAuthenticatedViewHelper extends AbstractConditionViewHelper
 {
 
     /**
+     * Initialize arguments
+     *
+     * @return void
+     * @api
+     */
+    public function initializeArguments()
+    {
+        $this->registerArgument('authenticationProviderName', 'string', 'Use a different Authentication Provider than the default one', false,'Sandstorm.UserManagement:Login');
+    }
+
+    /**
      * Renders <f:then> child if any account is currently authenticated, otherwise renders <f:else> child.
      *
      * @param string $authenticationProviderName
      * @return string the rendered string
      * @api
      */
-    public function render($authenticationProviderName = 'Sandstorm.UserManagement:Login')
+    public function render()
     {
+        $authenticationProviderName = $this->arguments['authenticationProviderName'];
         if (static::evaluateCondition($this->arguments, $this->renderingContext)) {
             return $this->renderThenChild();
         }
