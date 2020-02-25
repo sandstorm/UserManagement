@@ -48,6 +48,11 @@ In the registration email templates, two variables are no longer available by de
 However, in the registration email, "registrationFlow" is now available, which gives access to the email as well to all
 other information the user has entered during the registration process (as long as it is stored in the RegistrationFlow object).
 
+To overwrite the existing Activation- and PasswordReset templates, do the following:
+* Add `ActivationToken.html`, `ActivationToken.txt`, `ResetPasswordToken.html` and `ResetPasswordToken.txt` to `<YourPackage>/Resources/Private/EmailTemplates/`
+* Fill in the necessary information (you can use the [sandstormUserManagement templates](https://github.com/sandstorm/UserManagement/tree/master/Resources/Private/EmailTemplates) as a point of reference
+* Add your package to your TemplateMailer-Configuration https://github.com/sandstorm/TemplateMailer#configuring-template-source-packages
+
 # 2. Configuration
 
 ## Setup
