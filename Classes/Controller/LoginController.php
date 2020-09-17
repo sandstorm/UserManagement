@@ -32,6 +32,12 @@ class LoginController extends AbstractAuthenticationController
     protected $redirectTargetService;
 
     /**
+     * @Flow\Inject
+     * @var UriFactoryInterface
+     */
+    protected $uriFactory;
+
+    /**
      * @var string
      * @Flow\InjectConfiguration(path="authFailedMessage.title")
      */
