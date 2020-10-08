@@ -49,7 +49,7 @@ class RegistrationFlowValidator extends AbstractValidator
 
         if ($existingAccount) {
             $message = $this->translator->translateById('validations.registrationflow.email', [$value->getEmail()], null, null, 'Main', 'Sandstorm.UserManagement');
-            $this->result->forProperty('email')->addError(new Error($message, 1336499566));
+            $this->getResult()->forProperty('email')->addError(new Error($message, 1336499566));
         }
 
         // If a custom validation service is registered, call its validate method to allow custom validations during registration
@@ -59,13 +59,4 @@ class RegistrationFlowValidator extends AbstractValidator
         }
     }
 
-    /**
-     * The custom validation service might need to access the result directly, so it is exposed here
-     *
-     * @return Result
-     */
-    public function getResult()
-    {
-        return $this->result;
-    }
 }
