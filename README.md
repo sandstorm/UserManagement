@@ -338,19 +338,27 @@ This will add the field, but of course you might also want to validate it.
 ### Extending the Registration Flow validation logic
 The UserManagement package has a hook for you to implement your custom registration flow validation logic. It is
 called directly from the domain model validator of the package. All you need to to is create an implementation of
-`Sandstorm\UserManagement\Domain\Service\RegistrationFlowValidationServiceInterface` in your own package. It could
+`Sandstorm\UserManagement\Domain\Service\RegistrationFlow6ValidationServiceInterface` in your own package. It could
 look like this:
 ```PHP
-class RegistrationFlowValidationService implements RegistrationFlowValidationServiceInterface {
+
+namespace Your\Project\Domain\Service;
+
+use Sandstorm\UserManagement\Domain\Service\RegistrationFlow6ValidationServiceInterface;
+use Sandstorm\UserManagement\Domain\Model\RegistrationFlow;
+use Neos\Error\Messages\Result as ErrorResult;
+use Neos\Flow\Annotations as Flow;
+
+class RegistrationFlow6ValidationService implements RegistrationFlow6ValidationServiceInterface {
     /**
      * @param RegistrationFlow $registrationFlow
-     * @param RegistrationFlowValidator $validator
+     * @param ErrorResult $validatorResult
      * @return void
      */
-    public function validateRegistrationFlow(RegistrationFlow $registrationFlow, RegistrationFlowValidator $validator) {
+    public function validateRegistrationFlow6(RegistrationFlow $registrationFlow, ErrorResult $validatorResult) {
         // This is an example of your own custom validation logic.
         if ($registrationFlow->getAttributes()['agb'] !== '1') {
-            $validator->getResult()->forProperty('attributes.terms')->addError(new \Neos\Flow\Validation\Error('You need to accept the terms and conditions.'));
+            $validatorResult->forProperty('attributes.terms')->addError(new \Neos\Flow\Validation\Error('You need to accept the terms and conditions.'));
         }
     }
 }

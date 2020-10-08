@@ -57,6 +57,12 @@ class RegistrationFlowValidator extends AbstractValidator
             $instance = $this->objectManager->get(RegistrationFlowValidationServiceInterface::class);
             $instance->validateRegistrationFlow($value, $this);
         }
+		
+		// for >= flow 6
+		if ($this->objectManager->isRegistered(RegistrationFlow6ValidationServiceInterface::class)) {
+		    $instance = $this->objectManager->get(RegistrationFlow6ValidationServiceInterface::class);
+		    $instance->validateRegistrationFlow6($value, $this->getResult());
+	    }
     }
 
 }
