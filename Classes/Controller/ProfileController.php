@@ -5,7 +5,7 @@ use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Mvc\Controller\ActionController;
 use Neos\Flow\Security\Account;
 use Neos\Flow\Security\AccountRepository;
-use Neos\Flow\Security\Authentication\AuthenticationManagerInterface;
+use Neos\Flow\Security\Authentication\TokenAndProviderFactoryInterface;
 use Neos\Flow\Security\Authentication\Token\UsernamePassword;
 use Neos\Flow\Security\Authentication\TokenInterface;
 use Neos\Flow\Security\Context;
@@ -31,11 +31,11 @@ class ProfileController extends ActionController
      */
     protected $userRepository;
 
-    /**
-     * @Flow\Inject
-     * @var AuthenticationManagerInterface
-     */
-    protected $authenticationManager;
+	/**
+	 * @Flow\Inject
+	 * @var TokenAndProviderFactoryInterface
+	 */
+	protected $tokenAndProviderFactory;
 
     /**
      * @Flow\Inject
@@ -104,7 +104,7 @@ class ProfileController extends ActionController
      */
     protected function setPassword(Account $account, $password)
     {
-        $tokens = $this->authenticationManager->getTokens();
+        $tokens = $this->tokenAndProviderFactory->getTokens();
         $indexedTokens = array();
         foreach ($tokens as $token) {
             /** @var TokenInterface $token */
