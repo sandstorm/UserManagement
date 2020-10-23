@@ -35,7 +35,7 @@ class ProfileController extends ActionController
 	 * @Flow\Inject
 	 * @var TokenAndProviderFactoryInterface
 	 */
-	protected $tokenAndProviderFactoryInterface;
+	protected $tokenAndProviderFactory;
 
     /**
      * @Flow\Inject
@@ -104,7 +104,7 @@ class ProfileController extends ActionController
      */
     protected function setPassword(Account $account, $password)
     {
-        $tokens = $this->tokenAndProviderFactoryInterface->getTokens();
+        $tokens = $this->tokenAndProviderFactory->getTokens();
         $indexedTokens = array();
         foreach ($tokens as $token) {
             /** @var TokenInterface $token */

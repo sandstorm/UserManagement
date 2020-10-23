@@ -43,7 +43,7 @@ class RegistrationFlowValidator extends AbstractValidator
      */
     protected function isValid($value)
     {
-
+		
         /** @noinspection PhpUndefinedMethodInspection */
         $existingAccount = $this->accountRepository->findOneByAccountIdentifier($value->getEmail());
 
@@ -58,11 +58,16 @@ class RegistrationFlowValidator extends AbstractValidator
             $instance->validateRegistrationFlow($value, $this);
         }
 		
-		// for >= flow 6
-		if ($this->objectManager->isRegistered(RegistrationFlow6ValidationServiceInterface::class)) {
-		    $instance = $this->objectManager->get(RegistrationFlow6ValidationServiceInterface::class);
-		    $instance->validateRegistrationFlow6($value, $this->getResult());
-	    }
     }
+	
+    /**
+     * The custom validation service might need to access the result directly, so it is exposed here
+     *
+     * @return Result
+     */	
+	public function getResult()
+	{
+		return parent::getResult();
+	}
 
 }
