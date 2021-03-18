@@ -4,6 +4,7 @@ namespace Sandstorm\UserManagement\Controller;
 use Neos\Flow\Property\TypeConverter\PersistentObjectConverter;
 use Sandstorm\UserManagement\Domain\Model\ResetPasswordFlow;
 use Sandstorm\UserManagement\Domain\Repository\ResetPasswordFlowRepository;
+use Sandstorm\UserManagement\Domain\Service\FindEmailAddressForUserServiceInterface;
 use Sandstorm\UserManagement\Domain\Service\UserCreationServiceInterface;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Mvc\Controller\ActionController;
@@ -45,6 +46,11 @@ class ResetPasswordController extends ActionController
      */
     protected $subjectResetPassword;
 
+    /**
+     * @Flow\Inject
+     * @var FindEmailAddressForUserServiceInterface
+     */
+    protected $findEmailAddressForUserService;
 
     /**
      * @Flow\SkipCsrfProtection
@@ -89,7 +95,7 @@ class ResetPasswordController extends ActionController
             $this->emailService->sendTemplateEmail(
                 'ResetPasswordToken',
                 $this->subjectResetPassword,
-                [$resetPasswordFlow->getEmail()],
+                [$this->findEmailAddressForUserService->getEmailAddressByAccount($account)],
                 [
                     'resetPasswordLink' => $resetPasswordLink,
                     'resetPasswordFlow' => $resetPasswordFlow
