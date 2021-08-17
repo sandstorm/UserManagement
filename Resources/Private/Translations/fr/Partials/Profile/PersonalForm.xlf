@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file original="" product-name="Sandstorm.UserManagement" source-language="en" target-language="fr" datatype="plaintext">
+        <body>
+            <trans-unit id="personalForm.firstName" xml:space="preserve">
+                <source>First name</source>
+                <target>Prénom</target>
+            </trans-unit>
+            <trans-unit id="personalForm.lastName" xml:space="preserve">
+                <source>Last name</source>
+                <target>Nom de famille</target>
+            </trans-unit>
+            <trans-unit id="personalForm.changeData" xml:space="preserve">
+                <source>Change personal data</source>
+                <target>Modifier les informations personnelles</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

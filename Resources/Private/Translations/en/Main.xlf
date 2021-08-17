@@ -2,6 +2,69 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
     <file original="" product-name="Sandstorm.UserManagement" source-language="en" datatype="plaintext">
         <body>
+            <trans-unit id="email">
+                <source>Email</source>
+            </trans-unit>
+            <trans-unit id="login">
+                <source>Login</source>
+            </trans-unit>
+            <trans-unit id="toTheLogin">
+                <source>To the login</source>
+            </trans-unit>
+            <trans-unit id="password">
+                <source>Password</source>
+            </trans-unit>
+            <trans-unit id="yourPassword">
+                <source>Your password</source>
+            </trans-unit>
+            <trans-unit id="passwordForgotten">
+                <source>Password forgotten</source>
+            </trans-unit>
+            <trans-unit id="logout">
+                <source>Logout</source>
+            </trans-unit>
+            <trans-unit id="logout.loggedAs">
+                <source>You are logged in as {0}.</source>
+            </trans-unit>
+            <trans-unit id="firstName">
+                <source>First name</source>
+            </trans-unit>
+            <trans-unit id="lastName">
+                <source>Last name</source>
+            </trans-unit>
+            <trans-unit id="registration.confirmPassword">
+                <source>Confirm password</source>
+            </trans-unit>
+            <trans-unit id="registration.repeatPassword">
+                <source>Repeat password</source>
+            </trans-unit>
+            <trans-unit id="registration.salutation">
+                <source>Salutation</source>
+            </trans-unit>
+            <trans-unit id="registration.salutationOptions.f">
+                <source>Ms.</source>
+            </trans-unit>
+            <trans-unit id="registration.salutationOptions.m">
+                <source>Mr.</source>
+            </trans-unit>
+            <trans-unit id="registration.register">
+                <source>Register</source>
+            </trans-unit>
+            <trans-unit id="registration.confirmationEmailSent">
+                <source>We have sent an email to confirm the registration to <strong>%s</strong>. Please follow the instructions in the email to confirm the registration.</source>
+            </trans-unit>
+            <trans-unit id="activation.linkNotValid">
+                <source>The activation link was not valid.</source>
+            </trans-unit>
+            <trans-unit id="activation.registerAgain">
+                <source>Please register again.</source>
+            </trans-unit>
+            <trans-unit id="activation.linkExpired">
+                <source>The activation link has expired.</source>
+            </trans-unit>
+            <trans-unit id="activation.successMessage">
+                <source>Your account is has been activated. You can now log in to our website.</source>
+            </trans-unit>
             <trans-unit id="validations.registrationflow.email" xml:space="preserve">
                 <source>Email address {0} is already in use!</source>
             </trans-unit>

@@ -1,145 +1,145 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-    <file original="" product-name="Sandstorm.UserManagement" source-language="en" target-language="de" datatype="plaintext">
+    <file original="" product-name="Sandstorm.UserManagement" source-language="en" target-language="fr" datatype="plaintext">
         <body>
             <trans-unit id="email">
                 <source>Email</source>
-                <target>E-mail</target>
+                <target>Email</target>
             </trans-unit>
             <trans-unit id="login">
                 <source>Login</source>
-                <target>Sich anmelden</target>
+                <target>Se connecter</target>
             </trans-unit>
             <trans-unit id="toTheLogin">
                 <source>To the login</source>
-                <target>Zum Login</target>
+                <target>Vers le login</target>
             </trans-unit>
             <trans-unit id="password">
                 <source>Password</source>
-                <target>Passwort</target>
+                <target>Mot de passe</target>
             </trans-unit>
             <trans-unit id="yourPassword">
                 <source>Your password</source>
-                <target>Ihr Passwort</target>
+                <target>Votre mot de passe</target>
             </trans-unit>
             <trans-unit id="passwordForgotten">
                 <source>Password forgotten</source>
-                <target>Passwort vergessen</target>
+                <target>Mot de passe oublié</target>
             </trans-unit>
             <trans-unit id="logout">
                 <source>Logout</source>
-                <target>Ausloggen</target>
+                <target>Se déconnecter</target>
             </trans-unit>
             <trans-unit id="logout.loggedAs">
                 <source>You are logged in as {0}.</source>
-                <target>Sie sind eingeloggt als {0}.</target>
+                <target>Vous êtes connecté en tant que {0}.</target>
             </trans-unit>
             <trans-unit id="firstName">
                 <source>First name</source>
-                <target>Vorname</target>
+                <target>Prénom</target>
             </trans-unit>
             <trans-unit id="lastName">
                 <source>Last name</source>
-                <target>Nachname</target>
+                <target>Nom de famille</target>
             </trans-unit>
             <trans-unit id="registration.confirmPassword">
                 <source>Confirm password</source>
-                <target>Passwort bestätigen</target>
+                <target>Confirmation du mot de passe</target>
             </trans-unit>
             <trans-unit id="registration.repeatPassword">
                 <source>Repeat password</source>
-                <target>Passwort wiederholen</target>
+                <target>Répéter le mot de passe</target>
             </trans-unit>
             <trans-unit id="registration.salutation">
                 <source>Salutation</source>
-                <target>Anrede</target>
+                <target>Salutation</target>
             </trans-unit>
             <trans-unit id="registration.salutationOptions.f">
                 <source>Ms.</source>
-                <target>Frau</target>
+                <target>Madame</target>
             </trans-unit>
             <trans-unit id="registration.salutationOptions.m">
                 <source>Mr.</source>
-                <target>Herr</target>
+                <target>Monsieur</target>
             </trans-unit>
             <trans-unit id="registration.register">
                 <source>Register</source>
-                <target>Registrieren</target>
+                <target>S'inscrire</target>
             </trans-unit>
             <trans-unit id="registration.confirmationEmailSent">
-                <source>We have sent an email to confirm the registration to <strong>%s</strong>. Please follow the instructions in the email to confirm the registration.</source>
-                <target>Wir haben eine E-Mail zur Bestätigung der Registrierung an <strong>%s</strong> gesendet. Bitte folgen Sie der Anleitung in der E-Mail, um die Registrierung zu bestätigen.</target>
+                <source>We have sent an email to confirm the registration to {0}. Please follow the instructions in the email to confirm the registration.</source>
+                <target>Nous avons envoyé un email à {0} pour confirmer l'enregistrement. Veuillez suivre les instructions contenues dans l'e-mail pour confirmer l'inscription.</target>
             </trans-unit>
             <trans-unit id="activation.linkNotValid">
                 <source>The activation link was not valid.</source>
-                <target>Der Aktivierungslink war nicht gültig.</target>
+                <target>Le lien d'activation n'était pas valide.</target>
             </trans-unit>
             <trans-unit id="activation.registerAgain">
                 <source>Please register again.</source>
-                <target>Bitte registrieren Sie sich erneut.</target>
+                <target>Veuillez vous réinscrire.</target>
             </trans-unit>
             <trans-unit id="activation.linkExpired">
                 <source>The activation link has expired.</source>
-                <target>Der Aktivierungslink ist nicht mehr gültig.</target>
+                <target>Le lien d'activation a expiré.</target>
             </trans-unit>
             <trans-unit id="activation.successMessage">
                 <source>Your account is has been activated. You can now log in to our website.</source>
-                <target>Ihr Konto ist aktiviert worden. Sie können sich jetzt auf unserer Website einloggen.</target>
+                <target>Votre compte a été activé. Vous pouvez maintenant vous connecter à notre site web.</target>
             </trans-unit>
             <trans-unit id="validations.registrationflow.email" xml:space="preserve">
                 <source>Email address {0} is already in use!</source>
-                <target>Die E-Mail-Adresse {0} wird bereits verwendet!</target>
+                <target>L'adresse e-mail {0} est déjà utilisée !</target>
             </trans-unit>
             <trans-unit id="validations.password.matching" xml:space="preserve">
                 <source>Your passwords do not match.</source>
-                <target>Die Passwörter stimmen nicht überein.</target>
+                <target>Vos mots de passe ne correspondent pas.</target>
             </trans-unit>
             <trans-unit id="validations.password.minlength" xml:space="preserve">
                 <source>Your password needs to be at least {0} characters long.</source>
-                <target>Das Passwort muss mindestens {0} Zeichen lang sein.</target>
+                <target>Votre mot de passe doit comporter au moins {0} caractères.</target>
             </trans-unit>
             <trans-unit id="validations.password.maxlength" xml:space="preserve">
                 <source>Your password must be at most {0} characters long.</source>
-                <target>Das Passwort darf höchstens {0} Zeichen lang sein.</target>
+                <target>Votre mot de passe doit comporter au maximum {0} caractères.</target>
             </trans-unit>
             <group id="validations.password.lowercase" restype="x-gettext-plurals">
                 <trans-unit id="validations.password.lowercase[0]">
                     <source>Your password needs to contain at least {0} lowercase letter.</source>
-                    <target>Das Passwort muss mindestens {0} Kleinbuchstaben enthalten.</target>
+                    <target>Votre mot de passe doit contenir au moins {0} lettre minuscule.</target>
                 </trans-unit>
                 <trans-unit id="validations.password.lowercase[1]">
                     <source>Your password needs to contain at least {0} lowercase letters.</source>
-                    <target>Das Passwort muss mindestens {0} Kleinbuchstaben enthalten.</target>
+                    <target>Votre mot de passe doit contenir au moins {0} lettres minuscules.</target>
             </trans-unit>
             </group>
             <group id="validations.password.uppercase" restype="x-gettext-plurals">
                 <trans-unit id="validations.password.uppercase[0]">
                     <source>Your password needs to contain at least {0} uppercase letter.</source>
-                    <target>Das Passwort muss mindestens {0} Großbuchstaben enthalten.</target>
+                    <target>Votre mot de passe doit contenir au moins {0} lettre majuscule.</target>
                 </trans-unit>
                 <trans-unit id="validations.password.uppercase[1]">
                     <source>Your password needs to contain at least {0} uppercase letters.</source>
-                    <target>Das Passwort muss mindestens {0} Großbuchstaben enthalten.</target>
+                    <target>Votre mot de passe doit contenir au moins {0} lettres majuscules.</target>
                 </trans-unit>
             </group>
             <group id="validations.password.numbers" restype="x-gettext-plurals">
                 <trans-unit id="validations.password.numbers[0]">
                     <source>Your password needs to contain at least {0} number.</source>
-                    <target>Das Passwort muss mindestens {0} Zahl enthalten.</target>
+                    <target>Votre mot de passe doit contenir au moins {0} chiffre.</target>
                 </trans-unit>
                 <trans-unit id="validations.password.numbers[1]">
                     <source>Your password needs to contain at least {0} numbers.</source>
-                    <target>Das Passwort muss mindestens {0} Zahlen enthalten.</target>
+                    <target>Votre mot de passe doit contenir au moins {0} chiffres.</target>
                 </trans-unit>
             </group>
             <group id="validations.password.special" restype="x-gettext-plurals">
                 <trans-unit id="validations.password.special[0]">
                     <source>Your password needs to contain at least {0} special character.</source>
-                    <target>Das Passwort muss mindestens {0} Sonderzeichen (z.B. %!=) enthalten.</target>
+                    <target>Votre mot de passe doit contenir au moins {0} caractère spécial.</target>
                 </trans-unit>
                 <trans-unit id="validations.password.special[1]">
                     <source>Your password needs to contain at least {0} special characters.</source>
-                    <target>Das Passwort muss mindestens {0} Sonderzeichen (z.B. %!=) enthalten.</target>
+                    <target>Votre mot de passe doit contenir au moins {0} caractères spéciaux.</target>
                 </trans-unit>
             </group>
         </body>

@@ -17,12 +17,12 @@
     <f:else>
       <f:form action="authenticate" method="post">
         <fieldset>
-          <input placeholder="test@example.com" name="__authentication[Neos][Flow][Security][Authentication][Token][UsernamePassword][username]" type="email" autofocus>
-          <input placeholder="Passwort" name="__authentication[Neos][Flow][Security][Authentication][Token][UsernamePassword][password]" type="password" value="">
-          <input type="submit" value="Login" class="button large primary" />
+          <input placeholder="{f:translate(id: 'email')}" name="__authentication[Neos][Flow][Security][Authentication][Token][UsernamePassword][username]" type="email" autofocus>
+          <input placeholder="{f:translate(id: 'password')}" name="__authentication[Neos][Flow][Security][Authentication][Token][UsernamePassword][password]" type="password" value="">
+          <input type="submit" value="{f:translate(id: 'login')}" class="button large primary" />
         </fieldset>
       </f:form>
-      <f:link.action action="index" controller="ResetPassword">Passwort vergessen?</f:link.action>
+      <f:link.action action="index" controller="ResetPassword"><f:translate id="passwordForgotten"></f:translate></f:link.action>
     </f:else>
   </usermanagement:ifAuthenticated>
 </f:section>
