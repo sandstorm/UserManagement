@@ -16,7 +16,7 @@
       <f:form action="register" method="post" objectName="registrationFlow">
         <fieldset>
           <label>
-            <f:translate id="email"></f:translate>
+            <f:translate id="emailAddress"></f:translate>
             <f:form.textfield property="email" placeholder="test@example.com" name="__authentication[Neos][Flow][Security][Authentication][Token][UsernamePassword][username]" type="email" required="true"/>
             <f:render partial="FormErrors" section="ValidationResults" arguments="{for: 'registrationFlow.email'}"/>
           </label>

@@ -2,9 +2,9 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
     <file original="" product-name="Sandstorm.UserManagement" source-language="en" target-language="fr" datatype="plaintext">
         <body>
-            <trans-unit id="email">
-                <source>Email</source>
-                <target>Email</target>
+            <trans-unit id="emailAddress">
+                <source>Email address</source>
+                <target>Adresse email</target>
             </trans-unit>
             <trans-unit id="login">
                 <source>Login</source>
