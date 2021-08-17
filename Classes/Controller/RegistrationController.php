@@ -1,6 +1,7 @@
 <?php
 namespace Sandstorm\UserManagement\Controller;
 
+use Neos\Flow\I18n\Translator;
 use Sandstorm\TemplateMailer\Domain\Service\EmailService;
 use Sandstorm\UserManagement\Domain\Model\RegistrationFlow;
 use Sandstorm\UserManagement\Domain\Repository\RegistrationFlowRepository;
@@ -33,10 +34,33 @@ class RegistrationController extends ActionController
     protected $emailService;
 
     /**
+     * @Flow\Inject
+     * @var Translator
+     */
+    protected $translator;
+
+    /**
      * @var string
      * @Flow\InjectConfiguration(path="email.subjectActivation")
      */
     protected $subjectActivation;
+
+    /**
+     * @return string
+     */
+    protected function getSubjectActivation()
+    {
+        return $this->subjectActivation === 'i18n'
+            ? $this->translator->translateById(
+                'email.subjectActivation',
+                [],
+                null,
+                null,
+                'Main',
+                'Sandstorm.UserManagement'
+            )
+            : $this->subjectActivation;
+    }
 
 
     /**
@@ -69,7 +93,7 @@ class RegistrationController extends ActionController
 
         $this->emailService->sendTemplateEmail(
             'ActivationToken',
-            $this->subjectActivation,
+            $this->getSubjectActivation(),
             [$registrationFlow->getEmail()],
             [
                 'activationLink' => $activationLink,

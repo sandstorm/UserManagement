@@ -86,6 +86,22 @@
                 <source>Your account is has been activated. You can now log in to our website.</source>
                 <target>Votre compte a été activé. Vous pouvez maintenant vous connecter à notre site web.</target>
             </trans-unit>
+            <trans-unit id="authFailedMessage.title">
+                <source>Unable to login.</source>
+                <target>Impossible de se connecter.</target>
+            </trans-unit>
+            <trans-unit id="authFailedMessage.body">
+                <source>You have entered invalid access data. Please try again.</source>
+                <target>Vous avez saisi des données d'accès invalides. Veuillez réessayer.</target>
+            </trans-unit>
+            <trans-unit id="email.subjectActivation">
+                <source>Please confirm your account</source>
+                <target>Veuillez confirmer votre compte</target>
+            </trans-unit>
+            <trans-unit id="email.subjectResetPassword">
+                <source>Password reset</source>
+                <target>Réinitialisation du mot de passe</target>
+            </trans-unit>
             <trans-unit id="validations.registrationflow.email" xml:space="preserve">
                 <source>Email address {0} is already in use!</source>
                 <target>L'adresse e-mail {0} est déjà utilisée !</target>

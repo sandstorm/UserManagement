@@ -65,6 +65,18 @@
             <trans-unit id="activation.successMessage">
                 <source>Your account is has been activated. You can now log in to our website.</source>
             </trans-unit>
+            <trans-unit id="authFailedMessage.title">
+                <source>Unable to login.</source>
+            </trans-unit>
+            <trans-unit id="authFailedMessage.body">
+                <source>You have entered invalid access data. Please try again.</source>
+            </trans-unit>
+            <trans-unit id="email.subjectActivation">
+                <source>Please confirm your account</source>
+            </trans-unit>
+            <trans-unit id="email.subjectResetPassword">
+                <source>Password reset</source>
+            </trans-unit>
             <trans-unit id="validations.registrationflow.email" xml:space="preserve">
                 <source>Email address {0} is already in use!</source>
             </trans-unit>
