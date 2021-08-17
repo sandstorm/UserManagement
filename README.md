@@ -105,6 +105,19 @@ Sandstorm:
     rolesForNewUsers: []
 ```
 
+### I18N
+It is possible to use i18n for the messages configured in the settings. Simply by setting the values to 'i18n'.
+```
+Sandstorm:
+  UserManagement:
+    authFailedMessage:
+      title: 'i18n'
+      body: 'i18n'
+    email:
+      subjectActivation: 'i18n'
+      subjectResetPassword: 'i18n'
+```
+
 ## Additional Settings for usage in Neos
 You should switch the implementation of the Redirect and User Creation Services to the Neos services. Add this to your `Objects.yaml`:
 ```
@@ -366,7 +379,6 @@ Feel free to submit issues/PRs :)
 
 # 6. TODOs
 
-* I18N for Templates.
 * More Tests.
 
 # 7. FAQ
