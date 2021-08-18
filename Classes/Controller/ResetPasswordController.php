@@ -1,6 +1,7 @@
 <?php
 namespace Sandstorm\UserManagement\Controller;
 
+use Neos\Flow\I18n\Translator;
 use Neos\Flow\Property\TypeConverter\PersistentObjectConverter;
 use Sandstorm\UserManagement\Domain\Model\ResetPasswordFlow;
 use Sandstorm\UserManagement\Domain\Repository\ResetPasswordFlowRepository;
@@ -40,11 +41,33 @@ class ResetPasswordController extends ActionController
     protected $emailService;
 
     /**
+     * @Flow\Inject
+     * @var Translator
+     */
+    protected $translator;
+
+    /**
      * @var string
      * @Flow\InjectConfiguration(path="email.subjectResetPassword")
      */
     protected $subjectResetPassword;
 
+    /**
+     * @return string
+     */
+    protected function getSubjectResetPassword()
+    {
+        return $this->subjectResetPassword === 'i18n'
+            ? $this->translator->translateById(
+                'email.subjectResetPassword',
+                [],
+                null,
+                null,
+                'Main',
+                'Sandstorm.UserManagement'
+            )
+            : $this->subjectResetPassword;
+    }
 
     /**
      * @Flow\SkipCsrfProtection
@@ -88,7 +111,7 @@ class ResetPasswordController extends ActionController
 
             $this->emailService->sendTemplateEmail(
                 'ResetPasswordToken',
-                $this->subjectResetPassword,
+                $this->getSubjectResetPassword(),
                 [$resetPasswordFlow->getEmail()],
                 [
                     'resetPasswordLink' => $resetPasswordLink,

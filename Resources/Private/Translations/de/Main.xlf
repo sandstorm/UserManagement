@@ -2,6 +2,106 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
     <file original="" product-name="Sandstorm.UserManagement" source-language="en" target-language="de" datatype="plaintext">
         <body>
+            <trans-unit id="emailAddress">
+                <source>Email address</source>
+                <target>E-mail-Adresse</target>
+            </trans-unit>
+            <trans-unit id="login">
+                <source>Login</source>
+                <target>Sich anmelden</target>
+            </trans-unit>
+            <trans-unit id="toTheLogin">
+                <source>To the login</source>
+                <target>Zum Login</target>
+            </trans-unit>
+            <trans-unit id="password">
+                <source>Password</source>
+                <target>Passwort</target>
+            </trans-unit>
+            <trans-unit id="yourPassword">
+                <source>Your password</source>
+                <target>Ihr Passwort</target>
+            </trans-unit>
+            <trans-unit id="passwordForgotten">
+                <source>Password forgotten</source>
+                <target>Passwort vergessen</target>
+            </trans-unit>
+            <trans-unit id="logout">
+                <source>Logout</source>
+                <target>Ausloggen</target>
+            </trans-unit>
+            <trans-unit id="logout.loggedAs">
+                <source>You are logged in as {0}.</source>
+                <target>Sie sind eingeloggt als {0}.</target>
+            </trans-unit>
+            <trans-unit id="firstName">
+                <source>First name</source>
+                <target>Vorname</target>
+            </trans-unit>
+            <trans-unit id="lastName">
+                <source>Last name</source>
+                <target>Nachname</target>
+            </trans-unit>
+            <trans-unit id="registration.confirmPassword">
+                <source>Confirm password</source>
+                <target>Passwort bestätigen</target>
+            </trans-unit>
+            <trans-unit id="registration.repeatPassword">
+                <source>Repeat password</source>
+                <target>Passwort wiederholen</target>
+            </trans-unit>
+            <trans-unit id="registration.salutation">
+                <source>Salutation</source>
+                <target>Anrede</target>
+            </trans-unit>
+            <trans-unit id="registration.salutationOptions.f">
+                <source>Ms.</source>
+                <target>Frau</target>
+            </trans-unit>
+            <trans-unit id="registration.salutationOptions.m">
+                <source>Mr.</source>
+                <target>Herr</target>
+            </trans-unit>
+            <trans-unit id="registration.register">
+                <source>Register</source>
+                <target>Registrieren</target>
+            </trans-unit>
+            <trans-unit id="registration.confirmationEmailSent">
+                <source>We have sent an email to confirm the registration to <strong>%s</strong>. Please follow the instructions in the email to confirm the registration.</source>
+                <target>Wir haben eine E-Mail zur Bestätigung der Registrierung an <strong>%s</strong> gesendet. Bitte folgen Sie der Anleitung in der E-Mail, um die Registrierung zu bestätigen.</target>
+            </trans-unit>
+            <trans-unit id="activation.linkNotValid">
+                <source>The activation link was not valid.</source>
+                <target>Der Aktivierungslink war nicht gültig.</target>
+            </trans-unit>
+            <trans-unit id="activation.registerAgain">
+                <source>Please register again.</source>
+                <target>Bitte registrieren Sie sich erneut.</target>
+            </trans-unit>
+            <trans-unit id="activation.linkExpired">
+                <source>The activation link has expired.</source>
+                <target>Der Aktivierungslink ist nicht mehr gültig.</target>
+            </trans-unit>
+            <trans-unit id="activation.successMessage">
+                <source>Your account is has been activated. You can now log in to our website.</source>
+                <target>Ihr Konto ist aktiviert worden. Sie können sich jetzt auf unserer Website einloggen.</target>
+            </trans-unit>
+            <trans-unit id="authFailedMessage.title">
+                <source>Unable to login.</source>
+                <target>Login nicht möglich</target>
+            </trans-unit>
+            <trans-unit id="authFailedMessage.body">
+                <source>You have entered invalid access data. Please try again.</source>
+                <target>Sie haben ungültige Zugangsdaten eingegeben. Bitte versuchen Sie es noch einmal.</target>
+            </trans-unit>
+            <trans-unit id="email.subjectActivation">
+                <source>Please confirm your account</source>
+                <target>Bitte bestätigen Sie Ihr Konto</target>
+            </trans-unit>
+            <trans-unit id="email.subjectResetPassword">
+                <source>Password reset</source>
+                <target>Passwort zurücksetzen</target>
+            </trans-unit>
             <trans-unit id="validations.registrationflow.email" xml:space="preserve">
                 <source>Email address {0} is already in use!</source>
                 <target>Die E-Mail-Adresse {0} wird bereits verwendet!</target>

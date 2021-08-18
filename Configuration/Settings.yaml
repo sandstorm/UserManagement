@@ -5,10 +5,14 @@ Sandstorm:
     # Validity timespan for the token used to reset passwords.
     resetPasswordTokenTimeout: '4 hours'
     # The message that appears if a user could not be logged in.
+    # Set the value to 'i18n' to enable translations
+    # using 'authFailedMessage.title and authFailedMessage.body as id.
     authFailedMessage:
       title: 'Login nicht möglich'
       body: 'Sie haben ungültige Zugangsdaten eingegeben. Bitte versuchen Sie es noch einmal.'
     # Email settings
+    # Set the value to 'i18n' to enable translations
+    # using 'email.subjectActivation' and 'email.subjectResetPassword' as id.
     email:
       subjectActivation: 'Please confirm your account'
       # Subject line for the password reset email

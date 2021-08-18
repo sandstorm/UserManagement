@@ -18,28 +18,28 @@
 
   <f:if condition="{tokenNotFound}">
     <div class="callout alert">
-      <p>Der Aktivierungslink war nicht gültig.
-        <f:link.action action="index" controller="Registration" package="Sandstorm.UserManagement">Bitte registrieren Sie sich erneut.</f:link.action>
+      <p><f:translate id="activation.linkNotValid"></f:translate>
+        <f:link.action action="index" controller="Registration" package="Sandstorm.UserManagement"><f:translate id="activation.registerAgain"></f:translate></f:link.action>
       </p>
     </div>
   </f:if>
 
   <f:if condition="{tokenTimeout}">
     <div class="callout alert">
-      <p>Der Aktivierungslink ist nicht mehr gültig.
-        <f:link.action action="index" controller="Registration" package="Sandstorm.UserManagement">Bitte registrieren Sie sich erneut.</f:link.action>
+      <p><f:translate id="activation.linkExpired"></f:translate>
+        <f:link.action action="index" controller="Registration" package="Sandstorm.UserManagement"><f:translate id="activation.registerAgain"></f:translate></f:link.action>
       </p>
     </div>
   </f:if>
 
   <f:if condition="{success}">
     <div class="callout success">
-      <p>Sie sind nun aktiviert und können sich auf unserer Website anmelden.
+      <p><f:translate id="activation.successMessage"></f:translate>
       </p>
     </div>
     <!-- This can cause issues in the Neos use case, as then the Login Form will be displayed in the registration plugin's subcontext, which might
     not make sense. Therefore, deactivated for the time being. Feel free to uncomment in your own template. -->
-    <!--<f:link.action controller="Login" action="login" package="Sandstorm.UserManagement" class="button large primary">Zum Login</f:link.action>-->
+    <!--<f:link.action controller="Login" action="login" package="Sandstorm.UserManagement" class="button large primary"><f:translate id="toTheLogin"></f:translate></f:link.action>-->
   </f:if>
 
 </f:section>

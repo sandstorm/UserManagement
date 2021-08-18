@@ -3,6 +3,7 @@ namespace Sandstorm\UserManagement\Controller;
 
 use Neos\Error\Messages\Error;
 use Neos\Error\Messages\Message;
+use Neos\Flow\I18n\Translator;
 use Neos\Flow\Mvc\Controller\ControllerContext;
 use Neos\Flow\Security\Exception\AuthenticationRequiredException;
 use Sandstorm\UserManagement\Domain\Service\RedirectTargetServiceInterface;
@@ -38,16 +39,56 @@ class LoginController extends AbstractAuthenticationController
     protected $uriFactory;
 
     /**
+     * @Flow\Inject
+     * @var Translator
+     */
+    protected $translator;
+
+    /**
      * @var string
      * @Flow\InjectConfiguration(path="authFailedMessage.title")
      */
     protected $loginFailedTitle;
 
     /**
+     * @return string
+     */
+    protected function getLoginFailedTitle()
+    {
+        return $this->loginFailedTitle === 'i18n'
+            ? $this->translator->translateById(
+                'authFailedMessage.title',
+                [],
+                null,
+                null,
+                'Main',
+                'Sandstorm.UserManagement'
+            )
+            : $this->loginFailedTitle;
+    }
+
+    /**
      * @var string
      * @Flow\InjectConfiguration(path="authFailedMessage.body")
      */
     protected $loginFailedBody;
+
+    /**
+     * @return string
+     */
+    protected function getLoginFailedBody()
+    {
+        return $this->loginFailedBody === 'i18n'
+            ? $this->translator->translateById(
+                'authFailedMessage.body',
+                [],
+                null,
+                null,
+                'Main',
+                'Sandstorm.UserManagement'
+            )
+            : $this->loginFailedBody;
+    }
 
     /**
      * SkipCsrfProtection is needed here because we will have errors otherwise if we render multiple
@@ -101,7 +142,7 @@ class LoginController extends AbstractAuthenticationController
     protected function onAuthenticationFailure(AuthenticationRequiredException $exception = null)
     {
         $this->emitAuthenticationFailure($this->controllerContext, $exception);
-        $this->addFlashMessage($this->loginFailedBody, $this->loginFailedTitle,Message::SEVERITY_ERROR, [], ($exception === null ? 1347016771 : $exception->getCode()));
+        $this->addFlashMessage($this->getLoginFailedBody(), $this->getLoginFailedTitle(),Message::SEVERITY_ERROR, [], ($exception === null ? 1347016771 : $exception->getCode()));
     }
 
     /**

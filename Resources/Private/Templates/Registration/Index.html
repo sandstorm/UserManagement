@@ -16,41 +16,41 @@
       <f:form action="register" method="post" objectName="registrationFlow">
         <fieldset>
           <label>
-            E-Mail-Adresse
+            <f:translate id="emailAddress"></f:translate>
             <f:form.textfield property="email" placeholder="test@example.com" name="__authentication[Neos][Flow][Security][Authentication][Token][UsernamePassword][username]" type="email" required="true"/>
             <f:render partial="FormErrors" section="ValidationResults" arguments="{for: 'registrationFlow.email'}"/>
           </label>
 
           <label>
-            Passwort
-            <f:form.password placeholder="Ihr Passwort" property="passwordDto.password" required="true"/>
+            <f:translate id="password"></f:translate>
+            <f:form.password placeholder="{f:translate(id: 'yourPassword')}" property="passwordDto.password" required="true"/>
             <f:render partial="FormErrors" section="ValidationResults" arguments="{for: 'registrationFlow.passwordDto.password'}"/>
           </label>
 
           <label>
-            Passwortbestätigung
-            <f:form.password placeholder="Passwort wiederholen" property="passwordDto.passwordConfirmation" required="true"/>
+            <f:translate id="registration.confirmPassword"></f:translate>
+            <f:form.password placeholder="{f:translate(id: 'registration.repeatPassword')}" property="passwordDto.passwordConfirmation" required="true"/>
           </label>
 
           <label>
-            Anrede
-            <f:form.select options="{'m': 'Herr', 'f': 'Frau'}" property="attributes.salutation" />
+            <f:translate id="registration.salutation"></f:translate>
+            <f:form.select options="{'m': 'Mr.', 'f': 'Ms.'}" translate="{by: 'id', prefix: 'registration.salutationOptions.'}" property="attributes.salutation" />
             <f:render partial="FormErrors" section="ValidationResults" arguments="{for: 'registrationFlow.attributes.salutation'}"/>
           </label>
 
           <label>
-            Vorname
+            <f:translate id="firstName"></f:translate>
             <f:form.textfield placeholder="Manfred" property="attributes.firstName" required="true"/>
             <f:render partial="FormErrors" section="ValidationResults" arguments="{for: 'registrationFlow.attributes.firstName'}"/>
           </label>
 
           <label>
-            Nachname
+            <f:translate id="lastName"></f:translate>
             <f:form.textfield placeholder="Mustermann" property="attributes.lastName"/>
             <f:render partial="FormErrors" section="ValidationResults" arguments="{for: 'registrationFlow.attributes.lastName'}"/>
           </label>
 
-          <input type="submit" value="Registrieren" class="button large primary"/>
+          <input type="submit" value="{f:translate(id: 'registration.register')}" class="button large primary"/>
         </fieldset>
       </f:form>
     </f:else>

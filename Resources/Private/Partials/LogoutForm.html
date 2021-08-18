@@ -5,9 +5,9 @@
       lang="en">
 
 <f:section name="Logout">
-  <p>Sie sind eingeloggt als <strong>{account.accountIdentifier}</strong>.</p>
+  <p><f:translate id="logout.loggedAs" arguments="{0: '{account.accountIdentifier}'}"></f:translate></p>
   <f:form action="logout" method="post" additionalAttributes="{role:'form'}">
-    <f:form.submit value="Ausloggen" class="button primary" />
+    <f:form.submit value="{f:translate(id: 'logout')}" class="button primary" />
   </f:form>
 </f:section>
 
