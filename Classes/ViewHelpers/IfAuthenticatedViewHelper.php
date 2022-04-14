@@ -39,11 +39,11 @@ class IfAuthenticatedViewHelper extends AbstractConditionViewHelper
     }
 
     /**
-     * @param null $arguments
+     * @param array $arguments
      * @param RenderingContextInterface $renderingContext
      * @return bool
      */
-    protected static function evaluateCondition($arguments = null, RenderingContextInterface $renderingContext)
+    protected static function evaluateCondition($arguments, RenderingContextInterface $renderingContext)
     {
         $objectManager = $renderingContext->getObjectManager();
         /** @var Context $securityContext */
