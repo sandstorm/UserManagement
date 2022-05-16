@@ -75,10 +75,10 @@ class NeosUserCreationService implements UserCreationServiceInterface
         $this->getPartyService()->assignAccountToParty($account, $user);
         $this->getPartyRepository()->add($user);
         $this->accountRepository->add($account);
-        $this->persistenceManager->whitelistObject($user);
-        $this->persistenceManager->whitelistObject($user->getPreferences());
-        $this->persistenceManager->whitelistObject($name);
-        $this->persistenceManager->whitelistObject($account);
+        $this->persistenceManager->allowObject($user);
+        $this->persistenceManager->allowObject($user->getPreferences());
+        $this->persistenceManager->allowObject($name);
+        $this->persistenceManager->allowObject($account);
 
         // Return the user so the controller can directly use it
         return $user;

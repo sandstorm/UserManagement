@@ -71,8 +71,8 @@ class FlowUserCreationService implements UserCreationServiceInterface
 
         // Persist user
         $this->userRepository->add($user);
-        $this->persistenceManager->whitelistObject($user);
-        $this->persistenceManager->whitelistObject($account);
+        $this->persistenceManager->allowObject($user);
+        $this->persistenceManager->allowObject($account);
 
         // Return the user so the controller can directly use it
         return $user;
