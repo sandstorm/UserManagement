@@ -133,7 +133,7 @@ class RegistrationController extends ActionController
 
         $user = $this->userCreationService->createUserAndAccount($registrationFlow);
         $this->registrationFlowRepository->remove($registrationFlow);
-        $this->persistenceManager->whitelistObject($registrationFlow);
+        $this->persistenceManager->allowObject($registrationFlow);
 
         $this->view->assign('success', true);
         $this->view->assign('user', $user);
