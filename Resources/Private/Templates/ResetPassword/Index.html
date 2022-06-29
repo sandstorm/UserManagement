@@ -11,7 +11,7 @@
 
   <p>Bitte geben Sie Ihre Email-Adresse ein. Wir schicken Ihnen dann einen Link, mit dem Sie Ihr Passwort zurücksetzen können.</p>
   <f:form action="requestToken" method="POST" objectName="resetPasswordFlow">
-    <f:form.textfield property="email" type="text" placeholder="Email-Adresse oder Benutzername"/>
+    <f:form.textfield property="email" type="text" placeholder="Email-Adresse oder Benutzername" value="{prefilledEmail}" />
     <f:validation.results for="{email}">
       <f:if condition="{validationResults.flattenedErrors}">
         <dl class="errors">

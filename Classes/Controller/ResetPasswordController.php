@@ -72,8 +72,9 @@ class ResetPasswordController extends ActionController
     /**
      * @Flow\SkipCsrfProtection
      */
-    public function indexAction()
+    public function indexAction(string $email = '')
     {
+        $this->view->assign('prefilledEmail', $email);
     }
 
     public function initializeRequestTokenAction()
