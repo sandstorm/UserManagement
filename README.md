@@ -13,7 +13,7 @@ Sandstorm.UserManagement is currently being maintained for the following version
 
 | Neos / Flow Version        | Sandstorm.UserManagement Version | Branch | Maintained |
 |----------------------------|----------------------------------|--------|------------|
-| Neos 5.x-7.x, Flow 6.x-7.x | 7.x                              | master | Yes        |
+| Neos 5.x-8.x, Flow 6.x-8.x | 7.x                              | master | Yes        |
 | Neos 4.x, Flow 5.x         | 6.x                              | 6.0    | Yes        |
 | Neos 3.x, Flow 4.x         | 5.x                              | 5.0    | Bugfixes   |
 | Neos 2.3 LTS, Flow 3.3 LTS | 3.x                              | 3.0    | No         |
