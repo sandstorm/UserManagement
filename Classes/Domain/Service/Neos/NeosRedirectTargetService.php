@@ -54,7 +54,10 @@ class NeosRedirectTargetService implements RedirectTargetServiceInterface
         // Neos only logic (configuration at node or via TS)
         /** @var ActionRequest $actionRequest */
         $actionRequest = $controllerContext->getRequest();
-        if ($actionRequest->getInternalArgument('__redirectAfterLogin')) {
+
+        if ($actionRequest->getHttpRequest()->hasArgument('forwardUrl') && strlen($actionRequest->getHttpRequest()->getArgument('forwardUrl'))) {
+            return $this->sanitizeForwardUrl($actionRequest->getHttpRequest()->getArgument('forwardUrl'));
+        } elseif ($actionRequest->getInternalArgument('__redirectAfterLogin')) {
             return $this->getNodeLinkingService()
                 ->createNodeUri($controllerContext, $actionRequest->getInternalArgument('__redirectAfterLogin'));
         }
@@ -97,5 +100,13 @@ class NeosRedirectTargetService implements RedirectTargetServiceInterface
     protected function getNodeLinkingService()
     {
         return $this->objectManager->get(LinkingService::class);
+    }
+
+    /**
+     * @param string $forwardUrl
+     * @return string
+     */
+    protected function sanitizeForwardUrl(string $forwardUrl): string {
+        return filter_var($forwardUrl, FILTER_SANITIZE_URL);
     }
 }
