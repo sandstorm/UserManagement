@@ -21,9 +21,17 @@
         "issues": "https://github.com/sandstorm/UserManagement/issues",
         "source": "https://github.com/sandstorm/UserManagement"
     },
+    "config": {
+        "platform": {
+            "php": "8.4.0"
+        },
+        "allow-plugins": {
+            "neos/composer-plugin": true
+        }
+    },
     "require": {
         "neos/flow": "^6.0 || ^7.0 || ^8.0 || dev-master",
-        "sandstorm/templatemailer": "^2.0.2"
+        "sandstorm/templatemailer": "^3.0.1"
     },
     "autoload": {
         "psr-4": {
