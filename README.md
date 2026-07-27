@@ -381,8 +381,10 @@ class RegistrationFlowValidationService implements RegistrationFlowValidationSer
 ```
 
 # 4. Running Tests
-Run all tests with:
+Run all unit tests with:
 `./bin/phpunit -c ./Build/BuildEssentials/PhpUnit/UnitTests.xml Packages/Application/Sandstorm.UserManagement/Tests/Unit`
+
+There is also a Playwright/BDD end-to-end test suite covering registration, login/logout, password reset and profile editing against a Dockerised Neos instance — see [`Tests/README.md`](Tests/README.md) for setup and usage.
 
 # 5. Known issues
 
