@@ -3,7 +3,7 @@ services:
     build:
       args:
         PHP_VERSION: '8.4'
-        NEOS_VERSION: '9'
+        NEOS_VERSION: '9.0.*'
         ENTRY_POINT_FILE: 'Tests/system_under_test/neos9/entrypoint.sh'
 
   db:

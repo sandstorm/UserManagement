@@ -33,9 +33,14 @@ RUN \
 RUN echo '. /etc/bash.vips-arm64-hotfix.sh' >>  /etc/bash.bashrc
 
 # Install Neos base distribution
+# NEOS_VERSION is a full composer version constraint (not just a major version number) so each
+# variant can pin as tightly as it needs to - a floating "^9" constraint previously picked up
+# neos-base-distribution 9.1.7, whose own composer.json requires neos/buildessentials ~9.1.0,
+# but that package was never stable-tagged past 9.0.0 (only a 9.1.x-dev branch exists), breaking
+# the build with a minimum-stability error.
 ARG NEOS_VERSION
 RUN rm -rf /app \
-  && composer create-project neos/neos-base-distribution:^${NEOS_VERSION} /app
+  && composer create-project neos/neos-base-distribution:${NEOS_VERSION} /app
 
 RUN composer require rokka/imagine-vips:0.*
 
