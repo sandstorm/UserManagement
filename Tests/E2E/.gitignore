@@ -1,0 +1,8 @@
+# 3rd party sources
+node_modules/
+
+package-lock.json
+
+# transient test files
+.features-gen/
+test-results/

@@ -1,0 +1,54 @@
+# Sandstorm.UserManagement's ProfileController is normally only reachable through a Neos
+# Fusion plugin embedded on a page (Sandstorm.UserManagement:Profile NodeType), since the
+# package itself defines no standalone route for it. For the E2E test application we add
+# our own routes here instead of setting up a full Neos site/content just to host the plugin.
+# The `__show*`/`__enable*` defaults replicate the plugin's default NodeType properties, which
+# ProfileController reads via `$this->request->getInternalArguments()`.
+
+-
+  name: 'E2E: Profile'
+  uriPattern: 'profile'
+  defaults:
+    '@package':    'Sandstorm.UserManagement'
+    '@controller': 'Profile'
+    '@action':     'index'
+    '@format':     'html'
+    '__showPersonalInformation': true
+    '__showAccountInformation': true
+    '__enableNewPassword': true
+
+-
+  # ProfileController::editProfileAction()/setNewPasswordAction() both end with
+  # `$this->redirect('index')` (no explicit controller/package/argument overrides). Flow's
+  # Router::resolve() requires an EXACT match of a route's static defaults - including the
+  # `__show*`/`__enable*` ones above - so a plain redirect('index') call (which doesn't supply
+  # those keys) never matches the route above and fails with "Router resolve(): Could not
+  # resolve a route..." (confirmed via `./flow routing:resolve`). This second, plainer route
+  # exists purely so redirect('index') has something to match; real navigation to /profile
+  # still hits the route above first (declared earlier => tried first for incoming requests),
+  # so the plugin-argument defaults are still applied for the normal GET.
+  name: 'E2E: Profile (redirect target, no plugin-argument defaults)'
+  uriPattern: 'profile'
+  defaults:
+    '@package':    'Sandstorm.UserManagement'
+    '@controller': 'Profile'
+    '@action':     'index'
+    '@format':     'html'
+
+-
+  name: 'E2E: Profile edit personal data'
+  uriPattern: 'profile/edit'
+  defaults:
+    '@package':    'Sandstorm.UserManagement'
+    '@controller': 'Profile'
+    '@action':     'editProfile'
+    '@format':     'html'
+
+-
+  name: 'E2E: Profile set new password'
+  uriPattern: 'profile/password'
+  defaults:
+    '@package':    'Sandstorm.UserManagement'
+    '@controller': 'Profile'
+    '@action':     'setNewPassword'
+    '@format':     'html'

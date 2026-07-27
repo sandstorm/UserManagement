@@ -1,0 +1,22 @@
+{
+    "name": "sandstorm-usermanagement-e2e",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "generate-tests": "SUT=notRelevantForBddgen FLOW_CONTEXT=notRelevantForBddgen npx bddgen",
+        "test": "npm run generate-tests && SUT=neos8 FLOW_CONTEXT=Production/E2E-SUT npx playwright test",
+        "test:registration": "npm run generate-tests && SUT=neos8 FLOW_CONTEXT=Production/E2E-SUT npx playwright test --grep @registration",
+        "test:login": "npm run generate-tests && SUT=neos8 FLOW_CONTEXT=Production/E2E-SUT npx playwright test --grep @login",
+        "test:reset-password": "npm run generate-tests && SUT=neos8 FLOW_CONTEXT=Production/E2E-SUT npx playwright test --grep @reset-password",
+        "test:profile": "npm run generate-tests && SUT=neos8 FLOW_CONTEXT=Production/E2E-SUT npx playwright test --grep @profile"
+    },
+    "devDependencies": {
+        "@types/node": "^25.5.0",
+        "typescript": "^6.0.2",
+        "prettier": "^3.8.1"
+    },
+    "dependencies": {
+        "@playwright/test": "^1.58.2",
+        "playwright-bdd": "^9.2.0"
+    }
+}

@@ -1,0 +1,41 @@
+Sandstorm:
+  UserManagement:
+    # shortened so the "expired link" scenarios don't have to wait for the production defaults (2 days / 4 hours);
+    # long enough that the happy-path scenarios (register/request -> poll Mailpit -> open link) don't race it
+    activationTokenTimeout: '6 seconds'
+    resetPasswordTokenTimeout: '6 seconds'
+    # Sandstorm.UserManagement:Profile requires Neos.Neos:FrontendUser or :Editor (see Policy.yaml);
+    # without this, freshly created/activated test users would get redirected back to /login
+    rolesForNewUsers: ['Neos.Neos:FrontendUser']
+
+Neos:
+  Flow:
+    persistence:
+      backendOptions:
+        driver: 'pdo_mysql'
+        charset: 'utf8mb4'
+        host: '%env:DB_NEOS_HOST%'
+        port: '%env:DB_NEOS_PORT%'
+        password: '%env:DB_NEOS_PASSWORD%'
+        user: '%env:DB_NEOS_USER%'
+        dbname: '%env:DB_NEOS_DATABASE%'
+    cache:
+      applicationIdentifier: 'app'
+
+  SymfonyMailer:
+    mailer:
+      # route all outgoing mail (activation / password reset links) to the Mailpit catcher instead of a real SMTP server
+      dsn: 'smtp://mailpit:1025'
+
+  Imagine:
+    driver: 'Vips'
+    enabledDrivers:
+      Vips: true
+      Gd: true
+      Imagick: true
+
+  Media:
+    image:
+      defaultOptions:
+        # The Vips driver does not support interlace
+        interlace: ~
