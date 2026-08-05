@@ -22,8 +22,9 @@
         "source": "https://github.com/sandstorm/UserManagement"
     },
     "require": {
-        "neos/flow": "^8.3 || ^9.0 || dev-master",
-        "sandstorm/templatemailer": "^3.0 || dev-master"
+        "php": ">=8.2 <8.5",
+        "neos/flow": "^8.3 || ^9.0",
+        "sandstorm/templatemailer": "^3.0.1 || dev-master"
     },
     "autoload": {
         "psr-4": {
