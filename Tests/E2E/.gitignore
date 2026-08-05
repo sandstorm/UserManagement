@@ -1,0 +1,7 @@
+# 3rd party sources
+node_modules/
+
+# transient test files
+.features-gen/
+test-results/
+playwright-report/
