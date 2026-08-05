@@ -12,13 +12,15 @@ This package works in Neos CMS and Flow and provides the following functionality
 Sandstorm.UserManagement is currently being maintained for the following versions:
 
 | Neos / Flow Version        | Sandstorm.UserManagement Version | Branch | Maintained |
-|----------------------------|----------------------------------|--------|------------|
-| Neos 8.3-9.x, Flow 8.3-9.x | 8.x                              | master | Yes        |
-| Neos 5.x-8.x, Flow 6.x-8.x | 7.x                              | 7.0    | Yes        |
-| Neos 4.x, Flow 5.x         | 6.x                              | 6.0    | Yes        |
-| Neos 3.x, Flow 4.x         | 5.x                              | 5.0    | Bugfixes   |
-| Neos 2.3 LTS, Flow 3.3 LTS | 3.x                              | 3.0    | No         |
-| Neos 2.2, Flow 3.2         | 1.x                              | -      | No         |
+|----------------------------|----------------------------------|--------|-----------|
+| Neos 8.3-9.x, Flow 8.3-9.x | 8.x                              | master | Yes       |
+| Neos 5.x-8.x, Flow 6.x-8.x | 7.x                              | 7.0    | Yes       |
+| Neos 4.x, Flow 5.x         | 6.x                              | 6.0    | Yes       |
+| Neos 3.x, Flow 4.x         | 5.x                              | 5.0    | No        |
+| Neos 2.3 LTS, Flow 3.3 LTS | 3.x                              | 3.0    | No        |
+| Neos 2.2, Flow 3.2         | 1.x                              | -      | No        |
+
+At the moment, the highest supported version of PHP is 8.4.
 
 ## Breaking changes in Version 5.x
 ### Configuration Changes
@@ -371,8 +373,10 @@ class RegistrationFlowValidationService implements RegistrationFlowValidationSer
 ```
 
 # 4. Running Tests
-Run all tests with:
+Run all unit tests with:
 `./bin/phpunit -c ./Build/BuildEssentials/PhpUnit/UnitTests.xml Packages/Application/Sandstorm.UserManagement/Tests/Unit`
+
+To run E2E tests, see [E2E Test Readme](Tests/E2E/README.md)
 
 # 5. Known issues
 
