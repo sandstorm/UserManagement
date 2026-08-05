@@ -1,0 +1,49 @@
+name: E2E Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  e2e:
+    name: E2E Tests (${{ matrix.neos }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        neos: [neos8, neos9]
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: Tests/E2E/.nvmrc
+          cache: npm
+          cache-dependency-path: Tests/E2E/package-lock.json
+
+      - name: Install dependencies
+        working-directory: Tests/E2E
+        run: npm ci
+
+      - name: Install Playwright browsers
+        working-directory: Tests/E2E
+        run: npx playwright install --with-deps chromium
+
+      - name: Pre-build Docker image
+        run: docker compose -f Tests/E2E/system_under_test/${{ matrix.neos }}/docker-compose.yaml build --pull
+
+      - name: Run Tests
+        working-directory: Tests/E2E
+        run: npm run test:${{ matrix.neos }}
+
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v7
+        if: ${{ always() }}
+        with:
+          name: playwright-report-${{ matrix.neos }}
+          path: Tests/E2E/playwright-report/
+          retention-days: 7

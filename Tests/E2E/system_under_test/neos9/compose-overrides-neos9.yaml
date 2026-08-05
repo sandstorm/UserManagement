@@ -1,0 +1,20 @@
+services:
+  neos:
+    build:
+      args:
+        # this needs to be 8.4, not 8.5!
+        # because the template Mailer needs 8.4 at the moment
+        PHP_VERSION: '8.4'
+        NEOS_VERSION: '9.1.6'
+        ENTRY_POINT_FILE: 'Tests/E2E/system_under_test/neos9/entrypoint.sh'
+
+  db:
+    image: mariadb:11.4
+
+volumes:
+  db_neos_data:
+    name: db_neos9_data
+
+networks:
+  neos_SUT:
+    name: neos9_SUT

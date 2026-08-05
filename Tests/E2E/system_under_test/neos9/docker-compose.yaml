@@ -1,0 +1,7 @@
+# WHY: GitHub actions does not support Docker Compose v5 yet - which in turn does not support overrides of included files.
+#      This is how it's supposed to be done anyway: https://docs.docker.com/compose/how-tos/multiple-compose-files/include/#using-overrides-with-included-compose-files
+
+include:
+  - path:
+      - ../sut-base-docker-compose.yaml
+      - ./compose-overrides-neos9.yaml
