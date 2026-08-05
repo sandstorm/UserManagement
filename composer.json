@@ -30,7 +30,8 @@
         }
     },
     "require": {
-        "neos/flow": "^6.0 || ^7.0 || ^8.0 || dev-master",
+        "php": ">=8.2 <8.5",
+        "neos/flow": "^8.3",
         "sandstorm/templatemailer": "^3.0.1"
     },
     "autoload": {

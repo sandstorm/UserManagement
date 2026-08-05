@@ -1,0 +1,21 @@
+{
+    // Visit https://aka.ms/tsconfig to read more about this file
+    "compilerOptions": {
+        "noEmit": true,
+        "module": "nodenext",
+        "target": "ESNext",
+        "lib": ["esnext"],
+        "types": ["node"],
+        // Stricter Typechecking Options
+        "noUncheckedIndexedAccess": true,
+        "exactOptionalPropertyTypes": true,
+        // Recommended Options
+        "strict": true,
+        "verbatimModuleSyntax": false,
+        "isolatedModules": true,
+        "noUncheckedSideEffectImports": true,
+        "moduleDetection": "force",
+        "skipLibCheck": true,
+        "allowImportingTsExtensions": true
+    }
+}

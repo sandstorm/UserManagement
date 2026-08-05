@@ -1,1 +1,9 @@
-.idea
+# 3rd party sources
+Packages/
+vendor/
+
+# composer
+composer.lock
+
+# IDEs
+.idea/

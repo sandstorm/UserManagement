@@ -1,0 +1,56 @@
+Flow_Mvc_Routing_Route:
+  backend: 'Neos\Cache\Backend\RedisBackend'
+  backendOptions:
+    hostname: '%env:REDIS_HOST%'
+    port: '%env:REDIS_PORT%'
+    # starting with database 2 here, since 0 and 1 are used and flushed by
+    # the core unit tests and should not be used if possible.
+    database: 2
+    defaultLifetime: 0
+
+Flow_Mvc_Routing_Resolve:
+  backend: 'Neos\Cache\Backend\RedisBackend'
+  backendOptions:
+    hostname: '%env:REDIS_HOST%'
+    port: '%env:REDIS_PORT%'
+    database: 2
+    defaultLifetime: 0
+
+# We want to test cache settings on Fusion components.
+# Therefore, at one moment in the BDD test, we need to actively trigger the ContentCacheFlusher to invalidate the tags.
+# Since we have multiple Flow contexts during tests, the cache settings are unified for all contexts.
+# Explanation:
+#  - The system under test runs in Production/E2E-SUT; it writes cache entries
+#  - The Test Runner (behat) runs in Testing/Behat; it needs to invalidate cache for the SuT via service API call
+# For now, we simply keep the cache settings in sync between those two profiles (like we do with the DB config).
+Neos_Fusion_Content:
+  backend: 'Neos\Cache\Backend\RedisBackend'
+  backendOptions:
+    hostname: '%env:REDIS_HOST%'
+    port: '%env:REDIS_PORT%'
+    database: 2
+    defaultLifetime: 0
+
+Flow_Session_MetaData:
+  backend: 'Neos\Cache\Backend\RedisBackend'
+  backendOptions:
+    hostname: '%env:REDIS_HOST%'
+    port: '%env:REDIS_PORT%'
+    database: 2
+    defaultLifetime: 0
+
+Flow_Session_Storage:
+  backend: 'Neos\Cache\Backend\RedisBackend'
+  backendOptions:
+    hostname: '%env:REDIS_HOST%'
+    port: '%env:REDIS_PORT%'
+    database: 2
+    defaultLifetime: 0
+
+Neos_Media_ImageSize:
+  backend: 'Neos\Cache\Backend\RedisBackend'
+  backendOptions:
+    hostname: '%env:REDIS_HOST%'
+    port: '%env:REDIS_PORT%'
+    database: 2
+    defaultLifetime: 0
