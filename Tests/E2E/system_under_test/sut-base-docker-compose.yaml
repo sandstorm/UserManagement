@@ -1,0 +1,74 @@
+services:
+  neos:
+    user: www-data:www-data
+    build:
+      # the package root, so that the package sources can be copied into the image
+      # NOTE: relative paths in this file are resolved from its own directory (Tests/E2E/system_under_test)
+      context: ../../../
+      dockerfile: Tests/E2E/system_under_test/Dockerfile
+      args:
+        # minimum PHP version is '8.2' because that's the lowest version frankenPHP provides an image for
+        PHP_VERSION: '8.2'
+        # used to install the system under test
+        # which is a neos-base-distribution:^${NEOS_VERSION}
+        NEOS_VERSION: '8'
+        # docker will use this as entrypoint
+        ENTRY_POINT_FILE: 'Tests/E2E/system_under_test/neos8/entrypoint.sh'
+    environment:
+      FLOW_CONTEXT: "${FLOW_CONTEXT:-Production/E2E-SUT}"
+      # DB connection
+      DB_NEOS_HOST: 'db'
+      DB_NEOS_PORT: 3306
+      DB_NEOS_USER: 'neos'
+      DB_NEOS_PASSWORD: 'neos'
+      DB_NEOS_DATABASE: 'neos'
+      # Redis connection
+      REDIS_HOST: 'redis'
+      REDIS_PORT: 6379
+      # this is safe because the neos container port is only exposed to the local interface
+      # This means that the neos container is ALWAYS accessed through the front facing Ingress
+      FLOW_HTTP_TRUSTED_PROXIES: '*'
+    volumes:
+      - ../../../Classes:/app/DistributionPackages/Sandstorm.Usermanagement/Classes:cached
+      - ../../../Configuration:/app/DistributionPackages/Sandstorm.Usermanagement/Configuration:cached
+      - ../../../Migrations:/app/DistributionPackages/Sandstorm.Usermanagement/Migrations:cached
+      - ../../../Resources:/app/DistributionPackages/Sandstorm.Usermanagement/Resources:cached
+      - ../../../composer.json:/app/DistributionPackages/Sandstorm.Usermanagement/composer.json:cached
+    networks:
+      - neos_SUT
+    ports:
+      - 8081:8081
+    depends_on:
+      - db
+      - redis
+
+  db:
+    image: mariadb:10.11
+    restart: always
+    ports:
+      - "13306:3306"
+    networks:
+      - neos_SUT
+    environment:
+      MARIADB_RANDOM_ROOT_PASSWORD: 'true'
+      MARIADB_DATABASE: 'neos'
+      MARIADB_USER: 'neos'
+      MARIADB_PASSWORD: 'neos'
+      MARIADB_AUTO_UPGRADE: 1
+    volumes:
+      - db_neos_data:/var/lib/mysql
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+  redis:
+    image: redis:7
+    restart: always
+    networks:
+      - neos_SUT
+
+volumes:
+  db_neos_data:
+    name: db_neos_data
+
+networks:
+  neos_SUT:
+    name: neos_SUT
