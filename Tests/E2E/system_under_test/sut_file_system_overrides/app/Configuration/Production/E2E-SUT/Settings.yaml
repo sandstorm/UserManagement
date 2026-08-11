@@ -1,3 +1,10 @@
+Sandstorm:
+  UserManagement:
+    # shortened so the "expired link" scenarios don't have to wait for the production
+    # defaults (2 days / 4 hours)
+    activationTokenTimeout: '6 seconds'
+    resetPasswordTokenTimeout: '6 seconds'
+
 Neos:
   Flow:
     persistence:
@@ -11,6 +18,11 @@ Neos:
         dbname: '%env:DB_NEOS_DATABASE%'
     cache:
       applicationIdentifier: 'app'
+
+  SymfonyMailer:
+    mailer:
+      # route all outgoing mail (activation / password reset links) to the Mailpit catcher
+      dsn: 'smtp://mailpit:1025'
 
   Imagine:
     driver: Gd
