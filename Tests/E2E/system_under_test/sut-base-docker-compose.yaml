@@ -41,6 +41,7 @@ services:
     depends_on:
       - db
       - redis
+      - mailpit
 
   db:
     image: mariadb:10.11
@@ -64,6 +65,15 @@ services:
     restart: always
     networks:
       - neos_SUT
+
+  # catches all outgoing mail (registration activation / password reset links) so tests can read it via its REST API
+  mailpit:
+    image: axllent/mailpit:latest
+    restart: always
+    networks:
+      - neos_SUT
+    ports:
+      - "8025:8025"
 
 volumes:
   db_neos_data:
