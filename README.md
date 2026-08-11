@@ -287,6 +287,16 @@ Sandstorm\UserManagement\Domain\Service\UserCreationServiceInterface:
   className: 'Your\Package\Domain\Service\YourCustomUserCreationService'
 ```
 
+## Customizing how the reset-password e-mail address is resolved
+By default, the "forgot password" flow sends the reset link to the account identifier the user entered (i.e. username
+and e-mail address are assumed to be identical). If your application decouples usernames from e-mail addresses, you
+can override how the recipient address is resolved by implementing `FindEmailAddressForUserServiceInterface` and
+wiring it up via `Objects.yaml`:
+```YAML
+Sandstorm\UserManagement\Domain\Service\FindEmailAddressForUserServiceInterface:
+  className: 'Your\Package\Domain\Service\YourCustomFindEmailAddressForUserService'
+```
+
 ## Hooking into the login/logout process
 The UserManagement package emits three signals during the login and logout process, into which you can hook
 using Flows [Signals and Slots](http://flowframework.readthedocs.io/en/stable/TheDefinitiveGuide/PartIII/SignalsAndSlots.html)
@@ -370,8 +380,11 @@ class RegistrationFlowValidationService implements RegistrationFlowValidationSer
 ```
 
 # 4. Running Tests
-Run all unit tests with:
-`./bin/phpunit -c ./Build/BuildEssentials/PhpUnit/UnitTests.xml Packages/Application/Sandstorm.UserManagement/Tests/Unit`
+Unit tests run standalone in this package, no Flow distribution required:
+```
+composer install
+vendor/bin/phpunit Tests/Unit
+```
 
 To run E2E tests, see [E2E Test Readme](Tests/E2E/README.md)
 

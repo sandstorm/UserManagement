@@ -5,19 +5,16 @@ use Neos\Flow\Tests\UnitTestCase;
 use Sandstorm\UserManagement\Domain\Model\PasswordDto;
 
 /**
- * Testcase for the package class
+ * Testcase for PasswordDto
  *
  */
-class PackageTest extends UnitTestCase
+class PasswordDtoTest extends UnitTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
     }
 
-    /**
-     * @test
-     */
-    public function equalPasswordsAreEqual()
+    public function testEqualPasswordsAreEqual()
     {
         $passwordDto = new PasswordDto();
         $passwordDto->setPassword('foobar');
@@ -26,10 +23,7 @@ class PackageTest extends UnitTestCase
         $this->assertTrue($passwordDto->arePasswordsEqual());
     }
 
-    /**
-     * @test
-     */
-    public function inequalPasswordsAreNotEqual()
+    public function testInequalPasswordsAreNotEqual()
     {
         $passwordDto = new PasswordDto();
         $passwordDto->setPassword('FOOBAR');
@@ -38,10 +32,7 @@ class PackageTest extends UnitTestCase
         $this->assertFalse($passwordDto->arePasswordsEqual());
     }
 
-    /**
-     * @test
-     */
-    public function passwordMinLength()
+    public function testPasswordMinLength()
     {
         $passwordDto = new PasswordDto();
         $passwordDto->setPassword('6chars');
@@ -51,10 +42,7 @@ class PackageTest extends UnitTestCase
         $this->assertFalse($passwordDto->isPasswordMinLength(7));
     }
 
-    /**
-     * @test
-     */
-    public function passwordMaxLength()
+    public function testPasswordMaxLength()
     {
         $passwordDto = new PasswordDto();
         $passwordDto->setPassword('6chars');
@@ -64,10 +52,7 @@ class PackageTest extends UnitTestCase
         $this->assertFalse($passwordDto->isPasswordMaxLength(5));
     }
 
-    /**
-     * @test
-     */
-    public function passwordContainsLowercaseLetters()
+    public function testPasswordContainsLowercaseLetters()
     {
         $passwordDto = new PasswordDto();
         $passwordDto->setPassword('4loweRCASELETTERS');
@@ -78,10 +63,7 @@ class PackageTest extends UnitTestCase
         $this->assertFalse($passwordDto->doesPasswordContainLowercaseLetters(5));
     }
 
-    /**
-     * @test
-     */
-    public function passwordContainsUppercaseLetters()
+    public function testPasswordContainsUppercaseLetters()
     {
         $passwordDto = new PasswordDto();
         $passwordDto->setPassword('4UPPErcaseletters');
@@ -92,10 +74,7 @@ class PackageTest extends UnitTestCase
         $this->assertFalse($passwordDto->doesPasswordContainUppercaseLetters(5));
     }
 
-    /**
-     * @test
-     */
-    public function passwordContainsNumbers()
+    public function testPasswordContainsNumbers()
     {
         $passwordDto = new PasswordDto();
         $passwordDto->setPassword('fournumbers1234');
@@ -106,10 +85,7 @@ class PackageTest extends UnitTestCase
         $this->assertFalse($passwordDto->doesPasswordContainNumbers(5));
     }
 
-    /**
-     * @test
-     */
-    public function passwordContainsSpecialCharacters()
+    public function testPasswordContainsSpecialCharacters()
     {
         $passwordDto = new PasswordDto();
         $passwordDto->setPassword('4specialCHARS!"%$');

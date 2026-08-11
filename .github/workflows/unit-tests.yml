@@ -1,0 +1,29 @@
+name: Unit Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          # no matrix across 8.2-8.4 here: these are plain PHP unit tests with no
+          # version-sensitive logic, so one version is enough signal for the added CI cost
+          php-version: '8.4'
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --no-plugins --prefer-dist
+
+      - name: Run unit tests
+        run: vendor/bin/phpunit Tests/Unit
