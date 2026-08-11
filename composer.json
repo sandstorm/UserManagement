@@ -26,9 +26,18 @@
         "neos/flow": "^8.3 || ^9.0",
         "sandstorm/templatemailer": "^3.0.1 || dev-master"
     },
+    "require-dev": {
+        "phpunit/phpunit": "^13.0"
+    },
     "autoload": {
         "psr-4": {
             "Sandstorm\\UserManagement\\": "Classes"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Sandstorm\\UserManagement\\Tests\\": "Tests",
+            "Neos\\Flow\\Tests\\": "vendor/neos/flow/Tests"
         }
     }
 }
