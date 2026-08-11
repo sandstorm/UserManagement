@@ -28,4 +28,4 @@ jobs:
         run: composer install --no-plugins --prefer-dist
 
       - name: Run unit tests
-        run: vendor/bin/phpunit
+        run: vendor/bin/phpunit Tests/Unit

@@ -383,7 +383,7 @@ class RegistrationFlowValidationService implements RegistrationFlowValidationSer
 Unit tests run standalone in this package, no Flow distribution required:
 ```
 composer install
-vendor/bin/phpunit
+vendor/bin/phpunit Tests/Unit
 ```
 
 To run E2E tests, see [E2E Test Readme](Tests/E2E/README.md)
